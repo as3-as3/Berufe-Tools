@@ -19,53 +19,53 @@
 
     <style>
         .tool-screen { display: none; padding: 20px; background: #f8fafc; min-height: 100vh; }
-        .back-btn { position: sticky; top: 10px; left: 10px; background: #0f172a; color: white; border: none; padding: 8px 15px; border-radius: 6px; cursor: pointer; z-index: 1000; }
-        body.tool-active .container, body.tool-active header { display: none; }
-        body.tool-active .tool-screen.active { display: block; }
+        .back-btn { position: sticky; top: 10px; left: 10px; background: #0f172a; color: white; border: none; padding: 10px 20px; border-radius: 8px; cursor: pointer; z-index: 9999; font-weight: bold; box-shadow: 0 4px 6px rgba(0,0,0,0.1); }
+        body.tool-active #as3-dashboard-wrapper { display: none !important; }
+        body.tool-active .tool-screen.active { display: block !important; }
     </style></head>
-<body>
+<body><div id="as3-dashboard-wrapper">
     <header>
         <h1 style="margin: 0; font-size: 2.5rem; letter-spacing: -0.025em;">Elektro Suite</h1>
         <p style="opacity: 0.8; font-weight: 300; margin-top: 10px;">Professionelle Werkzeuge & Hochpräzise Kalkulatoren</p>
     </header>
     <div class="grid">
 
-        <a href="#" onclick="showTool('Leitungsrechner_VDE'); return false;" class="card">
+        <a href="#" onclick="showTool('tool_Leitungsrechner_VDE'); return false;" class="card">
             <div>
                 <h3>Leitungsrechner VDE</h3>
                 <p>Fachspezifisches Tool zur präzisen Berechnung und Dokumentation im Arbeitsalltag.</p>
             </div>
             <span class="badge">Aktiv</span>
         </a>
-        <a href="#" onclick="showTool('PV_String_Spannung'); return false;" class="card">
+        <a href="#" onclick="showTool('tool_PV_String_Spannung'); return false;" class="card">
             <div>
                 <h3>PV String Spannung</h3>
                 <p>Fachspezifisches Tool zur präzisen Berechnung und Dokumentation im Arbeitsalltag.</p>
             </div>
             <span class="badge">Aktiv</span>
         </a>
-        <a href="#" onclick="showTool('RCD_Auslösezeit_Monitor'); return false;" class="card">
+        <a href="#" onclick="showTool('tool_RCD_Ausl_sezeit_Monitor'); return false;" class="card">
             <div>
                 <h3>RCD Auslösezeit Monitor</h3>
                 <p>Fachspezifisches Tool zur präzisen Berechnung und Dokumentation im Arbeitsalltag.</p>
             </div>
             <span class="badge">Aktiv</span>
         </a>
-        <a href="#" onclick="showTool('Schleifenimpedanz_Zs'); return false;" class="card">
+        <a href="#" onclick="showTool('tool_Schleifenimpedanz_Zs'); return false;" class="card">
             <div>
                 <h3>Schleifenimpedanz Zs</h3>
                 <p>Fachspezifisches Tool zur präzisen Berechnung und Dokumentation im Arbeitsalltag.</p>
             </div>
             <span class="badge">Aktiv</span>
         </a>
-        <a href="#" onclick="showTool('Spannungsfall_Master'); return false;" class="card">
+        <a href="#" onclick="showTool('tool_Spannungsfall_Master'); return false;" class="card">
             <div>
                 <h3>Spannungsfall Master</h3>
                 <p>Fachspezifisches Tool zur präzisen Berechnung und Dokumentation im Arbeitsalltag.</p>
             </div>
             <span class="badge">Aktiv</span>
         </a>
-        <a href="#" onclick="showTool('VDE_0701_0702_Check'); return false;" class="card">
+        <a href="#" onclick="showTool('tool_VDE_0701_0702_Check'); return false;" class="card">
             <div>
                 <h3>VDE 0701 0702 Check</h3>
                 <p>Fachspezifisches Tool zur präzisen Berechnung und Dokumentation im Arbeitsalltag.</p>
@@ -77,19 +77,24 @@
         &copy; 2026 AS3 Professional Suites | CCBY As3-As3<br>
         <span style="font-size: 0.75rem; opacity: 0.7;">Haftungsausschluss: Die Nutzung erfolgt auf eigene Gefahr. Alle Berechnungen sind vor Ort zu prüfen.</span>
     </footer>
-
+</div>
     <script>
         function showTool(id) {
             document.body.classList.add('tool-active');
             document.querySelectorAll('.tool-screen').forEach(s => s.classList.remove('active'));
-            document.getElementById(id).classList.add('active');
-            window.scrollTo(0,0);
+            const target = document.getElementById(id);
+            if(target) {
+                target.classList.add('active');
+                window.scrollTo(0,0);
+            } else {
+                console.error('Tool not found:', id);
+            }
         }
         function closeTool() {
             document.body.classList.remove('tool-active');
             window.scrollTo(0,0);
         }
-    </script><section id="Leitungsrechner_VDE" class="tool-screen"><button class="back-btn" onclick="closeTool()">← Home</button>
+    </script><section id="tool_Leitungsrechner_VDE" class="tool-screen"><button class="back-btn" onclick="closeTool()">← Zurück zur Übersicht</button>
     <div class="card">
         <h1>Leitungsrechner (VDE 0100-520)</h1>
         <p style="font-size: 0.85rem; color: #64748b; margin-top: 10px;">Berechnung des Spannungsfalls gemäß DIN VDE Normen.</p>
@@ -160,7 +165,7 @@
         calc();
     </script>
 </section>
-<section id="PV_String_Spannung" class="tool-screen"><button class="back-btn" onclick="closeTool()">← Home</button>
+<section id="tool_PV_String_Spannung" class="tool-screen"><button class="back-btn" onclick="closeTool()">← Zurück zur Übersicht</button>
     <div class="card">
         <h2 style="color: #c2410c;">PV-Leerlaufspannung (Uoc max)</h2>
         <p style="font-size: 0.85rem; color: #64748b; margin-bottom: 20px;">Berechnung der maximalen Stringspannung bei Mindesttemperatur (-10°C).</p>
@@ -190,7 +195,7 @@
         calc();
     </script>
 </section>
-<section id="RCD_Auslösezeit_Monitor" class="tool-screen"><button class="back-btn" onclick="closeTool()">← Home</button>
+<section id="tool_RCD_Ausl_sezeit_Monitor" class="tool-screen"><button class="back-btn" onclick="closeTool()">← Zurück zur Übersicht</button>
     <div class="card">
         <h1>RCD-Auslösezeit (VDE 0100-600)</h1>
         <p style="color: #64748b; margin-bottom: 30px;">Validierung der Messwerte für Fehlerstrom-Schutzeinrichtungen.</p>
@@ -263,7 +268,7 @@
         }
     </script>
 </section>
-<section id="Schleifenimpedanz_Zs" class="tool-screen"><button class="back-btn" onclick="closeTool()">← Home</button>
+<section id="tool_Schleifenimpedanz_Zs" class="tool-screen"><button class="back-btn" onclick="closeTool()">← Zurück zur Übersicht</button>
     <div class="card">
         <h2>Schleifenimpedanz Zs (VDE 0100-410)</h2>
         <div class="input-group">
@@ -308,7 +313,7 @@
         calc();
     </script>
 </section>
-<section id="Spannungsfall_Master" class="tool-screen"><button class="back-btn" onclick="closeTool()">← Home</button>
+<section id="tool_Spannungsfall_Master" class="tool-screen"><button class="back-btn" onclick="closeTool()">← Zurück zur Übersicht</button>
     <div class="card">
         <h1>Spannungsfall (DIN VDE 0100-520)</h1>
         <div class="grid">
@@ -400,7 +405,7 @@
         calc();
     </script>
 </section>
-<section id="VDE_0701_0702_Check" class="tool-screen"><button class="back-btn" onclick="closeTool()">← Home</button>
+<section id="tool_VDE_0701_0702_Check" class="tool-screen"><button class="back-btn" onclick="closeTool()">← Zurück zur Übersicht</button>
     <div class="card">
         <h1>VDE 0701-0702 Schutzleiter-Check</h1>
         <p style="color: #64748b; margin-bottom: 30px;">Prüfung ortsveränderlicher Geräte nach DIN VDE 0701-0702.</p>

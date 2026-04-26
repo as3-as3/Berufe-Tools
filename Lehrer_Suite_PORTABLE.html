@@ -19,81 +19,81 @@
 
     <style>
         .tool-screen { display: none; padding: 20px; background: #f8fafc; min-height: 100vh; }
-        .back-btn { position: sticky; top: 10px; left: 10px; background: #0f172a; color: white; border: none; padding: 8px 15px; border-radius: 6px; cursor: pointer; z-index: 1000; }
-        body.tool-active .container, body.tool-active header { display: none; }
-        body.tool-active .tool-screen.active { display: block; }
+        .back-btn { position: sticky; top: 10px; left: 10px; background: #0f172a; color: white; border: none; padding: 10px 20px; border-radius: 8px; cursor: pointer; z-index: 9999; font-weight: bold; box-shadow: 0 4px 6px rgba(0,0,0,0.1); }
+        body.tool-active #as3-dashboard-wrapper { display: none !important; }
+        body.tool-active .tool-screen.active { display: block !important; }
     </style></head>
-<body>
+<body><div id="as3-dashboard-wrapper">
     <header>
         <h1 style="margin: 0; font-size: 2.5rem; letter-spacing: -0.025em;">Lehrer Suite</h1>
         <p style="opacity: 0.8; font-weight: 300; margin-top: 10px;">Professionelle Werkzeuge & Hochpräzise Kalkulatoren</p>
     </header>
     <div class="grid">
 
-        <a href="#" onclick="showTool('Aufsichtspflicht_Checkliste'); return false;" class="card">
+        <a href="#" onclick="showTool('tool_Aufsichtspflicht_Checkliste'); return false;" class="card">
             <div>
                 <h3>Aufsichtspflicht Checkliste</h3>
                 <p>Fachspezifisches Tool zur präzisen Berechnung und Dokumentation im Arbeitsalltag.</p>
             </div>
             <span class="badge">Aktiv</span>
         </a>
-        <a href="#" onclick="showTool('Ausbildungsverkürzung_Rechner'); return false;" class="card">
+        <a href="#" onclick="showTool('tool_Ausbildungsverk_rzung_Rechner'); return false;" class="card">
             <div>
                 <h3>Ausbildungsverkürzung Rechner</h3>
                 <p>Fachspezifisches Tool zur präzisen Berechnung und Dokumentation im Arbeitsalltag.</p>
             </div>
             <span class="badge">Aktiv</span>
         </a>
-        <a href="#" onclick="showTool('BBiG_Fehlzeiten_Zulassungscheck'); return false;" class="card">
+        <a href="#" onclick="showTool('tool_BBiG_Fehlzeiten_Zulassungscheck'); return false;" class="card">
             <div>
                 <h3>BBiG Fehlzeiten Zulassungscheck</h3>
                 <p>Fachspezifisches Tool zur präzisen Berechnung und Dokumentation im Arbeitsalltag.</p>
             </div>
             <span class="badge">Aktiv</span>
         </a>
-        <a href="#" onclick="showTool('BBiG_Zulassungs_Checker'); return false;" class="card">
+        <a href="#" onclick="showTool('tool_BBiG_Zulassungs_Checker'); return false;" class="card">
             <div>
                 <h3>BBiG Zulassungs Checker</h3>
                 <p>Fachspezifisches Tool zur präzisen Berechnung und Dokumentation im Arbeitsalltag.</p>
             </div>
             <span class="badge">Aktiv</span>
         </a>
-        <a href="#" onclick="showTool('IHK_HWK_Notenrechner'); return false;" class="card">
+        <a href="#" onclick="showTool('tool_IHK_HWK_Notenrechner'); return false;" class="card">
             <div>
                 <h3>IHK HWK Notenrechner</h3>
                 <p>Fachspezifisches Tool zur präzisen Berechnung und Dokumentation im Arbeitsalltag.</p>
             </div>
             <span class="badge">Aktiv</span>
         </a>
-        <a href="#" onclick="showTool('Inklusions_Helfer'); return false;" class="card">
+        <a href="#" onclick="showTool('tool_Inklusions_Helfer'); return false;" class="card">
             <div>
                 <h3>Inklusions Helfer</h3>
                 <p>Fachspezifisches Tool zur präzisen Berechnung und Dokumentation im Arbeitsalltag.</p>
             </div>
             <span class="badge">Aktiv</span>
         </a>
-        <a href="#" onclick="showTool('Korrekturzeit_Rechner'); return false;" class="card">
+        <a href="#" onclick="showTool('tool_Korrekturzeit_Rechner'); return false;" class="card">
             <div>
                 <h3>Korrekturzeit Rechner</h3>
                 <p>Fachspezifisches Tool zur präzisen Berechnung und Dokumentation im Arbeitsalltag.</p>
             </div>
             <span class="badge">Aktiv</span>
         </a>
-        <a href="#" onclick="showTool('Notenschlüssel_Knick_Rechner'); return false;" class="card">
+        <a href="#" onclick="showTool('tool_Notenschl_ssel_Knick_Rechner'); return false;" class="card">
             <div>
                 <h3>Notenschlüssel Knick Rechner</h3>
                 <p>Fachspezifisches Tool zur präzisen Berechnung und Dokumentation im Arbeitsalltag.</p>
             </div>
             <span class="badge">Aktiv</span>
         </a>
-        <a href="#" onclick="showTool('Notenstatistik_Analyse'); return false;" class="card">
+        <a href="#" onclick="showTool('tool_Notenstatistik_Analyse'); return false;" class="card">
             <div>
                 <h3>Notenstatistik Analyse</h3>
                 <p>Fachspezifisches Tool zur präzisen Berechnung und Dokumentation im Arbeitsalltag.</p>
             </div>
             <span class="badge">Aktiv</span>
         </a>
-        <a href="#" onclick="showTool('Urheberrecht_15_Prozent_Rechner'); return false;" class="card">
+        <a href="#" onclick="showTool('tool_Urheberrecht_15_Prozent_Rechner'); return false;" class="card">
             <div>
                 <h3>Urheberrecht 15 Prozent Rechner</h3>
                 <p>Fachspezifisches Tool zur präzisen Berechnung und Dokumentation im Arbeitsalltag.</p>
@@ -105,19 +105,24 @@
         &copy; 2026 AS3 Professional Suites | CCBY As3-As3<br>
         <span style="font-size: 0.75rem; opacity: 0.7;">Haftungsausschluss: Die Nutzung erfolgt auf eigene Gefahr. Alle Berechnungen sind vor Ort zu prüfen.</span>
     </footer>
-
+</div>
     <script>
         function showTool(id) {
             document.body.classList.add('tool-active');
             document.querySelectorAll('.tool-screen').forEach(s => s.classList.remove('active'));
-            document.getElementById(id).classList.add('active');
-            window.scrollTo(0,0);
+            const target = document.getElementById(id);
+            if(target) {
+                target.classList.add('active');
+                window.scrollTo(0,0);
+            } else {
+                console.error('Tool not found:', id);
+            }
         }
         function closeTool() {
             document.body.classList.remove('tool-active');
             window.scrollTo(0,0);
         }
-    </script><section id="Aufsichtspflicht_Checkliste" class="tool-screen"><button class="back-btn" onclick="closeTool()">← Home</button>
+    </script><section id="tool_Aufsichtspflicht_Checkliste" class="tool-screen"><button class="back-btn" onclick="closeTool()">← Zurück zur Übersicht</button>
     <div class="card">
         <h1>Checkliste: Aufsichtspflicht</h1>
         <p style="font-size: 0.85rem; color: #64748b; margin-bottom: 20px;">Rechtliche Mindeststandards für Klassenfahrten und Exkursionen.</p>
@@ -151,7 +156,7 @@
         }
     </script>
 </section>
-<section id="Ausbildungsverkürzung_Rechner" class="tool-screen"><button class="back-btn" onclick="closeTool()">← Home</button>
+<section id="tool_Ausbildungsverk_rzung_Rechner" class="tool-screen"><button class="back-btn" onclick="closeTool()">← Zurück zur Übersicht</button>
     <div class="card">
         <h1>Verkürzung der Ausbildungszeit</h1>
         <p style="font-size: 0.85rem; color: #64748b; margin-bottom: 25px;">Ermittlung der möglichen Verkürzung gemäß BBiG / Handwerksordnung.</p>
@@ -194,7 +199,7 @@
         calc();
     </script>
 </section>
-<section id="BBiG_Fehlzeiten_Zulassungscheck" class="tool-screen"><button class="back-btn" onclick="closeTool()">← Home</button>
+<section id="tool_BBiG_Fehlzeiten_Zulassungscheck" class="tool-screen"><button class="back-btn" onclick="closeTool()">← Zurück zur Übersicht</button>
     <div class="card">
         <h1>Prüfungszulassung (BBiG)</h1>
         <p style="font-size: 0.85rem; color: #64748b; margin-bottom: 25px;">Prüfung der Fehlzeiten-Quote für die Zulassung zur IHK/HWK-Abschlussprüfung.</p>
@@ -241,7 +246,7 @@
         check();
     </script>
 </section>
-<section id="BBiG_Zulassungs_Checker" class="tool-screen"><button class="back-btn" onclick="closeTool()">← Home</button>
+<section id="tool_BBiG_Zulassungs_Checker" class="tool-screen"><button class="back-btn" onclick="closeTool()">← Zurück zur Übersicht</button>
     <div class="card">
         <h1>BBiG Zulassungs-Checker</h1>
         <p style="color: #64748b; font-size: 0.9rem; margin-bottom: 30px;">Prüfung der 10%-Fehlzeitengrenze gemäß § 43 BBiG.</p>
@@ -300,7 +305,7 @@
         }
     </script>
 </section>
-<section id="IHK_HWK_Notenrechner" class="tool-screen"><button class="back-btn" onclick="closeTool()">← Home</button>
+<section id="tool_IHK_HWK_Notenrechner" class="tool-screen"><button class="back-btn" onclick="closeTool()">← Zurück zur Übersicht</button>
     <div class="card">
         <h1>IHK / HWK Notenrechner</h1>
         <p style="font-size: 0.85rem; color: #64748b; margin-bottom: 25px;">Standard-Bewertungsschema für die berufliche Bildung (0-100 Punkte).</p>
@@ -342,7 +347,7 @@
         calc();
     </script>
 </section>
-<section id="Inklusions_Helfer" class="tool-screen"><button class="back-btn" onclick="closeTool()">← Home</button>
+<section id="tool_Inklusions_Helfer" class="tool-screen"><button class="back-btn" onclick="closeTool()">← Zurück zur Übersicht</button>
     <div class="card">
         <h1>Inklusions-Helfer (Nachteilsausgleich)</h1>
         <p style="color: #64748b; margin-bottom: 30px;">Unterstützung bei der Festlegung von Maßnahmen gemäß Schulrecht.</p>
@@ -427,7 +432,7 @@
         }
     </script>
 </section>
-<section id="Korrekturzeit_Rechner" class="tool-screen"><button class="back-btn" onclick="closeTool()">← Home</button>
+<section id="tool_Korrekturzeit_Rechner" class="tool-screen"><button class="back-btn" onclick="closeTool()">← Zurück zur Übersicht</button>
     <div class="card">
         <h1>Korrekturzeit-Kalkulator</h1>
         <p style="font-size: 0.85rem; color: #64748b; margin-bottom: 25px;">Kalkuliere den Aufwand für deinen Klassensatz.</p>
@@ -473,7 +478,7 @@
         calc();
     </script>
 </section>
-<section id="Notenschlüssel_Knick_Rechner" class="tool-screen"><button class="back-btn" onclick="closeTool()">← Home</button>
+<section id="tool_Notenschl_ssel_Knick_Rechner" class="tool-screen"><button class="back-btn" onclick="closeTool()">← Zurück zur Übersicht</button>
     <div class="container">
         <h1>Noten-Knick-Rechner (Gymnasium)</h1>
         <p style="font-size: 0.85rem; color: #64748b; margin-bottom: 20px;">Berechnet eine nicht-lineare Notenskala mit individuellem Knickpunkt (Bestehensgrenze).</p>
@@ -555,7 +560,7 @@
         calculate();
     </script>
 </section>
-<section id="Notenstatistik_Analyse" class="tool-screen"><button class="back-btn" onclick="closeTool()">← Home</button>
+<section id="tool_Notenstatistik_Analyse" class="tool-screen"><button class="back-btn" onclick="closeTool()">← Zurück zur Übersicht</button>
     <div class="card">
         <h1>Klassenarbeits-Analyse</h1>
         <div class="grid">
@@ -632,7 +637,7 @@
         calc();
     </script>
 </section>
-<section id="Urheberrecht_15_Prozent_Rechner" class="tool-screen"><button class="back-btn" onclick="closeTool()">← Home</button>
+<section id="tool_Urheberrecht_15_Prozent_Rechner" class="tool-screen"><button class="back-btn" onclick="closeTool()">← Zurück zur Übersicht</button>
     <div class="card">
         <h1>Urheberrecht (§ 60a UrhG)</h1>
         <p style="font-size: 0.8rem; color: #64748b;">Berechne die erlaubte Kopienmenge (max. 15%).</p>

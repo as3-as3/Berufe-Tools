@@ -19,25 +19,25 @@
 
     <style>
         .tool-screen { display: none; padding: 20px; background: #f8fafc; min-height: 100vh; }
-        .back-btn { position: sticky; top: 10px; left: 10px; background: #0f172a; color: white; border: none; padding: 8px 15px; border-radius: 6px; cursor: pointer; z-index: 1000; }
-        body.tool-active .container, body.tool-active header { display: none; }
-        body.tool-active .tool-screen.active { display: block; }
+        .back-btn { position: sticky; top: 10px; left: 10px; background: #0f172a; color: white; border: none; padding: 10px 20px; border-radius: 8px; cursor: pointer; z-index: 9999; font-weight: bold; box-shadow: 0 4px 6px rgba(0,0,0,0.1); }
+        body.tool-active #as3-dashboard-wrapper { display: none !important; }
+        body.tool-active .tool-screen.active { display: block !important; }
     </style></head>
-<body>
+<body><div id="as3-dashboard-wrapper">
     <header>
         <h1 style="margin: 0; font-size: 2.5rem; letter-spacing: -0.025em;">Augenoptiker Suite</h1>
         <p style="opacity: 0.8; font-weight: 300; margin-top: 10px;">Professionelle Werkzeuge & Hochpräzise Kalkulatoren</p>
     </header>
     <div class="grid">
 
-        <a href="#" onclick="showTool('Vertex_Korrektur'); return false;" class="card">
+        <a href="#" onclick="showTool('tool_Vertex_Korrektur'); return false;" class="card">
             <div>
                 <h3>Vertex Korrektur</h3>
                 <p>Fachspezifisches Tool zur präzisen Berechnung und Dokumentation im Arbeitsalltag.</p>
             </div>
             <span class="badge">Aktiv</span>
         </a>
-        <a href="#" onclick="showTool('Zylinder_Transposition'); return false;" class="card">
+        <a href="#" onclick="showTool('tool_Zylinder_Transposition'); return false;" class="card">
             <div>
                 <h3>Zylinder Transposition</h3>
                 <p>Fachspezifisches Tool zur präzisen Berechnung und Dokumentation im Arbeitsalltag.</p>
@@ -49,19 +49,24 @@
         &copy; 2026 AS3 Professional Suites | CCBY As3-As3<br>
         <span style="font-size: 0.75rem; opacity: 0.7;">Haftungsausschluss: Die Nutzung erfolgt auf eigene Gefahr. Alle Berechnungen sind vor Ort zu prüfen.</span>
     </footer>
-
+</div>
     <script>
         function showTool(id) {
             document.body.classList.add('tool-active');
             document.querySelectorAll('.tool-screen').forEach(s => s.classList.remove('active'));
-            document.getElementById(id).classList.add('active');
-            window.scrollTo(0,0);
+            const target = document.getElementById(id);
+            if(target) {
+                target.classList.add('active');
+                window.scrollTo(0,0);
+            } else {
+                console.error('Tool not found:', id);
+            }
         }
         function closeTool() {
             document.body.classList.remove('tool-active');
             window.scrollTo(0,0);
         }
-    </script><section id="Vertex_Korrektur" class="tool-screen"><button class="back-btn" onclick="closeTool()">← Home</button>
+    </script><section id="tool_Vertex_Korrektur" class="tool-screen"><button class="back-btn" onclick="closeTool()">← Zurück zur Übersicht</button>
     <div class="card">
         <h1>Vertex-Korrektur (Scheitelbrechwert)</h1>
         <div class="grid">
@@ -117,7 +122,7 @@
         calc();
     </script>
 </section>
-<section id="Zylinder_Transposition" class="tool-screen"><button class="back-btn" onclick="closeTool()">← Home</button>
+<section id="tool_Zylinder_Transposition" class="tool-screen"><button class="back-btn" onclick="closeTool()">← Zurück zur Übersicht</button>
     <div class="card">
         <h1>Zylinder-Transposition</h1>
         <p style="color: #0369a1; margin-bottom: 30px;">Umrechnung von Plus- auf Minus-Zylinder (und umgekehrt).</p>
