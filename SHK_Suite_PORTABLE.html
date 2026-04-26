@@ -1,0 +1,305 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+    <meta charset="UTF-8">
+    <title>AS3 Shk Suite</title>
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;600;700&display=swap" rel="stylesheet">
+    <style>
+        :root { --primary: #1e293b; --accent: #2563eb; --bg: #f8fafc; }
+        body { font-family: 'Outfit', sans-serif; background: var(--bg); color: var(--primary); margin: 0; }
+        header { background: #1e293b; color: white; padding: 60px 20px; text-align: center; border-bottom: 4px solid var(--accent); }
+        .grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 25px; padding: 40px; max-width: 1200px; margin: auto; }
+        .card { background: white; padding: 30px; border-radius: 20px; box-shadow: 0 10px 15px -3px rgba(0,0,0,0.1); text-decoration: none; color: inherit; transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1); border: 1px solid #e2e8f0; display: flex; flex-direction: column; justify-content: space-between; }
+        .card:hover { transform: translateY(-8px); border-color: var(--accent); box-shadow: 0 20px 25px -5px rgba(0,0,0,0.1); }
+        .card h3 { margin: 0 0 10px 0; font-size: 1.25rem; color: #1e293b; }
+        .card p { margin: 0; font-size: 0.875rem; color: #64748b; flex-grow: 1; }
+        .badge { margin-top: 15px; display: inline-block; padding: 4px 12px; background: #dbeafe; color: #1e40af; border-radius: 9999px; font-size: 0.75rem; font-weight: 600; align-self: flex-start; }
+        footer { text-align: center; padding: 40px; font-size: 0.875rem; color: #64748b; border-top: 1px solid #e2e8f0; margin-top: 40px; }
+    </style>
+
+    <style>
+        .tool-screen { display: none; padding: 20px; background: #f8fafc; min-height: 100vh; }
+        .back-btn { position: sticky; top: 10px; left: 10px; background: #0f172a; color: white; border: none; padding: 8px 15px; border-radius: 6px; cursor: pointer; z-index: 1000; }
+        body.tool-active .container, body.tool-active header { display: none; }
+        body.tool-active .tool-screen.active { display: block; }
+    </style></head>
+<body>
+    <header>
+        <h1 style="margin: 0; font-size: 2.5rem; letter-spacing: -0.025em;">Shk Suite</h1>
+        <p style="opacity: 0.8; font-weight: 300; margin-top: 10px;">Professionelle Werkzeuge & Hochpräzise Kalkulatoren</p>
+    </header>
+    <div class="grid">
+
+        <a href="#" onclick="showTool('Abgasverlust_Rechner'); return false;" class="card">
+            <div>
+                <h3>Abgasverlust Rechner</h3>
+                <p>Fachspezifisches Tool zur präzisen Berechnung und Dokumentation im Arbeitsalltag.</p>
+            </div>
+            <span class="badge">Aktiv</span>
+        </a>
+        <a href="#" onclick="showTool('Heizlast_Quick_Check'); return false;" class="card">
+            <div>
+                <h3>Heizlast Quick Check</h3>
+                <p>Fachspezifisches Tool zur präzisen Berechnung und Dokumentation im Arbeitsalltag.</p>
+            </div>
+            <span class="badge">Aktiv</span>
+        </a>
+        <a href="#" onclick="showTool('MAG_Vordruck_Rechner'); return false;" class="card">
+            <div>
+                <h3>MAG Vordruck Rechner</h3>
+                <p>Fachspezifisches Tool zur präzisen Berechnung und Dokumentation im Arbeitsalltag.</p>
+            </div>
+            <span class="badge">Aktiv</span>
+        </a>
+        <a href="#" onclick="showTool('Massenstrom_Rechner'); return false;" class="card">
+            <div>
+                <h3>Massenstrom Rechner</h3>
+                <p>Fachspezifisches Tool zur präzisen Berechnung und Dokumentation im Arbeitsalltag.</p>
+            </div>
+            <span class="badge">Aktiv</span>
+        </a>
+        <a href="#" onclick="showTool('Trinkwasser_3_Liter_Check'); return false;" class="card">
+            <div>
+                <h3>Trinkwasser 3 Liter Check</h3>
+                <p>Fachspezifisches Tool zur präzisen Berechnung und Dokumentation im Arbeitsalltag.</p>
+            </div>
+            <span class="badge">Aktiv</span>
+        </a>
+    </div>
+    <footer>
+        &copy; 2026 AS3 Professional Suites | CCBY As3-As3<br>
+        <span style="font-size: 0.75rem; opacity: 0.7;">Haftungsausschluss: Die Nutzung erfolgt auf eigene Gefahr. Alle Berechnungen sind vor Ort zu prüfen.</span>
+    </footer>
+
+    <script>
+        function showTool(id) {
+            document.body.classList.add('tool-active');
+            document.querySelectorAll('.tool-screen').forEach(s => s.classList.remove('active'));
+            document.getElementById(id).classList.add('active');
+            window.scrollTo(0,0);
+        }
+        function closeTool() {
+            document.body.classList.remove('tool-active');
+            window.scrollTo(0,0);
+        }
+    </script><section id="Abgasverlust_Rechner" class="tool-screen"><button class="back-btn" onclick="closeTool()">← Home</button>
+    <div class="card">
+        <h1>Abgasverlust (qA)</h1>
+        <p style="color: #64748b; margin-bottom: 30px;">Ermittlung des Abgasverlustes nach der Siegertschen Formel.</p>
+        
+        <div class="grid">
+            <div class="col">
+                <div class="input-group">
+                    <label>Brennstoff</label>
+                    <select id="fuel" onchange="calc()">
+                        <option value="0.50">Erdgas (A1=0.50)</option>
+                        <option value="0.68">Heizöl EL (A1=0.68)</option>
+                        <option value="0.60">Flüssiggas (A1=0.60)</option>
+                    </select>
+                </div>
+                <div class="input-group">
+                    <label>CO₂-Gehalt (%)</label>
+                    <input type="number" id="co2" value="9.5" step="0.1" oninput="calc()">
+                </div>
+            </div>
+            <div class="col">
+                <div class="input-group">
+                    <label>Abgastemperatur (°C)</label>
+                    <input type="number" id="tA" value="160" oninput="calc()">
+                </div>
+                <div class="input-group">
+                    <label>Verbrennungslufttemp. (°C)</label>
+                    <input type="number" id="tL" value="20" oninput="calc()">
+                </div>
+            </div>
+        </div>
+
+        <div class="result-panel">
+            <div style="font-size: 0.85rem; color: #c2410c; font-weight: 700;">Abgasverlust (qA):</div>
+            <div id="outQa" class="val">-- %</div>
+            <div id="outEff" class="efficiency">Wirkungsgrad: -- %</div>
+        </div>
+        
+        <p style="font-size: 0.7rem; color: #94a3b8; margin-top: 25px; text-align: center;">
+            Formel: qA = (tA - tL) * (A1 / CO2). Konstanten nach BImSchV.
+        </p>
+    </div>
+
+    <script>
+        function calc() {
+            const a1 = parseFloat(document.getElementById('fuel').value);
+            const co2 = parseFloat(document.getElementById('co2').value) || 1;
+            const tA = parseFloat(document.getElementById('tA').value) || 0;
+            const tL = parseFloat(document.getElementById('tL').value) || 0;
+            
+            // Siegertsche Formel: qA = (tA - tL) * (A1 / CO2)
+            const qA = (tA - tL) * (a1 / co2);
+            const efficiency = 100 - qA;
+            
+            document.getElementById('outQa').innerText = qA.toFixed(2) + " %";
+            document.getElementById('outEff').innerText = "Wirkungsgrad: " + efficiency.toFixed(2) + " %";
+        }
+        calc();
+    </script>
+</section>
+<section id="Heizlast_Quick_Check" class="tool-screen"><button class="back-btn" onclick="closeTool()">← Home</button>
+    <div class="card">
+        <h1>Heizlast Quick-Check</h1>
+        <p style="color: #64748b; margin-bottom: 30px;">Überschlägige Ermittlung der Gebäudeheizlast nach Baualtersklassen.</p>
+        
+        <div class="grid">
+            <div class="input-group">
+                <label>Wohnfläche (m²)</label>
+                <input type="number" id="area" value="140" oninput="calc()">
+            </div>
+            <div class="input-group">
+                <label>Baujahr / Dämmstandard</label>
+                <select id="standard" onchange="calc()">
+                    <option value="150">Altbau ungedämmt (150 W/m²)</option>
+                    <option value="100">Altbau teilsaniert (100 W/m²)</option>
+                    <option value="70">Neubau EnEV (70 W/m²)</option>
+                    <option value="40">KfW-Effizienzhaus (40 W/m²)</option>
+                    <option value="15">Passivhaus (15 W/m²)</option>
+                </select>
+            </div>
+        </div>
+
+        <div class="result-panel">
+            <div style="font-size: 0.9rem; font-weight: 600;">Erforderliche Kesselleistung:</div>
+            <div id="outKw" class="val">14.0 kW</div>
+            <div class="info-grid">
+                <div>Raumtemp: 20°C</div>
+                <div>Norm-Außen: -12°C</div>
+                <div>Sicherheit: 10%</div>
+            </div>
+        </div>
+        
+        <p style="font-size: 0.75rem; color: #94a3b8; margin-top: 25px; text-align: center;">
+            Haftungsausschluss: Dies ist eine Schätzung. Für die exakte Planung ist eine raumweise Heizlastberechnung nach DIN EN 12831 zwingend erforderlich.
+        </p>
+    </div>
+
+    <script>
+        function calc() {
+            const area = parseFloat(document.getElementById('area').value) || 0;
+            const wattPerM2 = parseFloat(document.getElementById('standard').value);
+            
+            // Basic load + 10% safety
+            const totalWatt = area * wattPerM2 * 1.1;
+            const kw = totalWatt / 1000;
+            
+            document.getElementById('outKw').innerText = kw.toFixed(1) + " kW";
+        }
+        calc();
+    </script>
+</section>
+<section id="MAG_Vordruck_Rechner" class="tool-screen"><button class="back-btn" onclick="closeTool()">← Home</button>
+    <div class="card">
+        <h3>MAG Stickstoff-Vordruck (p0)</h3>
+        <div class="input-group">
+            <label>Statische Höhe [m]</label>
+            <input type="number" id="height" value="10" oninput="calc()">
+        </div>
+        <div class="res" id="out">Vordruck: 1.2 bar</div>
+        <p style="font-size: 0.75rem; color: #64748b; margin-top: 15px;">Formel: p0 = (H / 10) + 0,2 bar. Der Mindestvordruck sollte 0,7 bar nicht unterschreiten.</p>
+    </div>
+    <script>
+        function calc() {
+            const h = parseFloat(document.getElementById('height').value) || 0;
+            let p0 = (h / 10) + 0.2;
+            if (p0 < 0.7) p0 = 0.7;
+            document.getElementById('out').innerText = `Vordruck: ${p0.toFixed(1)} bar`;
+        }
+        calc();
+    </script>
+</section>
+<section id="Massenstrom_Rechner" class="tool-screen"><button class="back-btn" onclick="closeTool()">← Home</button>
+    <div class="card">
+        <h1>Massenstrom-Rechner</h1>
+        <p style="font-size: 0.85rem; color: #64748b; margin-top: 10px;">Berechnung des Volumenstroms für den hydraulischen Abgleich.</p>
+        
+        <div class="input-group">
+            <label>Heizleistung Heizkörper [Watt]</label>
+            <input type="number" id="power" value="1500" oninput="calc()">
+        </div>
+        <div class="input-group">
+            <label>Vorlauftemperatur [°C]</label>
+            <input type="number" id="vlt" value="55" oninput="calc()">
+        </div>
+        <div class="input-group">
+            <label>Rücklauftemperatur [°C]</label>
+            <input type="number" id="rlt" value="45" oninput="calc()">
+        </div>
+
+        <div class="res-box">
+            <div style="font-size: 0.85rem; color: #0369a1;">Einstellwert Massenstrom:</div>
+            <div id="out" class="val">129 l/h</div>
+            <p style="font-size: 0.75rem; color: #0369a1; margin-top: 10px;">Formel: V = Q / (c * rho * ΔT) | c * rho ≈ 1.16</p>
+        </div>
+    </div>
+    <script>
+        function calc() {
+            const Q = parseFloat(document.getElementById('power').value) || 0;
+            const vlt = parseFloat(document.getElementById('vlt').value);
+            const rlt = parseFloat(document.getElementById('rlt').value);
+            const dT = vlt - rlt;
+            
+            if (dT <= 0) {
+                document.getElementById('out').innerText = "Fehler";
+                return;
+            }
+            
+            // Massenstrom m = Q / (1.16 * dT)
+            const m = Q / (1.16 * dT);
+            document.getElementById('out').innerText = Math.round(m) + " l/h";
+        }
+        calc();
+    </script>
+</section>
+<section id="Trinkwasser_3_Liter_Check" class="tool-screen"><button class="back-btn" onclick="closeTool()">← Home</button>
+    <div class="card">
+        <h2>Trinkwasser-Hygiene (3L Regel)</h2>
+        <p style="font-size: 0.85rem; color: #64748b; margin-bottom: 20px;">Berechnung des Rohrleitungsvolumens zur Vermeidung von Legionellenbildung.</p>
+        
+        <div class="input-group">
+            <label>Rohr-Innendurchmesser (Di)</label>
+            <select id="di" onchange="calc()">
+                <option value="10">DN10 (10mm)</option>
+                <option value="12">DN12 (12mm)</option>
+                <option value="15" selected>DN15 (15mm)</option>
+                <option value="20">DN20 (20mm)</option>
+                <option value="25">DN25 (25mm)</option>
+            </select>
+        </div>
+        <div class="input-group">
+            <label>Leitungslänge [m]</label>
+            <input type="number" id="len" value="10" oninput="calc()">
+        </div>
+
+        <div id="status" class="alert safe">Volumen: 1.77 Liter</div>
+        
+        <p style="font-size: 0.75rem; color: #94a3b8; margin-top: 20px;">Vorgabe (VDI 6023/DIN 1988): Das Volumen zwischen Zirkulation/Erwärmer und Zapfstelle muss < 3 Liter sein.</p>
+    </div>
+    <script>
+        function calc() {
+            const di = parseFloat(document.getElementById('di').value);
+            const len = parseFloat(document.getElementById('len').value) || 0;
+            const radius = (di / 10) / 2; // in cm
+            const volumeCm3 = Math.PI * Math.pow(radius, 2) * (len * 100);
+            const volumeLiters = volumeCm3 / 1000;
+            
+            const status = document.getElementById('status');
+            status.innerText = `Volumen: ${volumeLiters.toFixed(2)} Liter`;
+            
+            if (volumeLiters >= 3) {
+                status.innerText += " - KRITISCH! ❌";
+                status.className = "alert warn";
+            } else {
+                status.innerText += " - OK ✅";
+                status.className = "alert safe";
+            }
+        }
+        calc();
+    </script>
+</section></body>
+</html>

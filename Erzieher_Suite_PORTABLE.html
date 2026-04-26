@@ -1,0 +1,181 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+    <meta charset="UTF-8">
+    <title>AS3 Erzieher Suite</title>
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;600;700&display=swap" rel="stylesheet">
+    <style>
+        :root { --primary: #1e293b; --accent: #2563eb; --bg: #f8fafc; }
+        body { font-family: 'Outfit', sans-serif; background: var(--bg); color: var(--primary); margin: 0; }
+        header { background: #1e293b; color: white; padding: 60px 20px; text-align: center; border-bottom: 4px solid var(--accent); }
+        .grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 25px; padding: 40px; max-width: 1200px; margin: auto; }
+        .card { background: white; padding: 30px; border-radius: 20px; box-shadow: 0 10px 15px -3px rgba(0,0,0,0.1); text-decoration: none; color: inherit; transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1); border: 1px solid #e2e8f0; display: flex; flex-direction: column; justify-content: space-between; }
+        .card:hover { transform: translateY(-8px); border-color: var(--accent); box-shadow: 0 20px 25px -5px rgba(0,0,0,0.1); }
+        .card h3 { margin: 0 0 10px 0; font-size: 1.25rem; color: #1e293b; }
+        .card p { margin: 0; font-size: 0.875rem; color: #64748b; flex-grow: 1; }
+        .badge { margin-top: 15px; display: inline-block; padding: 4px 12px; background: #dbeafe; color: #1e40af; border-radius: 9999px; font-size: 0.75rem; font-weight: 600; align-self: flex-start; }
+        footer { text-align: center; padding: 40px; font-size: 0.875rem; color: #64748b; border-top: 1px solid #e2e8f0; margin-top: 40px; }
+    </style>
+
+    <style>
+        .tool-screen { display: none; padding: 20px; background: #f8fafc; min-height: 100vh; }
+        .back-btn { position: sticky; top: 10px; left: 10px; background: #0f172a; color: white; border: none; padding: 8px 15px; border-radius: 6px; cursor: pointer; z-index: 1000; }
+        body.tool-active .container, body.tool-active header { display: none; }
+        body.tool-active .tool-screen.active { display: block; }
+    </style></head>
+<body>
+    <header>
+        <h1 style="margin: 0; font-size: 2.5rem; letter-spacing: -0.025em;">Erzieher Suite</h1>
+        <p style="opacity: 0.8; font-weight: 300; margin-top: 10px;">Professionelle Werkzeuge & Hochpräzise Kalkulatoren</p>
+    </header>
+    <div class="grid">
+
+        <a href="#" onclick="showTool('Betreuungsschlüssel_Rechner'); return false;" class="card">
+            <div>
+                <h3>Betreuungsschlüssel Rechner</h3>
+                <p>Fachspezifisches Tool zur präzisen Berechnung und Dokumentation im Arbeitsalltag.</p>
+            </div>
+            <span class="badge">Aktiv</span>
+        </a>
+        <a href="#" onclick="showTool('Entwicklungs_Meilenstein_Check'); return false;" class="card">
+            <div>
+                <h3>Entwicklungs Meilenstein Check</h3>
+                <p>Fachspezifisches Tool zur präzisen Berechnung und Dokumentation im Arbeitsalltag.</p>
+            </div>
+            <span class="badge">Aktiv</span>
+        </a>
+        <a href="#" onclick="showTool('Masernschutz_Status_Checker'); return false;" class="card">
+            <div>
+                <h3>Masernschutz Status Checker</h3>
+                <p>Fachspezifisches Tool zur präzisen Berechnung und Dokumentation im Arbeitsalltag.</p>
+            </div>
+            <span class="badge">Aktiv</span>
+        </a>
+    </div>
+    <footer>
+        &copy; 2026 AS3 Professional Suites | CCBY As3-As3<br>
+        <span style="font-size: 0.75rem; opacity: 0.7;">Haftungsausschluss: Die Nutzung erfolgt auf eigene Gefahr. Alle Berechnungen sind vor Ort zu prüfen.</span>
+    </footer>
+
+    <script>
+        function showTool(id) {
+            document.body.classList.add('tool-active');
+            document.querySelectorAll('.tool-screen').forEach(s => s.classList.remove('active'));
+            document.getElementById(id).classList.add('active');
+            window.scrollTo(0,0);
+        }
+        function closeTool() {
+            document.body.classList.remove('tool-active');
+            window.scrollTo(0,0);
+        }
+    </script><section id="Betreuungsschlüssel_Rechner" class="tool-screen"><button class="back-btn" onclick="closeTool()">← Home</button>
+    <div class="card">
+        <h1>KiBiZ Personalschlüssel</h1>
+        <p style="color: #9d174d; margin-bottom: 30px;">Berechnung des Personalbedarfs nach Gruppenformen (Beispiel NRW).</p>
+        
+        <div class="input-group">
+            <label>Gruppenform</label>
+            <select id="groupType" onchange="calc()">
+                <option value="2.0">Typ I (2-6 Jahre, 20 Kinder)</option>
+                <option value="3.0">Typ II (unter 3 Jahre, 10 Kinder)</option>
+                <option value="1.5">Typ III (3-6 Jahre, 25 Kinder)</option>
+            </select>
+        </div>
+        
+        <div class="input-group">
+            <label>Betreuungszeit (Wochenstunden)</label>
+            <select id="hours" onchange="calc()">
+                <option value="25">25 Stunden</option>
+                <option value="35">35 Stunden</option>
+                <option value="45" selected>45 Stunden</option>
+            </select>
+        </div>
+
+        <div class="result-panel">
+            <div style="font-size: 0.85rem; font-weight: 700;">Erforderliche Fachkraftstunden / Woche:</div>
+            <div id="outHours" class="val">--</div>
+            <div class="info">Entspricht ca. <span id="staff">--</span> Vollzeitstellen</div>
+        </div>
+    </div>
+
+    <script>
+        function calc() {
+            const factor = parseFloat(document.getElementById('groupType').value);
+            const hours = parseFloat(document.getElementById('hours').value);
+            
+            // Simplified KiBiZ logic: Base hours * group weight factor
+            const requiredHours = hours * factor;
+            const fullTimeEquivalent = requiredHours / 39; // Assuming 39h/week full time
+            
+            document.getElementById('outHours').innerText = requiredHours.toFixed(1) + " h";
+            document.getElementById('staff').innerText = fullTimeEquivalent.toFixed(2);
+        }
+        calc();
+    </script>
+</section>
+<section id="Entwicklungs_Meilenstein_Check" class="tool-screen"><button class="back-btn" onclick="closeTool()">← Home</button>
+    <div class="card">
+        <h1>Entwicklungs-Check (Meilensteine)</h1>
+        <p style="font-size: 0.85rem; color: #64748b; margin-bottom: 20px;">Orientierungshilfe basierend auf den Grenzsteinen der Entwicklung.</p>
+        
+        <div class="age-selector">
+            <label style="font-weight: 600;">Alter des Kindes (Beispiel: 3. Lebensjahr)</label>
+        </div>
+
+        <div class="category-title">Körpermotorik</div>
+        <div class="item"><input type="checkbox"><div class="label">Kann sicher frei laufen und Hindernisse umgehen</div></div>
+        <div class="item"><input type="checkbox"><div class="label">Kann auf einem Bein für einen Moment stehen</div></div>
+
+        <div class="category-title">Sprache & Kognition</div>
+        <div class="item"><input type="checkbox"><div class="label">Spricht Sätze mit mindestens 3-4 Wörtern</div></div>
+        <div class="item"><input type="checkbox"><div class="label">Benutzt "Ich" und "Du" meist korrekt</div></div>
+        <div class="item"><input type="checkbox"><div class="label">Kann einfache Farben benennen</div></div>
+
+        <div class="category-title">Sozialverhalten</div>
+        <div class="item"><input type="checkbox"><div class="label">Spielt zeitweise neben oder mit anderen Kindern</div></div>
+        <div class="item"><input type="checkbox"><div class="label">Kann einfache Regeln im Spiel verstehen</div></div>
+
+        <div class="footer-info">
+            <strong>Hinweis:</strong> Dies ist ein Screening-Tool. Verzögerungen bei einzelnen Punkten sind kein Grund zur Panik, sollten aber im Team und mit den Eltern besprochen werden. Quelle: Grenzsteine der Entwicklung (Michaelis).
+        </div>
+    </div>
+</section>
+<section id="Masernschutz_Status_Checker" class="tool-screen"><button class="back-btn" onclick="closeTool()">← Home</button>
+    <div class="card">
+        <h1>Masernschutz-Status (§ 20 IfSG)</h1>
+        <p style="font-size: 0.85rem; color: #64748b; margin-bottom: 25px;">Prüfung der Nachweispflicht für Kinder und Personal.</p>
+
+        <div class="select-group">
+            <label style="font-weight: 600; font-size: 0.9rem; display: block; margin-bottom: 5px;">Art des vorliegenden Nachweises:</label>
+            <select id="docType" onchange="check()">
+                <option value="none">-- Bitte wählen --</option>
+                <option value="vaccine2">Impfpass (2 Schutzimpfungen)</option>
+                <option value="vaccine1">Impfpass (1 Schutzimpfung, Kind < 2J.)</option>
+                <option value="immunity">Ärztliches Zeugnis (Immunität)</option>
+                <option value="medical">Ärztliches Attest (Kontraindikation)</option>
+                <option value="missing">Kein Nachweis vorhanden</option>
+            </select>
+        </div>
+
+        <div id="status" class="status-box invalid">Bitte Nachweis wählen</div>
+        
+        <div class="info">
+            <strong>Hinweis:</strong> Seit März 2020 müssen alle Kinder und Mitarbeiter in Kitas einen Schutz nachweisen. Fehlende Nachweise führen zu einem Betretungsverbot und müssen dem Gesundheitsamt gemeldet werden.
+        </div>
+    </div>
+    <script>
+        function check() {
+            const val = document.getElementById('docType').value;
+            const status = document.getElementById('status');
+            
+            if (val === "none" || val === "missing") {
+                status.innerText = "Zulassung NICHT MÖGLICH ❌";
+                status.className = "status-box invalid";
+            } else {
+                status.innerText = "Nachweis VALID ✅";
+                status.className = "status-box valid";
+            }
+        }
+    </script>
+</section></body>
+</html>

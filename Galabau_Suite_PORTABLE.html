@@ -1,0 +1,187 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+    <meta charset="UTF-8">
+    <title>AS3 Galabau Suite</title>
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;600;700&display=swap" rel="stylesheet">
+    <style>
+        :root { --primary: #1e293b; --accent: #2563eb; --bg: #f8fafc; }
+        body { font-family: 'Outfit', sans-serif; background: var(--bg); color: var(--primary); margin: 0; }
+        header { background: #1e293b; color: white; padding: 60px 20px; text-align: center; border-bottom: 4px solid var(--accent); }
+        .grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 25px; padding: 40px; max-width: 1200px; margin: auto; }
+        .card { background: white; padding: 30px; border-radius: 20px; box-shadow: 0 10px 15px -3px rgba(0,0,0,0.1); text-decoration: none; color: inherit; transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1); border: 1px solid #e2e8f0; display: flex; flex-direction: column; justify-content: space-between; }
+        .card:hover { transform: translateY(-8px); border-color: var(--accent); box-shadow: 0 20px 25px -5px rgba(0,0,0,0.1); }
+        .card h3 { margin: 0 0 10px 0; font-size: 1.25rem; color: #1e293b; }
+        .card p { margin: 0; font-size: 0.875rem; color: #64748b; flex-grow: 1; }
+        .badge { margin-top: 15px; display: inline-block; padding: 4px 12px; background: #dbeafe; color: #1e40af; border-radius: 9999px; font-size: 0.75rem; font-weight: 600; align-self: flex-start; }
+        footer { text-align: center; padding: 40px; font-size: 0.875rem; color: #64748b; border-top: 1px solid #e2e8f0; margin-top: 40px; }
+    </style>
+
+    <style>
+        .tool-screen { display: none; padding: 20px; background: #f8fafc; min-height: 100vh; }
+        .back-btn { position: sticky; top: 10px; left: 10px; background: #0f172a; color: white; border: none; padding: 8px 15px; border-radius: 6px; cursor: pointer; z-index: 1000; }
+        body.tool-active .container, body.tool-active header { display: none; }
+        body.tool-active .tool-screen.active { display: block; }
+    </style></head>
+<body>
+    <header>
+        <h1 style="margin: 0; font-size: 2.5rem; letter-spacing: -0.025em;">Galabau Suite</h1>
+        <p style="opacity: 0.8; font-weight: 300; margin-top: 10px;">Professionelle Werkzeuge & Hochpräzise Kalkulatoren</p>
+    </header>
+    <div class="grid">
+
+        <a href="#" onclick="showTool('Erdaushub_Rechner'); return false;" class="card">
+            <div>
+                <h3>Erdaushub Rechner</h3>
+                <p>Fachspezifisches Tool zur präzisen Berechnung und Dokumentation im Arbeitsalltag.</p>
+            </div>
+            <span class="badge">Aktiv</span>
+        </a>
+        <a href="#" onclick="showTool('Gefälle_Rechner'); return false;" class="card">
+            <div>
+                <h3>Gefälle Rechner</h3>
+                <p>Fachspezifisches Tool zur präzisen Berechnung und Dokumentation im Arbeitsalltag.</p>
+            </div>
+            <span class="badge">Aktiv</span>
+        </a>
+    </div>
+    <footer>
+        &copy; 2026 AS3 Professional Suites | CCBY As3-As3<br>
+        <span style="font-size: 0.75rem; opacity: 0.7;">Haftungsausschluss: Die Nutzung erfolgt auf eigene Gefahr. Alle Berechnungen sind vor Ort zu prüfen.</span>
+    </footer>
+
+    <script>
+        function showTool(id) {
+            document.body.classList.add('tool-active');
+            document.querySelectorAll('.tool-screen').forEach(s => s.classList.remove('active'));
+            document.getElementById(id).classList.add('active');
+            window.scrollTo(0,0);
+        }
+        function closeTool() {
+            document.body.classList.remove('tool-active');
+            window.scrollTo(0,0);
+        }
+    </script><section id="Erdaushub_Rechner" class="tool-screen"><button class="back-btn" onclick="closeTool()">← Home</button>
+    <div class="card">
+        <h1>Erdaushub- & Schüttgut-Rechner</h1>
+        <div class="layout">
+            <div class="controls">
+                <div class="input-group">
+                    <label>Länge (m)</label>
+                    <input type="number" id="len" value="5" oninput="calc()">
+                </div>
+                <div class="input-group">
+                    <label>Breite (m)</label>
+                    <input type="number" id="width" value="4" oninput="calc()">
+                </div>
+                <div class="input-group">
+                    <label>Tiefe (m)</label>
+                    <input type="number" id="depth" value="1.5" oninput="calc()">
+                </div>
+                <div class="input-group">
+                    <label>Bodenbeschaffenheit</label>
+                    <select id="factor" onchange="calc()">
+                        <option value="1.2">Sand / Kies (1.2x Auflockerung)</option>
+                        <option value="1.3" selected>Mutterboden / Lehm (1.3x)</option>
+                        <option value="1.5">Fels / Stein (1.5x)</option>
+                    </select>
+                </div>
+            </div>
+
+            <div class="viz">
+                <svg viewBox="0 0 200 150" class="pit-svg">
+                    <!-- Pit Drawing (3D isometric feel) -->
+                    <path d="M40,40 L160,40 L180,80 L60,80 Z" fill="#713f12" opacity="0.3"/>
+                    <path d="M60,80 L180,80 L180,120 L60,120 Z" fill="#713f12" opacity="0.6"/>
+                    <path d="M40,40 L60,80 L60,120 L40,80 Z" fill="#713f12" opacity="0.8"/>
+                    <text x="100" y="30" text-anchor="middle" font-size="10" fill="#365314">Volumen-Kalkulation</text>
+                </svg>
+                
+                <div class="result-grid">
+                    <div class="res-box">
+                        <div style="font-size: 0.75rem;">Festmaß (Bankm³):</div>
+                        <div id="vSolid" class="val">30.0</div>
+                    </div>
+                    <div class="res-box">
+                        <div style="font-size: 0.75rem;">Aushubmaß (Losem³):</div>
+                        <div id="vLoose" class="val" style="color: #65a30d;">39.0</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <script>
+        function calc() {
+            const l = parseFloat(document.getElementById('len').value) || 0;
+            const w = parseFloat(document.getElementById('width').value) || 0;
+            const d = parseFloat(document.getElementById('depth').value) || 0;
+            const f = parseFloat(document.getElementById('factor').value);
+            
+            const solid = l * w * d;
+            const loose = solid * f;
+            
+            document.getElementById('vSolid').innerText = solid.toFixed(1) + " m³";
+            document.getElementById('vLoose').innerText = loose.toFixed(1) + " m³";
+        }
+        calc();
+    </script>
+</section>
+<section id="Gefälle_Rechner" class="tool-screen"><button class="back-btn" onclick="closeTool()">← Home</button>
+    <div class="card">
+        <h1>Gefälle- & Entwässerungsplaner</h1>
+        <div class="grid">
+            <div class="col">
+                <div class="input-group">
+                    <label>Länge (m)</label>
+                    <input type="number" id="len" value="10" step="0.1" oninput="calc()">
+                </div>
+                <div class="input-group">
+                    <label>Höhenunterschied (cm)</label>
+                    <input type="number" id="height" value="20" step="1" oninput="calc()">
+                </div>
+                <div class="input-group">
+                    <label>Gefälle (%)</label>
+                    <input type="number" id="perc" value="2.0" step="0.1" oninput="calc('perc')">
+                </div>
+            </div>
+
+            <div class="viz-box">
+                <div class="slope-line">
+                    <div id="slopeArm" class="slope-arm"></div>
+                </div>
+                <div class="result-panel">
+                    <div style="font-size: 0.85rem; font-weight: 700;">Berechnetes Gefälle:</div>
+                    <div id="outPerc" class="val">2.0 %</div>
+                    <p style="font-size: 0.75rem; color: #3f6212; margin-top: 10px;">Empfehlung: 2-3% für Pflasterflächen.</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        function calc(source) {
+            const len = parseFloat(document.getElementById('len').value) || 1;
+            const h = document.getElementById('height');
+            const p = document.getElementById('perc');
+            const arm = document.getElementById('slopeArm');
+            const out = document.getElementById('outPerc');
+            
+            if (source === 'perc') {
+                const heightCm = len * parseFloat(p.value);
+                h.value = heightCm.toFixed(1);
+            } else {
+                const perc = (parseFloat(h.value) / (len * 100)) * 100;
+                p.value = perc.toFixed(1);
+            }
+            
+            const currentPerc = parseFloat(p.value);
+            out.innerText = currentPerc.toFixed(1) + " %";
+            
+            // Visual rotation: tan(alpha) = p/100 -> alpha = atan(p/100)
+            const deg = Math.atan(currentPerc / 100) * (180 / Math.PI);
+            arm.style.transform = `rotate(-${deg * 2}deg)`; // Multiplied for visibility
+        }
+        calc();
+    </script>
+</section></body>
+</html>

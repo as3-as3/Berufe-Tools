@@ -1,0 +1,232 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+    <meta charset="UTF-8">
+    <title>AS3 Kfz Mechatroniker Suite</title>
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;600;700&display=swap" rel="stylesheet">
+    <style>
+        :root { --primary: #1e293b; --accent: #2563eb; --bg: #f8fafc; }
+        body { font-family: 'Outfit', sans-serif; background: var(--bg); color: var(--primary); margin: 0; }
+        header { background: #1e293b; color: white; padding: 60px 20px; text-align: center; border-bottom: 4px solid var(--accent); }
+        .grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 25px; padding: 40px; max-width: 1200px; margin: auto; }
+        .card { background: white; padding: 30px; border-radius: 20px; box-shadow: 0 10px 15px -3px rgba(0,0,0,0.1); text-decoration: none; color: inherit; transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1); border: 1px solid #e2e8f0; display: flex; flex-direction: column; justify-content: space-between; }
+        .card:hover { transform: translateY(-8px); border-color: var(--accent); box-shadow: 0 20px 25px -5px rgba(0,0,0,0.1); }
+        .card h3 { margin: 0 0 10px 0; font-size: 1.25rem; color: #1e293b; }
+        .card p { margin: 0; font-size: 0.875rem; color: #64748b; flex-grow: 1; }
+        .badge { margin-top: 15px; display: inline-block; padding: 4px 12px; background: #dbeafe; color: #1e40af; border-radius: 9999px; font-size: 0.75rem; font-weight: 600; align-self: flex-start; }
+        footer { text-align: center; padding: 40px; font-size: 0.875rem; color: #64748b; border-top: 1px solid #e2e8f0; margin-top: 40px; }
+    </style>
+
+    <style>
+        .tool-screen { display: none; padding: 20px; background: #f8fafc; min-height: 100vh; }
+        .back-btn { position: sticky; top: 10px; left: 10px; background: #0f172a; color: white; border: none; padding: 8px 15px; border-radius: 6px; cursor: pointer; z-index: 1000; }
+        body.tool-active .container, body.tool-active header { display: none; }
+        body.tool-active .tool-screen.active { display: block; }
+    </style></head>
+<body>
+    <header>
+        <h1 style="margin: 0; font-size: 2.5rem; letter-spacing: -0.025em;">Kfz Mechatroniker Suite</h1>
+        <p style="opacity: 0.8; font-weight: 300; margin-top: 10px;">Professionelle Werkzeuge & Hochpräzise Kalkulatoren</p>
+    </header>
+    <div class="grid">
+
+        <a href="#" onclick="showTool('Bremsweg_Simulator'); return false;" class="card">
+            <div>
+                <h3>Bremsweg Simulator</h3>
+                <p>Fachspezifisches Tool zur präzisen Berechnung und Dokumentation im Arbeitsalltag.</p>
+            </div>
+            <span class="badge">Aktiv</span>
+        </a>
+        <a href="#" onclick="showTool('Tacho_Abweichung'); return false;" class="card">
+            <div>
+                <h3>Tacho Abweichung</h3>
+                <p>Fachspezifisches Tool zur präzisen Berechnung und Dokumentation im Arbeitsalltag.</p>
+            </div>
+            <span class="badge">Aktiv</span>
+        </a>
+    </div>
+    <footer>
+        &copy; 2026 AS3 Professional Suites | CCBY As3-As3<br>
+        <span style="font-size: 0.75rem; opacity: 0.7;">Haftungsausschluss: Die Nutzung erfolgt auf eigene Gefahr. Alle Berechnungen sind vor Ort zu prüfen.</span>
+    </footer>
+
+    <script>
+        function showTool(id) {
+            document.body.classList.add('tool-active');
+            document.querySelectorAll('.tool-screen').forEach(s => s.classList.remove('active'));
+            document.getElementById(id).classList.add('active');
+            window.scrollTo(0,0);
+        }
+        function closeTool() {
+            document.body.classList.remove('tool-active');
+            window.scrollTo(0,0);
+        }
+    </script><section id="Bremsweg_Simulator" class="tool-screen"><button class="back-btn" onclick="closeTool()">← Home</button>
+    <div class="card">
+        <h1 style="margin-bottom: 10px;">Bremsweg-Physik-Simulator</h1>
+        <div class="grid">
+            <div class="controls">
+                <div class="input-group">
+                    <label>Geschwindigkeit (km/h)</label>
+                    <input type="range" id="speed" min="10" max="200" value="50" oninput="calc()">
+                    <div id="speedVal" style="text-align:center; font-weight:bold; margin-top:5px;">50 km/h</div>
+                </div>
+                <div class="input-group">
+                    <label>Fahrbahnbeschaffenheit (µ)</label>
+                    <select id="friction" onchange="calc()">
+                        <option value="0.8">Trockener Asphalt (0.8)</option>
+                        <option value="0.5">Nasser Asphalt (0.5)</option>
+                        <option value="0.3">Schneeglätte (0.3)</option>
+                        <option value="0.1">Eisglätte (0.1)</option>
+                    </select>
+                </div>
+                <div class="input-group">
+                    <label>Reaktionszeit (s)</label>
+                    <input type="number" id="reaction" value="1.0" step="0.1" oninput="calc()">
+                </div>
+                <button onclick="startSim()" style="width:100%; padding:12px; background:var(--accent); color:white; border:none; border-radius: 8px; font-weight:bold; cursor:pointer;">Simulator starten</button>
+            </div>
+
+            <div class="sim-area">
+                <div class="road" id="road"></div>
+                <div id="car" class="car">
+                    <svg viewBox="0 0 100 40">
+                        <rect x="5" y="15" width="90" height="20" rx="5" fill="#ef4444"/>
+                        <rect x="20" y="5" width="50" height="15" rx="10" fill="#ef4444"/>
+                        <circle cx="25" cy="35" r="8" fill="#000"/>
+                        <circle cx="75" cy="35" r="8" fill="#000"/>
+                    </svg>
+                </div>
+                <div id="stopMarker" class="marker" style="border-left: 2px solid #ef4444; height: 100px; bottom: 40px; color: #ef4444; font-weight: bold;">STOPP</div>
+            </div>
+        </div>
+
+        <div class="stats">
+            <div class="stat-card"><div style="font-size:0.75rem;">Reaktionsweg</div><div class="stat-val" id="resReact">13.9 m</div></div>
+            <div class="stat-card"><div style="font-size:0.75rem;">Bremsweg (rein)</div><div class="stat-val" id="resBrake">12.3 m</div></div>
+            <div class="stat-card" style="background:#fff1f2; border-color:#fecaca;"><div style="font-size:0.75rem;">Anhalteweg</div><div class="stat-val" id="resTotal" style="color:#b91c1c;">26.2 m</div></div>
+        </div>
+    </div>
+
+    <script>
+        function calc() {
+            const v_kmh = parseFloat(document.getElementById('speed').value);
+            const mu = parseFloat(document.getElementById('friction').value);
+            const tr = parseFloat(document.getElementById('reaction').value);
+            
+            document.getElementById('speedVal').innerText = v_kmh + " km/h";
+            
+            const v_ms = v_kmh / 3.6;
+            const s_react = v_ms * tr;
+            const s_brake = (v_ms * v_ms) / (2 * 9.81 * mu);
+            const s_total = s_react + s_brake;
+            
+            document.getElementById('resReact').innerText = s_react.toFixed(1) + " m";
+            document.getElementById('resBrake').innerText = s_brake.toFixed(1) + " m";
+            document.getElementById('resTotal').innerText = s_total.toFixed(1) + " m";
+            
+            // Move marker (1m = 5px scale)
+            const scale = 4;
+            document.getElementById('stopMarker').style.left = (50 + s_total * scale) + "px";
+            document.getElementById('car').style.left = "50px"; // Reset
+        }
+
+        function startSim() {
+            const v_kmh = parseFloat(document.getElementById('speed').value);
+            const mu = parseFloat(document.getElementById('friction').value);
+            const tr = parseFloat(document.getElementById('reaction').value);
+            const v_ms = v_kmh / 3.6;
+            const s_total = (v_ms * tr) + ((v_ms * v_ms) / (2 * 9.81 * mu));
+            
+            const car = document.getElementById('car');
+            const scale = 4;
+            car.style.transition = `left ${ (s_total/v_ms)*2 }s cubic-bezier(0.25, 0.46, 0.45, 0.94)`;
+            car.style.left = (50 + s_total * scale) + "px";
+        }
+        calc();
+    </script>
+</section>
+<section id="Tacho_Abweichung" class="tool-screen"><button class="back-btn" onclick="closeTool()">← Home</button>
+    <div class="card">
+        <h1>Tacho-Abweichung & Reifenumfang</h1>
+        <p style="color: #64748b; margin-bottom: 30px;">Prüfung der Zulässigkeit bei geänderten Reifendimensionen.</p>
+        
+        <div class="grid">
+            <div class="tire-input">
+                <h3>Referenz-Reifen (Original)</h3>
+                <div class="flex">
+                    <input type="number" id="w1" value="205" placeholder="Breite" oninput="calc()">
+                    <input type="number" id="h1" value="55" placeholder="Querschnitt" oninput="calc()">
+                    <input type="number" id="z1" value="16" placeholder="Zoll" oninput="calc()">
+                </div>
+            </div>
+            <div class="tire-input">
+                <h3>Wunsch-Reifen (Neu)</h3>
+                <div class="flex">
+                    <input type="number" id="w2" value="225" placeholder="Breite" oninput="calc()">
+                    <input type="number" id="h2" value="45" placeholder="Querschnitt" oninput="calc()">
+                    <input type="number" id="z2" value="18" placeholder="Zoll" oninput="calc()">
+                </div>
+            </div>
+        </div>
+
+        <div id="resPanel" class="result-panel">
+            <div style="font-size: 0.85rem; font-weight: 600;">Geschwindigkeits-Abweichung:</div>
+            <div id="outDiff" class="val">-- %</div>
+            <div id="status" class="status-badge">PRÜFUNG...</div>
+            <p id="info" style="font-size: 0.8rem; margin-top: 15px; color: #64748b;"></p>
+        </div>
+        
+        <p style="font-size: 0.7rem; color: #94a3b8; margin-top: 25px; text-align: center;">
+            Grenzwerte: Tacho darf nie weniger anzeigen als real (-0%). Nach oben sind +10% + 4km/h erlaubt.
+        </p>
+    </div>
+
+    <script>
+        function getCirc(w, h, z) {
+            const diameter = (z * 25.4) + (2 * w * (h/100));
+            return diameter * Math.PI;
+        }
+
+        function calc() {
+            const c1 = getCirc(
+                parseFloat(document.getElementById('w1').value),
+                parseFloat(document.getElementById('h1').value),
+                parseFloat(document.getElementById('z1').value)
+            );
+            const c2 = getCirc(
+                parseFloat(document.getElementById('w2').value),
+                parseFloat(document.getElementById('h2').value),
+                parseFloat(document.getElementById('z2').value)
+            );
+            
+            const diff = ((c2 - c1) / c1) * 100;
+            const displayDiff = -diff; // Speedometer shows less if tire is bigger
+            
+            document.getElementById('outDiff').innerText = (displayDiff > 0 ? "+" : "") + displayDiff.toFixed(1) + " %";
+            
+            const status = document.getElementById('status');
+            const info = document.getElementById('info');
+            const panel = document.getElementById('resPanel');
+            
+            if (displayDiff < 0) {
+                status.innerText = "UNZULÄSSIG ❌";
+                status.style.background = "var(--accent)";
+                status.style.color = "white";
+                info.innerText = "Der Tacho zeigt weniger an als die reale Geschwindigkeit. Tacho-Angleichung erforderlich.";
+            } else if (displayDiff > 7) {
+                status.innerText = "KRITISCH ⚠️";
+                status.style.background = "#f59e0b";
+                status.style.color = "white";
+                info.innerText = "Abweichung über 7%. Eintragung schwierig, evtl. Tacho-Prüfung nötig.";
+            } else {
+                status.innerText = "ZULÄSSIG ✅";
+                status.style.background = "#22c55e";
+                status.style.color = "white";
+                info.innerText = "Abweichung im Toleranzbereich.";
+            }
+        }
+        calc();
+    </script>
+</section></body>
+</html>

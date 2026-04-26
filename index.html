@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+    <meta charset="UTF-8">
+    <title>AS3 MASTER HUB - Professional Suites</title>
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;600;700&display=swap" rel="stylesheet">
+    <style>
+        :root { --primary: #0f172a; --accent: #2563eb; --bg: #f8fafc; }
+        body { font-family: 'Outfit', sans-serif; background: var(--bg); color: var(--primary); margin: 0; }
+        header { background: linear-gradient(135deg, #0f172a 0%, #1e293b 100%); color: white; padding: 80px 20px; text-align: center; border-bottom: 5px solid var(--accent); }
+        .container { max-width: 1200px; margin: 40px auto; padding: 0 20px; }
+        .section { margin-bottom: 60px; }
+        .section-title { font-size: 1.5rem; font-weight: 700; margin-bottom: 25px; border-left: 5px solid var(--accent); padding-left: 15px; color: #1e293b; }
+        .grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(220px, 1fr)); gap: 20px; }
+        .card { background: white; padding: 20px; border-radius: 16px; box-shadow: 0 4px 6px rgba(0,0,0,0.05); text-decoration: none; color: inherit; transition: 0.2s; border: 1px solid #e2e8f0; text-align: center; }
+        .card:hover { transform: translateY(-5px); border-color: var(--accent); background: #f0f9ff; }
+        .card h3 { margin: 0; font-size: 1rem; }
+        footer { text-align: center; padding: 60px; background: #1e293b; color: white; margin-top: 80px; }
+    </style>
+</head>
+<body>
+    <header>
+        <h1 style="font-size: 3rem; margin: 0;">AS3 MASTER HUB</h1>
+        <p style="opacity: 0.8; font-weight: 300; font-size: 1.2rem;">Das Betriebssystem für den deutschen Berufsstand</p>
+    </header>
+
+    <div class="container">
+        <!-- Handwerk -->
+        <div class="section">
+            <div class="section-title">Handwerk & Bau</div>
+            <div class="grid">
+                <a href="AS3_Suite_Factory/Generated_Suites/dachdecker/Dachdecker_Suite_PORTABLE.html" class="card"><h3>Dachdecker</h3></a>
+                <a href="AS3_Suite_Factory/Generated_Suites/maler_lackierer/Maler_Lackierer_Suite_PORTABLE.html" class="card"><h3>Maler & Lackierer</h3></a>
+                <a href="AS3_Suite_Factory/Generated_Suites/kfz_mechatroniker/KFZ_Mechatroniker_Suite_PORTABLE.html" class="card"><h3>KFZ-Mechatroniker</h3></a>
+                <a href="AS3_Suite_Factory/Generated_Suites/elektro/Elektro_Suite_PORTABLE.html" class="card"><h3>Elektro</h3></a>
+                <a href="AS3_Suite_Factory/Generated_Suites/shk/SHK_Suite_PORTABLE.html" class="card"><h3>SHK</h3></a>
+                <a href="AS3_Suite_Factory/Generated_Suites/galabau/Galabau_Suite_PORTABLE.html" class="card"><h3>Galabau</h3></a>
+                <a href="AS3_Suite_Factory/Generated_Suites/schornsteinfeger/Schornsteinfeger_Suite_PORTABLE.html" class="card"><h3>Schornsteinfeger</h3></a>
+            </div>
+        </div>
+
+        <!-- Gesundheit -->
+        <div class="section">
+            <div class="section-title">Gesundheit & Pädagogik</div>
+            <div class="grid">
+                <a href="AS3_Suite_Factory/Generated_Suites/physiotherapeut/Physiotherapeut_Suite_PORTABLE.html" class="card"><h3>Physiotherapeut</h3></a>
+                <a href="AS3_Suite_Factory/Generated_Suites/hebamme/Hebamme_Suite_PORTABLE.html" class="card"><h3>Hebamme</h3></a>
+                <a href="AS3_Suite_Factory/Generated_Suites/erzieher/Erzieher_Suite_PORTABLE.html" class="card"><h3>Erzieher</h3></a>
+                <a href="AS3_Suite_Factory/Generated_Suites/augenoptiker/Augenoptiker_Suite_PORTABLE.html" class="card"><h3>Augenoptiker</h3></a>
+                <a href="AS3_Suite_Factory/Generated_Suites/lehrer/Lehrer_Suite_PORTABLE.html" class="card"><h3>Lehrer</h3></a>
+            </div>
+        </div>
+
+        <!-- Finanzen -->
+        <div class="section">
+            <div class="section-title">Recht, Finanzen & Immobilien</div>
+            <div class="grid">
+                <a href="AS3_Suite_Factory/Generated_Suites/steuerfachangestellter/Steuerfachangestellter_Suite_PORTABLE.html" class="card"><h3>Steuerfachangestellter</h3></a>
+                <a href="AS3_Suite_Factory/Generated_Suites/rechtsanwaltsfachangestellter/Rechtsanwaltsfachangestellter_Suite_PORTABLE.html" class="card"><h3>Rechtsanwaltsfachangestellter</h3></a>
+                <a href="AS3_Suite_Factory/Generated_Suites/versicherungskaufmann/Versicherungskaufmann_Suite_PORTABLE.html" class="card"><h3>Versicherungskaufmann</h3></a>
+                <a href="AS3_Suite_Factory/Generated_Suites/immobilien/Immobilien_Suite_PORTABLE.html" class="card"><h3>Immobilienkaufmann</h3></a>
+            </div>
+        </div>
+
+        <!-- Dienstleistung -->
+        <div class="section">
+            <div class="section-title">Dienstleistung, Logistik & Gastronomie</div>
+            <div class="grid">
+                <a href="AS3_Suite_Factory/Generated_Suites/friseur/Friseur_Suite_PORTABLE.html" class="card"><h3>Friseur</h3></a>
+                <a href="AS3_Suite_Factory/Generated_Suites/logistik/Logistik_Suite_PORTABLE.html" class="card"><h3>Lagerlogistik</h3></a>
+                <a href="AS3_Suite_Factory/Generated_Suites/koch/Koch_Suite_PORTABLE.html" class="card"><h3>Koch</h3></a>
+                <a href="AS3_Suite_Factory/Generated_Suites/hotelfachmann/Hotelfachmann_Suite_PORTABLE.html" class="card"><h3>Hotelfachmann</h3></a>
+                <a href="AS3_Suite_Factory/Generated_Suites/bestatter/Bestatter_Suite_PORTABLE.html" class="card"><h3>Bestatter</h3></a>
+            </div>
+        </div>
+
+        <!-- Sicherheit -->
+        <div class="section">
+            <div class="section-title">Öffentlicher Dienst & Sicherheit</div>
+            <div class="grid">
+                <a href="AS3_Suite_Factory/Generated_Suites/polizist/Polizist_Suite_PORTABLE.html" class="card"><h3>Polizist</h3></a>
+                <a href="AS3_Suite_Factory/Generated_Suites/feuerwehrmann/Feuerwehrmann_Suite_PORTABLE.html" class="card"><h3>Feuerwehrmann</h3></a>
+            </div>
+        </div>
+    </div>
+
+    <footer>
+        &copy; 2026 AS3 Professional Suites | CCBY As3-As3<br>
+        Branding by Antigravity AI
+    </footer>
+</body>
+</html>

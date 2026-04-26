@@ -1,0 +1,182 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+    <meta charset="UTF-8">
+    <title>AS3 Baeckermeister Suite</title>
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;600;700&display=swap" rel="stylesheet">
+    <style>
+        :root { --primary: #1e293b; --accent: #2563eb; --bg: #f8fafc; }
+        body { font-family: 'Outfit', sans-serif; background: var(--bg); color: var(--primary); margin: 0; }
+        header { background: #1e293b; color: white; padding: 60px 20px; text-align: center; border-bottom: 4px solid var(--accent); }
+        .grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 25px; padding: 40px; max-width: 1200px; margin: auto; }
+        .card { background: white; padding: 30px; border-radius: 20px; box-shadow: 0 10px 15px -3px rgba(0,0,0,0.1); text-decoration: none; color: inherit; transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1); border: 1px solid #e2e8f0; display: flex; flex-direction: column; justify-content: space-between; }
+        .card:hover { transform: translateY(-8px); border-color: var(--accent); box-shadow: 0 20px 25px -5px rgba(0,0,0,0.1); }
+        .card h3 { margin: 0 0 10px 0; font-size: 1.25rem; color: #1e293b; }
+        .card p { margin: 0; font-size: 0.875rem; color: #64748b; flex-grow: 1; }
+        .badge { margin-top: 15px; display: inline-block; padding: 4px 12px; background: #dbeafe; color: #1e40af; border-radius: 9999px; font-size: 0.75rem; font-weight: 600; align-self: flex-start; }
+        footer { text-align: center; padding: 40px; font-size: 0.875rem; color: #64748b; border-top: 1px solid #e2e8f0; margin-top: 40px; }
+    </style>
+
+    <style>
+        .tool-screen { display: none; padding: 20px; background: #f8fafc; min-height: 100vh; }
+        .back-btn { position: sticky; top: 10px; left: 10px; background: #0f172a; color: white; border: none; padding: 8px 15px; border-radius: 6px; cursor: pointer; z-index: 1000; }
+        body.tool-active .container, body.tool-active header { display: none; }
+        body.tool-active .tool-screen.active { display: block; }
+    </style></head>
+<body>
+    <header>
+        <h1 style="margin: 0; font-size: 2.5rem; letter-spacing: -0.025em;">Baeckermeister Suite</h1>
+        <p style="opacity: 0.8; font-weight: 300; margin-top: 10px;">Professionelle Werkzeuge & Hochpräzise Kalkulatoren</p>
+    </header>
+    <div class="grid">
+
+        <a href="#" onclick="showTool('Sauerteig_Rechner'); return false;" class="card">
+            <div>
+                <h3>Sauerteig Rechner</h3>
+                <p>Fachspezifisches Tool zur präzisen Berechnung und Dokumentation im Arbeitsalltag.</p>
+            </div>
+            <span class="badge">Aktiv</span>
+        </a>
+        <a href="#" onclick="showTool('Teigtemperatur_Master'); return false;" class="card">
+            <div>
+                <h3>Teigtemperatur Master</h3>
+                <p>Fachspezifisches Tool zur präzisen Berechnung und Dokumentation im Arbeitsalltag.</p>
+            </div>
+            <span class="badge">Aktiv</span>
+        </a>
+    </div>
+    <footer>
+        &copy; 2026 AS3 Professional Suites | CCBY As3-As3<br>
+        <span style="font-size: 0.75rem; opacity: 0.7;">Haftungsausschluss: Die Nutzung erfolgt auf eigene Gefahr. Alle Berechnungen sind vor Ort zu prüfen.</span>
+    </footer>
+
+    <script>
+        function showTool(id) {
+            document.body.classList.add('tool-active');
+            document.querySelectorAll('.tool-screen').forEach(s => s.classList.remove('active'));
+            document.getElementById(id).classList.add('active');
+            window.scrollTo(0,0);
+        }
+        function closeTool() {
+            document.body.classList.remove('tool-active');
+            window.scrollTo(0,0);
+        }
+    </script><section id="Sauerteig_Rechner" class="tool-screen"><button class="back-btn" onclick="closeTool()">← Home</button>
+    <div class="card">
+        <h1 style="color: #78350f;">Sauerteig- & TA-Master</h1>
+        <div class="layout">
+            <div class="controls">
+                <div class="input-group">
+                    <label>Mehlmenge (g)</label>
+                    <input type="number" id="flour" value="1000" oninput="calc()">
+                </div>
+                <div class="input-group">
+                    <label>Wassermenge (ml)</label>
+                    <input type="number" id="water" value="700" oninput="calc()">
+                </div>
+                <div class="input-group">
+                    <label>Sauerteig-Anstellgut (g)</label>
+                    <input type="number" id="starter" value="100" oninput="calc()">
+                </div>
+                <div class="input-group">
+                    <label>Gärfaktor (Volumenzunahme %)</label>
+                    <input type="range" id="rise" min="0" max="200" value="50" oninput="calc()">
+                </div>
+            </div>
+            
+            <div class="viz">
+                <div style="font-weight: 600;">Teig-Volumen-Vorschau</div>
+                <div class="jar">
+                    <div id="doughLevel" class="dough" style="height: 30%;"></div>
+                </div>
+                <div class="result">
+                    <div style="font-size: 0.8rem;">Teigausbeute (TA):</div>
+                    <div class="ta-val" id="taOut">170</div>
+                    <p style="font-size: 0.75rem; color: #9a3412;">Teigmasse gesamt: <span id="totalWeight">1800</span> g</p>
+                </div>
+            </div>
+        </div>
+    </div>
+    <script>
+        function calc() {
+            const f = parseFloat(document.getElementById('flour').value) || 0;
+            const w = parseFloat(document.getElementById('water').value) || 0;
+            const s = parseFloat(document.getElementById('starter').value) || 0;
+            const rise = parseFloat(document.getElementById('rise').value);
+            
+            const ta = 100 + ((w / f) * 100);
+            document.getElementById('taOut').innerText = Math.round(ta);
+            document.getElementById('totalWeight').innerText = Math.round(f + w + s);
+            
+            // Visual logic: 30% is base, up to 90% is max rise
+            const baseHeight = 30;
+            const extraHeight = (rise / 200) * 60;
+            document.getElementById('doughLevel').style.height = (baseHeight + extraHeight) + "%";
+        }
+        calc();
+    </script>
+</section>
+<section id="Teigtemperatur_Master" class="tool-screen"><button class="back-btn" onclick="closeTool()">← Home</button>
+    <div class="card">
+        <h1>Teigtemperatur-Master</h1>
+        <p style="color: #78350f; margin-bottom: 30px;">Berechnung der Schüttwassertemperatur für optimale Gärung.</p>
+        
+        <div class="grid">
+            <div class="col">
+                <div class="input-group">
+                    <label>Gewünschte Teig-Temp (°C)</label>
+                    <input type="number" id="tGoal" value="26" oninput="calc()">
+                </div>
+                <div class="input-group">
+                    <label>Mehl-Temperatur (°C)</label>
+                    <input type="number" id="tFlour" value="20" oninput="calc()">
+                </div>
+            </div>
+            <div class="col">
+                <div class="input-group">
+                    <label>Raum-Temperatur (°C)</label>
+                    <input type="number" id="tRoom" value="22" oninput="calc()">
+                </div>
+                <div class="input-group">
+                    <label>Knet-Erwärmung (°C)</label>
+                    <input type="number" id="tKnet" value="4" oninput="calc()">
+                    <p style="font-size:0.7rem; color:#92400e;">(Erfahrungswert des Kneters)</p>
+                </div>
+            </div>
+        </div>
+
+        <div class="result-panel">
+            <div style="font-size: 0.85rem; font-weight: 700;">Erforderliche Wassertemperatur:</div>
+            <div id="outWater" class="val">-- °C</div>
+            <div id="hint" class="hint">Normales Wasser verwenden</div>
+        </div>
+    </div>
+
+    <script>
+        function calc() {
+            const tGoal = parseFloat(document.getElementById('tGoal').value) || 26;
+            const tFlour = parseFloat(document.getElementById('tFlour').value) || 20;
+            const tRoom = parseFloat(document.getElementById('tRoom').value) || 20;
+            const tKnet = parseFloat(document.getElementById('tKnet').value) || 0;
+            
+            // Formula: T_water = (3 * T_goal) - T_flour - T_room - T_knet
+            const tWater = (3 * tGoal) - tFlour - tRoom - tKnet;
+            
+            document.getElementById('outWater').innerText = tWater.toFixed(1) + " °C";
+            
+            const hint = document.getElementById('hint');
+            if (tWater < 5) {
+                hint.innerText = "ACHTUNG: Eiszugabe erforderlich!";
+                hint.style.color = "#b91c1c";
+            } else if (tWater > 45) {
+                hint.innerText = "VORSICHT: Zu heiß für Hefe (>45°C)!";
+                hint.style.color = "#b91c1c";
+            } else {
+                hint.innerText = "Optimale Schütttemperatur.";
+                hint.style.color = "#166534";
+            }
+        }
+        calc();
+    </script>
+</section></body>
+</html>

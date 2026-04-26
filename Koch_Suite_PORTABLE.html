@@ -1,0 +1,204 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+    <meta charset="UTF-8">
+    <title>AS3 Koch Suite</title>
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;600;700&display=swap" rel="stylesheet">
+    <style>
+        :root { --primary: #1e293b; --accent: #2563eb; --bg: #f8fafc; }
+        body { font-family: 'Outfit', sans-serif; background: var(--bg); color: var(--primary); margin: 0; }
+        header { background: #1e293b; color: white; padding: 60px 20px; text-align: center; border-bottom: 4px solid var(--accent); }
+        .grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 25px; padding: 40px; max-width: 1200px; margin: auto; }
+        .card { background: white; padding: 30px; border-radius: 20px; box-shadow: 0 10px 15px -3px rgba(0,0,0,0.1); text-decoration: none; color: inherit; transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1); border: 1px solid #e2e8f0; display: flex; flex-direction: column; justify-content: space-between; }
+        .card:hover { transform: translateY(-8px); border-color: var(--accent); box-shadow: 0 20px 25px -5px rgba(0,0,0,0.1); }
+        .card h3 { margin: 0 0 10px 0; font-size: 1.25rem; color: #1e293b; }
+        .card p { margin: 0; font-size: 0.875rem; color: #64748b; flex-grow: 1; }
+        .badge { margin-top: 15px; display: inline-block; padding: 4px 12px; background: #dbeafe; color: #1e40af; border-radius: 9999px; font-size: 0.75rem; font-weight: 600; align-self: flex-start; }
+        footer { text-align: center; padding: 40px; font-size: 0.875rem; color: #64748b; border-top: 1px solid #e2e8f0; margin-top: 40px; }
+    </style>
+
+    <style>
+        .tool-screen { display: none; padding: 20px; background: #f8fafc; min-height: 100vh; }
+        .back-btn { position: sticky; top: 10px; left: 10px; background: #0f172a; color: white; border: none; padding: 8px 15px; border-radius: 6px; cursor: pointer; z-index: 1000; }
+        body.tool-active .container, body.tool-active header { display: none; }
+        body.tool-active .tool-screen.active { display: block; }
+    </style></head>
+<body>
+    <header>
+        <h1 style="margin: 0; font-size: 2.5rem; letter-spacing: -0.025em;">Koch Suite</h1>
+        <p style="opacity: 0.8; font-weight: 300; margin-top: 10px;">Professionelle Werkzeuge & Hochpräzise Kalkulatoren</p>
+    </header>
+    <div class="grid">
+
+        <a href="#" onclick="showTool('HACCP_Kühlung_Monitor'); return false;" class="card">
+            <div>
+                <h3>HACCP Kühlung Monitor</h3>
+                <p>Fachspezifisches Tool zur präzisen Berechnung und Dokumentation im Arbeitsalltag.</p>
+            </div>
+            <span class="badge">Aktiv</span>
+        </a>
+        <a href="#" onclick="showTool('Speisenkalkulation'); return false;" class="card">
+            <div>
+                <h3>Speisenkalkulation</h3>
+                <p>Fachspezifisches Tool zur präzisen Berechnung und Dokumentation im Arbeitsalltag.</p>
+            </div>
+            <span class="badge">Aktiv</span>
+        </a>
+    </div>
+    <footer>
+        &copy; 2026 AS3 Professional Suites | CCBY As3-As3<br>
+        <span style="font-size: 0.75rem; opacity: 0.7;">Haftungsausschluss: Die Nutzung erfolgt auf eigene Gefahr. Alle Berechnungen sind vor Ort zu prüfen.</span>
+    </footer>
+
+    <script>
+        function showTool(id) {
+            document.body.classList.add('tool-active');
+            document.querySelectorAll('.tool-screen').forEach(s => s.classList.remove('active'));
+            document.getElementById(id).classList.add('active');
+            window.scrollTo(0,0);
+        }
+        function closeTool() {
+            document.body.classList.remove('tool-active');
+            window.scrollTo(0,0);
+        }
+    </script><section id="HACCP_Kühlung_Monitor" class="tool-screen"><button class="back-btn" onclick="closeTool()">← Home</button>
+    <div class="card">
+        <h1>HACCP Kühl-Monitor</h1>
+        <p style="color: #64748b; margin-bottom: 30px;">Dokumentation & Überprüfung der Lagertemperaturen.</p>
+        
+        <div class="input-group">
+            <label>Warengruppe</label>
+            <select id="group" onchange="calc()">
+                <option value="2">Frischer Fisch (max. 2°C)</option>
+                <option value="4">Geflügel / Hackfleisch (max. 4°C)</option>
+                <option value="7" selected>Frischfleisch (max. 7°C)</option>
+                <option value="8">Molkereiprodukte (max. 8°C)</option>
+                <option value="-18">Tiefkühlware (max. -18°C)</option>
+            </select>
+        </div>
+
+        <div class="input-group">
+            <label>Gemessene Temperatur (°C)</label>
+            <input type="number" id="mTemp" placeholder="z.B. 4.5" step="0.1" oninput="calc()">
+        </div>
+
+        <div id="resPanel" class="result-panel">
+            <div id="status" class="status">Wert eingeben</div>
+            <div id="outTemp" class="temp-val">-- °C</div>
+            <div id="instr" class="instruction"></div>
+        </div>
+    </div>
+
+    <script>
+        function calc() {
+            const limit = parseFloat(document.getElementById('group').value);
+            const mTemp = parseFloat(document.getElementById('mTemp').value);
+            const panel = document.getElementById('resPanel');
+            const status = document.getElementById('status');
+            const instr = document.getElementById('instr');
+            const outTemp = document.getElementById('outTemp');
+            
+            if (isNaN(mTemp)) return;
+            
+            outTemp.innerText = mTemp.toFixed(1) + " °C";
+            instr.style.display = "block";
+            
+            let ok = false;
+            if (limit < 0) {
+                ok = mTemp <= limit;
+            } else {
+                ok = mTemp <= limit;
+            }
+            
+            if (ok) {
+                status.innerText = "KONFORM ✅";
+                status.style.color = "var(--success)";
+                panel.style.borderColor = "var(--success)";
+                panel.style.background = "#f0fdf4";
+                instr.innerText = "Kühlung im Sollbereich. Dokumentation erfolgreich.";
+                instr.style.background = "#dcfce7";
+                instr.style.color = "#166534";
+            } else {
+                status.innerText = "KRITISCH ❌";
+                status.style.color = "var(--danger)";
+                panel.style.borderColor = "var(--danger)";
+                panel.style.background = "#fef2f2";
+                instr.innerText = "GRENZWERT ÜBERSCHRITTEN! Sofortige Korrekturmaßnahme: Ware prüfen, Technik verständigen, ggf. Ware sperren.";
+                instr.style.background = "#fee2e2";
+                instr.style.color = "#b91c1c";
+            }
+        }
+    </script>
+</section>
+<section id="Speisenkalkulation" class="tool-screen"><button class="back-btn" onclick="closeTool()">← Home</button>
+    <div class="card">
+        <h1>Speisenkalkulation & Deckungsbeitrag</h1>
+        <div class="grid">
+            <div class="controls">
+                <div class="input-group">
+                    <label>Wareneinsatz (Netto) [€]</label>
+                    <input type="number" id="ek" value="4.50" step="0.1" oninput="calc()">
+                </div>
+                <div class="input-group">
+                    <label>Personal/Gemeinkosten [%]</label>
+                    <input type="number" id="overhead" value="180" oninput="calc()">
+                </div>
+                <div class="input-group">
+                    <label>Gewinnmarge [%]</label>
+                    <input type="number" id="profit" value="20" oninput="calc()">
+                </div>
+                <div class="input-group">
+                    <label>MwSt-Satz</label>
+                    <select id="mwst" onchange="calc()">
+                        <option value="1.07">7% (Speisen außer Haus)</option>
+                        <option value="1.19" selected>19% (Speisen im Haus)</option>
+                    </select>
+                </div>
+            </div>
+
+            <div style="text-align:center;">
+                <div class="plate-viz" id="plate">
+                    <!-- SVG Chart as Plate -->
+                    <svg viewBox="0 0 100 100" style="transform: rotate(-90deg); width:100%; height:100%;">
+                        <circle cx="50" cy="50" r="40" fill="transparent" stroke="#fb923c" stroke-width="20" id="circleEK"/>
+                        <circle cx="50" cy="50" r="40" fill="transparent" stroke="#fed7aa" stroke-width="20" stroke-dasharray="0 251.2" id="circleOther"/>
+                    </svg>
+                    <div style="position:absolute; font-weight:bold; color:#c2410c;">TELLER-CHECK</div>
+                </div>
+                <div class="summary">
+                    <div class="sum-box">
+                        <div style="font-size:0.75rem;">Verkaufspreis (Brutto):</div>
+                        <div id="vkOut" class="val">17.90 €</div>
+                    </div>
+                    <div class="sum-box">
+                        <div style="font-size:0.75rem;">Warenkostensatz:</div>
+                        <div id="ratioOut" class="val">25 %</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <script>
+        function calc() {
+            const ek = parseFloat(document.getElementById('ek').value) || 0;
+            const overhead = parseFloat(document.getElementById('overhead').value) / 100;
+            const profit = parseFloat(document.getElementById('profit').value) / 100;
+            const mwst = parseFloat(document.getElementById('mwst').value);
+            
+            // Traditional Calculation: (EK + Overhead) + Profit * MwSt
+            const netPrice = (ek * (1 + overhead)) / (1 - profit);
+            const grossPrice = netPrice * mwst;
+            
+            document.getElementById('vkOut').innerText = grossPrice.toFixed(2) + " €";
+            
+            const ratio = (ek / netPrice) * 100;
+            document.getElementById('ratioOut').innerText = Math.round(ratio) + " %";
+            
+            // Visual Plate: 251.2 is circumference (2 * PI * 40)
+            const ekDash = (ratio / 100) * 251.2;
+            document.getElementById('circleEK').style.strokeDasharray = `${ekDash} 251.2`;
+        }
+        calc();
+    </script>
+</section></body>
+</html>

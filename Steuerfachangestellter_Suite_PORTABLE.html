@@ -1,0 +1,210 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+    <meta charset="UTF-8">
+    <title>AS3 Steuerfachangestellter Suite</title>
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;600;700&display=swap" rel="stylesheet">
+    <style>
+        :root { --primary: #1e293b; --accent: #2563eb; --bg: #f8fafc; }
+        body { font-family: 'Outfit', sans-serif; background: var(--bg); color: var(--primary); margin: 0; }
+        header { background: #1e293b; color: white; padding: 60px 20px; text-align: center; border-bottom: 4px solid var(--accent); }
+        .grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 25px; padding: 40px; max-width: 1200px; margin: auto; }
+        .card { background: white; padding: 30px; border-radius: 20px; box-shadow: 0 10px 15px -3px rgba(0,0,0,0.1); text-decoration: none; color: inherit; transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1); border: 1px solid #e2e8f0; display: flex; flex-direction: column; justify-content: space-between; }
+        .card:hover { transform: translateY(-8px); border-color: var(--accent); box-shadow: 0 20px 25px -5px rgba(0,0,0,0.1); }
+        .card h3 { margin: 0 0 10px 0; font-size: 1.25rem; color: #1e293b; }
+        .card p { margin: 0; font-size: 0.875rem; color: #64748b; flex-grow: 1; }
+        .badge { margin-top: 15px; display: inline-block; padding: 4px 12px; background: #dbeafe; color: #1e40af; border-radius: 9999px; font-size: 0.75rem; font-weight: 600; align-self: flex-start; }
+        footer { text-align: center; padding: 40px; font-size: 0.875rem; color: #64748b; border-top: 1px solid #e2e8f0; margin-top: 40px; }
+    </style>
+
+    <style>
+        .tool-screen { display: none; padding: 20px; background: #f8fafc; min-height: 100vh; }
+        .back-btn { position: sticky; top: 10px; left: 10px; background: #0f172a; color: white; border: none; padding: 8px 15px; border-radius: 6px; cursor: pointer; z-index: 1000; }
+        body.tool-active .container, body.tool-active header { display: none; }
+        body.tool-active .tool-screen.active { display: block; }
+    </style></head>
+<body>
+    <header>
+        <h1 style="margin: 0; font-size: 2.5rem; letter-spacing: -0.025em;">Steuerfachangestellter Suite</h1>
+        <p style="opacity: 0.8; font-weight: 300; margin-top: 10px;">Professionelle Werkzeuge & Hochpräzise Kalkulatoren</p>
+    </header>
+    <div class="grid">
+
+        <a href="#" onclick="showTool('ESt_Rechner'); return false;" class="card">
+            <div>
+                <h3>ESt Rechner</h3>
+                <p>Fachspezifisches Tool zur präzisen Berechnung und Dokumentation im Arbeitsalltag.</p>
+            </div>
+            <span class="badge">Aktiv</span>
+        </a>
+        <a href="#" onclick="showTool('Firmenwagen_Rechner'); return false;" class="card">
+            <div>
+                <h3>Firmenwagen Rechner</h3>
+                <p>Fachspezifisches Tool zur präzisen Berechnung und Dokumentation im Arbeitsalltag.</p>
+            </div>
+            <span class="badge">Aktiv</span>
+        </a>
+    </div>
+    <footer>
+        &copy; 2026 AS3 Professional Suites | CCBY As3-As3<br>
+        <span style="font-size: 0.75rem; opacity: 0.7;">Haftungsausschluss: Die Nutzung erfolgt auf eigene Gefahr. Alle Berechnungen sind vor Ort zu prüfen.</span>
+    </footer>
+
+    <script>
+        function showTool(id) {
+            document.body.classList.add('tool-active');
+            document.querySelectorAll('.tool-screen').forEach(s => s.classList.remove('active'));
+            document.getElementById(id).classList.add('active');
+            window.scrollTo(0,0);
+        }
+        function closeTool() {
+            document.body.classList.remove('tool-active');
+            window.scrollTo(0,0);
+        }
+    </script><section id="ESt_Rechner" class="tool-screen"><button class="back-btn" onclick="closeTool()">← Home</button>
+    <div class="card">
+        <h1>ESt-Grob-Check (Progressions-Rechner)</h1>
+        <div class="grid">
+            <div class="controls">
+                <div class="input-group">
+                    <label>Zu versteuerndes Einkommen (zvE) [€]</label>
+                    <input type="number" id="zve" value="45000" oninput="calc()">
+                </div>
+                <div class="input-group">
+                    <label>Tarifjahr</label>
+                    <select id="year" onchange="calc()">
+                        <option value="2024">2024</option>
+                        <option value="2025">2025 (Projektion)</option>
+                    </select>
+                </div>
+            </div>
+
+            <div class="viz-panel">
+                <div style="font-weight: 700; font-size: 1rem;">Steuerliche Belastung</div>
+                <div class="bar-container">
+                    <div id="taxBar" class="bar-fill" style="width: 20%;"></div>
+                </div>
+                <div class="res-summary">
+                    <div class="res-box">
+                        <div style="font-size: 0.75rem; color: #64748b;">Einkommensteuer:</div>
+                        <div id="estOut" class="val">--</div>
+                    </div>
+                    <div class="res-box">
+                        <div style="font-size: 0.75rem; color: #64748b;">Durchschnittssatz:</div>
+                        <div id="avgOut" class="val">--</div>
+                    </div>
+                </div>
+                <p style="font-size: 0.75rem; color: #64748b; margin-top: 20px;">
+                    Hinweis: Berechnet nach dem deutschen Einkommensteuertarif (§ 32a EStG). Grundfreibetrag 2024: 11.604 €. Ohne Kirche/Soli.
+                </p>
+            </div>
+        </div>
+    </div>
+    <script>
+        function calc() {
+            const zve = parseFloat(document.getElementById('zve').value) || 0;
+            let est = 0;
+            
+            // Simplified 2024 Tariff Logic
+            if (zve <= 11604) {
+                est = 0;
+            } else if (zve <= 17005) {
+                let y = (zve - 11604) / 10000;
+                est = (922.98 * y + 1400) * y;
+            } else if (zve <= 66760) {
+                let z = (zve - 17005) / 10000;
+                est = (181.19 * z + 2397) * z + 1025.38;
+            } else if (zve <= 277825) {
+                est = 0.42 * zve - 10602.13;
+            } else {
+                est = 0.45 * zve - 18936.88;
+            }
+
+            const avg = (zve > 0) ? (est / zve) * 100 : 0;
+            
+            document.getElementById('estOut').innerText = est.toLocaleString('de-DE', {maximumFractionDigits: 0}) + " €";
+            document.getElementById('avgOut').innerText = avg.toFixed(1) + " %";
+            document.getElementById('taxBar').style.width = avg + "%";
+        }
+        calc();
+    </script>
+</section>
+<section id="Firmenwagen_Rechner" class="tool-screen"><button class="back-btn" onclick="closeTool()">← Home</button>
+    <div class="card">
+        <h1>Firmenwagen-Vergleich (1% vs. Fahrtenbuch)</h1>
+        <div class="grid">
+            <div class="input-area">
+                <div class="input-group">
+                    <label>Bruttolistenpreis (BLP) [€]</label>
+                    <input type="number" id="blp" value="50000" oninput="calc()">
+                </div>
+                <div class="input-group">
+                    <label>Entfernung Wohnung-Arbeit [km]</label>
+                    <input type="number" id="dist" value="20" oninput="calc()">
+                </div>
+                <div class="input-group">
+                    <label>Gesamtkosten p.a. (inkl. Abschreibung) [€]</label>
+                    <input type="number" id="totalCost" value="12000" oninput="calc()">
+                </div>
+                <div class="input-group">
+                    <label>Privatanteil am Gesamtweg [%]</label>
+                    <input type="number" id="privPerc" value="30" oninput="calc()">
+                </div>
+            </div>
+
+            <div>
+                <div class="res-grid">
+                    <div id="box1" class="res-box">
+                        <div style="font-size:0.75rem;">Pauschale (1%):</div>
+                        <div id="out1" class="val">--</div>
+                        <div style="font-size:0.65rem; color:#64748b; margin-top:5px;">Inkl. 0.03% Weg zur Arbeit</div>
+                    </div>
+                    <div id="box2" class="res-box">
+                        <div style="font-size:0.75rem;">Fahrtenbuch:</div>
+                        <div id="out2" class="val">--</div>
+                        <div style="font-size:0.65rem; color:#64748b; margin-top:5px;">Nach tatsächlichem Anteil</div>
+                    </div>
+                </div>
+                <div style="margin-top: 30px; padding: 20px; border-radius: 12px; background: #f8fafc; border: 1px solid #e2e8f0; font-size: 0.85rem;">
+                    <strong>Empfehlung:</strong><br>
+                    <span id="rec">Berechnung läuft...</span>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        function calc() {
+            const blp = parseFloat(document.getElementById('blp').value) || 0;
+            const dist = parseFloat(document.getElementById('dist').value) || 0;
+            const totalCost = parseFloat(document.getElementById('totalCost').value) || 0;
+            const privPerc = parseFloat(document.getElementById('privPerc').value) / 100;
+            
+            // 1% Rule: (1% of BLP * 12) + (0.03% of BLP * dist * 12)
+            const v1 = (blp * 0.01 * 12) + (blp * 0.0003 * dist * 12);
+            
+            // Logbook: totalCost * privPerc
+            const v2 = totalCost * privPerc;
+            
+            document.getElementById('out1').innerText = Math.round(v1).toLocaleString('de-DE') + " €";
+            document.getElementById('out2').innerText = Math.round(v2).toLocaleString('de-DE') + " €";
+            
+            const b1 = document.getElementById('box1');
+            const b2 = document.getElementById('box2');
+            const rec = document.getElementById('rec');
+            
+            b1.classList.remove('winner');
+            b2.classList.remove('winner');
+            
+            if (v1 < v2) {
+                b1.classList.add('winner');
+                rec.innerText = "Die 1%-Regelung ist in diesem Fall günstiger.";
+            } else {
+                b2.classList.add('winner');
+                rec.innerText = "Das Fahrtenbuch spart ca. " + Math.round(v1 - v2) + " € pro Jahr.";
+            }
+        }
+        calc();
+    </script>
+</section></body>
+</html>

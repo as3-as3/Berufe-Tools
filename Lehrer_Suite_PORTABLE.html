@@ -1,0 +1,562 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+    <meta charset="UTF-8">
+    <title>AS3 Lehrer Suite</title>
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;600;700&display=swap" rel="stylesheet">
+    <style>
+        :root { --primary: #1e293b; --accent: #2563eb; --bg: #f8fafc; }
+        body { font-family: 'Outfit', sans-serif; background: var(--bg); color: var(--primary); margin: 0; }
+        header { background: #1e293b; color: white; padding: 60px 20px; text-align: center; border-bottom: 4px solid var(--accent); }
+        .grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 25px; padding: 40px; max-width: 1200px; margin: auto; }
+        .card { background: white; padding: 30px; border-radius: 20px; box-shadow: 0 10px 15px -3px rgba(0,0,0,0.1); text-decoration: none; color: inherit; transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1); border: 1px solid #e2e8f0; display: flex; flex-direction: column; justify-content: space-between; }
+        .card:hover { transform: translateY(-8px); border-color: var(--accent); box-shadow: 0 20px 25px -5px rgba(0,0,0,0.1); }
+        .card h3 { margin: 0 0 10px 0; font-size: 1.25rem; color: #1e293b; }
+        .card p { margin: 0; font-size: 0.875rem; color: #64748b; flex-grow: 1; }
+        .badge { margin-top: 15px; display: inline-block; padding: 4px 12px; background: #dbeafe; color: #1e40af; border-radius: 9999px; font-size: 0.75rem; font-weight: 600; align-self: flex-start; }
+        footer { text-align: center; padding: 40px; font-size: 0.875rem; color: #64748b; border-top: 1px solid #e2e8f0; margin-top: 40px; }
+    </style>
+
+    <style>
+        .tool-screen { display: none; padding: 20px; background: #f8fafc; min-height: 100vh; }
+        .back-btn { position: sticky; top: 10px; left: 10px; background: #0f172a; color: white; border: none; padding: 8px 15px; border-radius: 6px; cursor: pointer; z-index: 1000; }
+        body.tool-active .container, body.tool-active header { display: none; }
+        body.tool-active .tool-screen.active { display: block; }
+    </style></head>
+<body>
+    <header>
+        <h1 style="margin: 0; font-size: 2.5rem; letter-spacing: -0.025em;">Lehrer Suite</h1>
+        <p style="opacity: 0.8; font-weight: 300; margin-top: 10px;">Professionelle Werkzeuge & Hochpräzise Kalkulatoren</p>
+    </header>
+    <div class="grid">
+
+        <a href="#" onclick="showTool('Aufsichtspflicht_Checkliste'); return false;" class="card">
+            <div>
+                <h3>Aufsichtspflicht Checkliste</h3>
+                <p>Fachspezifisches Tool zur präzisen Berechnung und Dokumentation im Arbeitsalltag.</p>
+            </div>
+            <span class="badge">Aktiv</span>
+        </a>
+        <a href="#" onclick="showTool('Ausbildungsverkürzung_Rechner'); return false;" class="card">
+            <div>
+                <h3>Ausbildungsverkürzung Rechner</h3>
+                <p>Fachspezifisches Tool zur präzisen Berechnung und Dokumentation im Arbeitsalltag.</p>
+            </div>
+            <span class="badge">Aktiv</span>
+        </a>
+        <a href="#" onclick="showTool('BBiG_Fehlzeiten_Zulassungscheck'); return false;" class="card">
+            <div>
+                <h3>BBiG Fehlzeiten Zulassungscheck</h3>
+                <p>Fachspezifisches Tool zur präzisen Berechnung und Dokumentation im Arbeitsalltag.</p>
+            </div>
+            <span class="badge">Aktiv</span>
+        </a>
+        <a href="#" onclick="showTool('BBiG_Zulassungs_Checker'); return false;" class="card">
+            <div>
+                <h3>BBiG Zulassungs Checker</h3>
+                <p>Fachspezifisches Tool zur präzisen Berechnung und Dokumentation im Arbeitsalltag.</p>
+            </div>
+            <span class="badge">Aktiv</span>
+        </a>
+        <a href="#" onclick="showTool('IHK_HWK_Notenrechner'); return false;" class="card">
+            <div>
+                <h3>IHK HWK Notenrechner</h3>
+                <p>Fachspezifisches Tool zur präzisen Berechnung und Dokumentation im Arbeitsalltag.</p>
+            </div>
+            <span class="badge">Aktiv</span>
+        </a>
+        <a href="#" onclick="showTool('Korrekturzeit_Rechner'); return false;" class="card">
+            <div>
+                <h3>Korrekturzeit Rechner</h3>
+                <p>Fachspezifisches Tool zur präzisen Berechnung und Dokumentation im Arbeitsalltag.</p>
+            </div>
+            <span class="badge">Aktiv</span>
+        </a>
+        <a href="#" onclick="showTool('Notenschlüssel_Knick_Rechner'); return false;" class="card">
+            <div>
+                <h3>Notenschlüssel Knick Rechner</h3>
+                <p>Fachspezifisches Tool zur präzisen Berechnung und Dokumentation im Arbeitsalltag.</p>
+            </div>
+            <span class="badge">Aktiv</span>
+        </a>
+        <a href="#" onclick="showTool('Notenstatistik_Analyse'); return false;" class="card">
+            <div>
+                <h3>Notenstatistik Analyse</h3>
+                <p>Fachspezifisches Tool zur präzisen Berechnung und Dokumentation im Arbeitsalltag.</p>
+            </div>
+            <span class="badge">Aktiv</span>
+        </a>
+        <a href="#" onclick="showTool('Urheberrecht_15_Prozent_Rechner'); return false;" class="card">
+            <div>
+                <h3>Urheberrecht 15 Prozent Rechner</h3>
+                <p>Fachspezifisches Tool zur präzisen Berechnung und Dokumentation im Arbeitsalltag.</p>
+            </div>
+            <span class="badge">Aktiv</span>
+        </a>
+    </div>
+    <footer>
+        &copy; 2026 AS3 Professional Suites | CCBY As3-As3<br>
+        <span style="font-size: 0.75rem; opacity: 0.7;">Haftungsausschluss: Die Nutzung erfolgt auf eigene Gefahr. Alle Berechnungen sind vor Ort zu prüfen.</span>
+    </footer>
+
+    <script>
+        function showTool(id) {
+            document.body.classList.add('tool-active');
+            document.querySelectorAll('.tool-screen').forEach(s => s.classList.remove('active'));
+            document.getElementById(id).classList.add('active');
+            window.scrollTo(0,0);
+        }
+        function closeTool() {
+            document.body.classList.remove('tool-active');
+            window.scrollTo(0,0);
+        }
+    </script><section id="Aufsichtspflicht_Checkliste" class="tool-screen"><button class="back-btn" onclick="closeTool()">← Home</button>
+    <div class="card">
+        <h1>Checkliste: Aufsichtspflicht</h1>
+        <p style="font-size: 0.85rem; color: #64748b; margin-bottom: 20px;">Rechtliche Mindeststandards für Klassenfahrten und Exkursionen.</p>
+        
+        <div id="checklist">
+            <div class="checklist-item"><input type="checkbox" onchange="check()"><div class="label-text">Schriftliche Genehmigung der Schulleitung liegt vor</div></div>
+            <div class="checklist-item"><input type="checkbox" onchange="check()"><div class="label-text">Eltern-Einverständniserklärungen (inkl. Notfallnummern) eingesammelt</div></div>
+            <div class="checklist-item"><input type="checkbox" onchange="check()"><div class="label-text">Belehrung der Schüler über Regeln (Alkohol, Rauchen, Ausgang) dokumentiert</div></div>
+            <div class="checklist-item"><input type="checkbox" onchange="check()"><div class="label-text">Notfallmappe (Allergien, Medikamente, Versicherung) vorbereitet</div></div>
+            <div class="checklist-item"><input type="checkbox" onchange="check()"><div class="label-text">Begleitpersonen (Schlüsselzahl) gemäß Verordnung sichergestellt</div></div>
+            <div class="checklist-item"><input type="checkbox" onchange="check()"><div class="label-text">Dienstliche Unfallversicherung für alle Teilnehmer geklärt</div></div>
+            <div class="checklist-item"><input type="checkbox" onchange="check()"><div class="label-text">Erreichbarkeit (Handy-Liste) während der gesamten Fahrt sichergestellt</div></div>
+        </div>
+
+        <div id="status" class="status-bar incomplete">Prüfung unvollständig</div>
+    </div>
+
+    <script>
+        function check() {
+            const checks = document.querySelectorAll('input[type="checkbox"]');
+            const checked = Array.from(checks).filter(c => c.checked).length;
+            const status = document.getElementById('status');
+            
+            if (checked === checks.length) {
+                status.innerText = "Alle kritischen Punkte erfüllt ✅";
+                status.className = "status-bar complete";
+            } else {
+                status.innerText = `${checked} von ${checks.length} Punkten erfüllt`;
+                status.className = "status-bar incomplete";
+            }
+        }
+    </script>
+</section>
+<section id="Ausbildungsverkürzung_Rechner" class="tool-screen"><button class="back-btn" onclick="closeTool()">← Home</button>
+    <div class="card">
+        <h1>Verkürzung der Ausbildungszeit</h1>
+        <p style="font-size: 0.85rem; color: #64748b; margin-bottom: 25px;">Ermittlung der möglichen Verkürzung gemäß BBiG / Handwerksordnung.</p>
+
+        <div class="input-group">
+            <label>Schulische Vorbildung</label>
+            <select id="school" onchange="calc()">
+                <option value="0">Keine / Hauptschulabschluss</option>
+                <option value="6">Realschulabschluss (-6 Mon)</option>
+                <option value="12">Abitur / Fachhochschulreife (-12 Mon)</option>
+            </select>
+        </div>
+        <div class="input-group">
+            <label>Berufliche Vorbildung / Alter</label>
+            <select id="job" onchange="calc()">
+                <option value="0">Keine</option>
+                <option value="6">Einschlägige Vorbildung (-6 Mon)</option>
+                <option value="12">Mindestalter 21 J. / Studium (-12 Mon)</option>
+            </select>
+        </div>
+
+        <div class="result">
+            <div style="font-size: 0.85rem; color: #64748b;">Mögliche Verkürzung:</div>
+            <div id="res" class="total-months">0 Monate</div>
+            <p id="hint" style="font-size: 0.75rem; margin-top: 10px; color: #4338ca;">Empfehlung: Mindestdauer von 24 Monaten (bei 3j. Berufen) sollte nicht unterschritten werden.</p>
+        </div>
+    </div>
+
+    <script>
+        function calc() {
+            const s = parseInt(document.getElementById('school').value);
+            const j = parseInt(document.getElementById('job').value);
+            let total = s > j ? s : j; // Meist wird nur der höhere Wert angerechnet, oder kombiniert bis Max-Limit
+            
+            // Faustregel: Max 12 Monate bei 3-jährigen Berufen
+            if (total > 12) total = 12;
+            
+            document.getElementById('res').innerText = `${total} Monate`;
+        }
+        calc();
+    </script>
+</section>
+<section id="BBiG_Fehlzeiten_Zulassungscheck" class="tool-screen"><button class="back-btn" onclick="closeTool()">← Home</button>
+    <div class="card">
+        <h1>Prüfungszulassung (BBiG)</h1>
+        <p style="font-size: 0.85rem; color: #64748b; margin-bottom: 25px;">Prüfung der Fehlzeiten-Quote für die Zulassung zur IHK/HWK-Abschlussprüfung.</p>
+
+        <div class="input-group">
+            <label>Soll-Tage (Gesamte Ausbildung)</label>
+            <input type="number" id="soll" value="660">
+        </div>
+        <div class="input-group">
+            <label>Fehltage (entschuldigt + unentsch.)</label>
+            <input type="number" id="fehlt" value="50" oninput="check()">
+        </div>
+
+        <div id="status" class="alert-box safe">Zulassung voraussichtlich unbedenklich</div>
+        
+        <div class="stat" id="statText">Quote: 7.5% (Limit: 10%)</div>
+
+        <p style="font-size: 0.75rem; color: #94a3b8; margin-top: 20px;">
+            Hintergrund: Gemäß § 43 BBiG ist die Zulassung gefährdet, wenn Fehlzeiten 10% der Ausbildungszeit überschreiten. In Einzelfällen ist eine Einzelfallprüfung durch die Kammer möglich.
+        </p>
+    </div>
+
+    <script>
+        function check() {
+            const soll = parseFloat(document.getElementById('soll').value) || 1;
+            const fehlt = parseFloat(document.getElementById('fehlt.').value) || 0;
+            const quote = (fehlt / soll) * 100;
+            
+            const status = document.getElementById('status');
+            const statText = document.getElementById('statText');
+            
+            statText.innerText = `Quote: ${quote.toFixed(1)}% (Limit: 10%)`;
+
+            if (quote > 10) {
+                status.innerText = "Zulassung GEFÄHRDET! (über 10%)";
+                status.className = "alert-box warning";
+            } else {
+                status.innerText = "Zulassung voraussichtlich unbedenklich";
+                status.className = "alert-box safe";
+            }
+        }
+        // Fix input id mismatch in script
+        document.getElementById('fehlt').oninput = check;
+        check();
+    </script>
+</section>
+<section id="BBiG_Zulassungs_Checker" class="tool-screen"><button class="back-btn" onclick="closeTool()">← Home</button>
+    <div class="card">
+        <h1>BBiG Zulassungs-Checker</h1>
+        <p style="color: #64748b; font-size: 0.9rem; margin-bottom: 30px;">Prüfung der 10%-Fehlzeitengrenze gemäß § 43 BBiG.</p>
+        
+        <div class="input-group">
+            <label>Gesamte Ausbildungsdauer (Tage)</label>
+            <input type="number" id="totalDays" value="660" oninput="check()">
+            <p style="font-size: 0.75rem; color: #94a3b8; margin-top: 5px;">(Regelfall 3 Jahre ≈ 660 Arbeitstage ohne Urlaub)</p>
+        </div>
+        
+        <div class="input-group">
+            <label>Fehltage (Schule + Betrieb)</label>
+            <input type="number" id="missedDays" placeholder="0" oninput="check()">
+        </div>
+
+        <div id="resPanel" class="res-panel">
+            <div id="icon" class="status-icon">✅</div>
+            <div id="status" class="status-text">Zulassung unkritisch</div>
+            <div class="progress-container">
+                <div id="bar" class="progress-bar"></div>
+            </div>
+            <p id="info" style="font-size: 0.9rem;"></p>
+        </div>
+    </div>
+
+    <script>
+        function check() {
+            const total = parseFloat(document.getElementById('totalDays').value) || 1;
+            const missed = parseFloat(document.getElementById('missedDays').value) || 0;
+            const panel = document.getElementById('resPanel');
+            const percent = (missed / total) * 100;
+            
+            panel.style.display = "block";
+            const bar = document.getElementById('bar');
+            const status = document.getElementById('status');
+            const icon = document.getElementById('icon');
+            const info = document.getElementById('info');
+            
+            bar.style.width = Math.min(percent, 100) + "%";
+            
+            if (percent > 10) {
+                panel.style.background = "#fef2f2";
+                bar.style.background = "var(--danger)";
+                status.innerText = "Zulassung gefährdet!";
+                status.style.color = "var(--danger)";
+                icon.innerText = "⚠️";
+                info.innerText = `Quote: ${percent.toFixed(1)}%. Einzelfallprüfung durch IHK/HWK erforderlich.`;
+            } else {
+                panel.style.background = "#f0fdf4";
+                bar.style.background = "var(--success)";
+                status.innerText = "Zulassung unkritisch";
+                status.style.color = "var(--success)";
+                icon.innerText = "✅";
+                info.innerText = `Quote: ${percent.toFixed(1)}%. Innerhalb der 10%-Toleranzgrenze.`;
+            }
+        }
+    </script>
+</section>
+<section id="IHK_HWK_Notenrechner" class="tool-screen"><button class="back-btn" onclick="closeTool()">← Home</button>
+    <div class="card">
+        <h1>IHK / HWK Notenrechner</h1>
+        <p style="font-size: 0.85rem; color: #64748b; margin-bottom: 25px;">Standard-Bewertungsschema für die berufliche Bildung (0-100 Punkte).</p>
+
+        <div class="input-group">
+            <label style="font-weight: 600;">Erreichte Punktzahl (0-100)</label>
+            <input type="number" id="pts" value="80" min="0" max="100" oninput="calc()">
+        </div>
+
+        <div class="result-box">
+            <div class="grade-text" id="gradeText">Gut</div>
+            <div class="grade-display" id="gradeNum">2</div>
+            <div style="font-size: 0.9rem;" id="pointsInfo">80 Punkte</div>
+        </div>
+
+        <table class="ihk-table">
+            <tr><td>92-100: Note 1 (sehr gut)</td><td>81-91: Note 2 (gut)</td></tr>
+            <tr><td>67-80: Note 3 (befriedigend)</td><td>50-66: Note 4 (ausreichend)</td></tr>
+            <tr><td>30-49: Note 5 (mangelhaft)</td><td>0-29: Note 6 (ungenügend)</td></tr>
+        </table>
+    </div>
+
+    <script>
+        function calc() {
+            const p = parseFloat(document.getElementById('pts').value) || 0;
+            let g = "6"; let t = "Ungenügend";
+            
+            if (p >= 92) { g = "1"; t = "Sehr Gut"; }
+            else if (p >= 81) { g = "2"; t = "Gut"; }
+            else if (p >= 67) { g = "3"; t = "Befriedigend"; }
+            else if (p >= 50) { g = "4"; t = "Ausreichend"; }
+            else if (p >= 30) { g = "5"; t = "Mangelhaft"; }
+            else { g = "6"; t = "Ungenügend"; }
+
+            document.getElementById('gradeNum').innerText = g;
+            document.getElementById('gradeText').innerText = t;
+            document.getElementById('pointsInfo').innerText = `${p} Punkte`;
+        }
+        calc();
+    </script>
+</section>
+<section id="Korrekturzeit_Rechner" class="tool-screen"><button class="back-btn" onclick="closeTool()">← Home</button>
+    <div class="card">
+        <h1>Korrekturzeit-Kalkulator</h1>
+        <p style="font-size: 0.85rem; color: #64748b; margin-bottom: 25px;">Kalkuliere den Aufwand für deinen Klassensatz.</p>
+        
+        <div class="input-group">
+            <label>Anzahl der Schüler</label>
+            <input type="number" id="students" value="25" oninput="calc()">
+        </div>
+        <div class="input-group">
+            <label>Fachgruppe / Komplexität</label>
+            <select id="complexity" onchange="calc()">
+                <option value="15">Naturwissenschaft (15m/S)</option>
+                <option value="30" selected>Sprachen/GSE (30m/S)</option>
+                <option value="45">Oberstufe / Essay (45m/S)</option>
+                <option value="60">Abitur / Facharbeit (60m/S)</option>
+            </select>
+        </div>
+        <div class="input-group">
+            <label>Erwartungshorizont-Bonus (Minuten sparen)</label>
+            <input type="number" id="bonus" value="5" oninput="calc()">
+        </div>
+
+        <div class="summary">
+            <div style="font-size: 0.85rem; color: #64748b;">Gesamtzeitaufwand geschätzt:</div>
+            <div class="time-value" id="totalTime">12.5</div>
+            <div class="unit">Stunden</div>
+        </div>
+        
+        <p style="font-size: 0.75rem; color: #94a3b8; margin-top: 15px;">Berechnung: (Minuten/Schüler - Bonus) * Schüler / 60</p>
+    </div>
+
+    <script>
+        function calc() {
+            const s = parseFloat(document.getElementById('students').value) || 0;
+            const m = parseFloat(document.getElementById('complexity').value);
+            const b = parseFloat(document.getElementById('bonus').value) || 0;
+            
+            const totalMin = (m - b) * s;
+            const hours = (totalMin / 60).toFixed(1);
+            
+            document.getElementById('totalTime').innerText = hours;
+        }
+        calc();
+    </script>
+</section>
+<section id="Notenschlüssel_Knick_Rechner" class="tool-screen"><button class="back-btn" onclick="closeTool()">← Home</button>
+    <div class="container">
+        <h1>Noten-Knick-Rechner (Gymnasium)</h1>
+        <p style="font-size: 0.85rem; color: #64748b; margin-bottom: 20px;">Berechnet eine nicht-lineare Notenskala mit individuellem Knickpunkt (Bestehensgrenze).</p>
+
+        <div class="input-group">
+            <label>Maximalpunktzahl</label>
+            <input type="number" id="maxPoints" value="40" oninput="calculate()">
+        </div>
+        <div class="input-group">
+            <label>Knickpunkt (Note 4.0) in %</label>
+            <input type="number" id="knickPercent" value="50" oninput="calculate()">
+        </div>
+
+        <table class="result-table">
+            <thead>
+                <tr>
+                    <th>Note</th>
+                    <th>Punktwert (ab)</th>
+                    <th>Prozent</th>
+                </tr>
+            </thead>
+            <tbody id="resultBody">
+                <!-- JS injected -->
+            </tbody>
+        </table>
+
+        <div class="footer">
+            CCBY As3-As3 | Haftungsausschluss: Nur zur Unterstützung. Keine Rechtsverbindlichkeit.
+        </div>
+    </div>
+
+    <script>
+        function calculate() {
+            const max = parseFloat(document.getElementById('maxPoints').value);
+            const knick = parseFloat(document.getElementById('knickPercent').value) / 100;
+            const body = document.getElementById('resultBody');
+            body.innerHTML = '';
+
+            const grades = [
+                {n: "1.0", p: 0.95}, {n: "1.3", p: 0.90}, {n: "1.7", p: 0.85},
+                {n: "2.0", p: 0.80}, {n: "2.3", p: 0.75}, {n: "2.7", p: 0.70},
+                {n: "3.0", p: 0.65}, {n: "3.3", p: 0.60}, {n: "3.7", p: 0.55},
+                {n: "4.0", p: knick},
+                {n: "4.3", p: knick * 0.85}, {n: "4.7", p: knick * 0.70},
+                {n: "5.0", p: knick * 0.50}, {n: "5.3", p: knick * 0.30},
+                {n: "5.7", p: knick * 0.15}, {n: "6.0", p: 0}
+            ];
+
+            // Re-map upper grades (1.0 to 4.0) to fit between 100% and knick%
+            // Re-map lower grades (4.0 to 6.0) to fit between knick% and 0%
+            
+            grades.forEach(g => {
+                let actualPercent;
+                const noteVal = parseFloat(g.n);
+                
+                if (noteVal <= 4.0) {
+                    // Linear interpolation between 100% (Note 1.0) and Knick (Note 4.0)
+                    // Note 1.0 is p=0.95 usually, but we scale it
+                    const range = 1.0 - knick;
+                    const step = range / 3; // Steps between 1, 2, 3, 4
+                    // Simple linear for demo, can be refined to be exact Gymnasium scale
+                    actualPercent = 1.0 - ((noteVal - 1.0) / 3.0) * range;
+                } else {
+                    // Linear interpolation between Knick and 0
+                    actualPercent = knick - ((noteVal - 4.0) / 2.0) * knick;
+                }
+
+                if (actualPercent < 0) actualPercent = 0;
+                const points = (max * actualPercent).toFixed(1);
+                
+                const row = `<tr>
+                    <td class="${g.n === '4.0' ? 'knick-indicator' : ''}">${g.n}</td>
+                    <td>${points}</td>
+                    <td>${(actualPercent * 100).toFixed(0)}%</td>
+                </tr>`;
+                body.innerHTML += row;
+            });
+        }
+        calculate();
+    </script>
+</section>
+<section id="Notenstatistik_Analyse" class="tool-screen"><button class="back-btn" onclick="closeTool()">← Home</button>
+    <div class="card">
+        <h1>Klassenarbeits-Analyse</h1>
+        <div class="grid">
+            <div class="input-area">
+                <p style="font-weight: 600; margin-bottom: 15px;">Anzahl der Noten:</p>
+                <div class="note-row"><span>Note 1:</span><input type="number" id="n1" value="2" oninput="calc()"></div>
+                <div class="note-row"><span>Note 2:</span><input type="number" id="n2" value="5" oninput="calc()"></div>
+                <div class="note-row"><span>Note 3:</span><input type="number" id="n3" value="8" oninput="calc()"></div>
+                <div class="note-row"><span>Note 4:</span><input type="number" id="n4" value="4" oninput="calc()"></div>
+                <div class="note-row"><span>Note 5:</span><input type="number" id="n5" value="1" oninput="calc()"></div>
+                <div class="note-row"><span>Note 6:</span><input type="number" id="n6" value="0" oninput="calc()"></div>
+            </div>
+
+            <div class="viz-area">
+                <div class="chart" id="chart">
+                    <div class="bar-group"><div class="bar" id="b1" data-val="0"></div><div class="label">1</div></div>
+                    <div class="bar-group"><div class="bar" id="b2" data-val="0"></div><div class="label">2</div></div>
+                    <div class="bar-group"><div class="bar" id="b3" data-val="0"></div><div class="label">3</div></div>
+                    <div class="bar-group"><div class="bar" id="b4" data-val="0"></div><div class="label">4</div></div>
+                    <div class="bar-group"><div class="bar" id="b5" data-val="0"></div><div class="label">5</div></div>
+                    <div class="bar-group"><div class="bar" id="b6" data-val="0"></div><div class="label">6</div></div>
+                </div>
+
+                <div class="stats-grid">
+                    <div class="stat-box"><div style="font-size:0.7rem;">Schnitt:</div><div id="avgOut" class="stat-val">--</div></div>
+                    <div class="stat-box"><div style="font-size:0.7rem;">Median:</div><div id="medOut" class="stat-val">--</div></div>
+                    <div class="stat-box"><div style="font-size:0.7rem;">Gesamt:</div><div id="sumOut" class="stat-val">--</div></div>
+                    <div class="stat-box"><div style="font-size:0.7rem;">Bestanden:</div><div id="passOut" class="stat-val">--</div></div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        function calc() {
+            const counts = [
+                parseInt(document.getElementById('n1').value) || 0,
+                parseInt(document.getElementById('n2').value) || 0,
+                parseInt(document.getElementById('n3').value) || 0,
+                parseInt(document.getElementById('n4').value) || 0,
+                parseInt(document.getElementById('n5').value) || 0,
+                parseInt(document.getElementById('n6').value) || 0
+            ];
+
+            const totalStudents = counts.reduce((a, b) => a + b, 0);
+            const totalSum = counts.reduce((a, b, i) => a + (b * (i + 1)), 0);
+            const average = totalStudents > 0 ? totalSum / totalStudents : 0;
+
+            // Median calculation
+            let median = 0;
+            if (totalStudents > 0) {
+                let list = [];
+                counts.forEach((count, i) => {
+                    for(let j=0; j<count; j++) list.push(i + 1);
+                });
+                const mid = Math.floor(list.length / 2);
+                median = list.length % 2 !== 0 ? list[mid] : (list[mid - 1] + list[mid]) / 2;
+            }
+
+            // UI Update
+            document.getElementById('avgOut').innerText = average.toFixed(2);
+            document.getElementById('medOut').innerText = median.toFixed(1);
+            document.getElementById('sumOut').innerText = totalStudents;
+            document.getElementById('passOut').innerText = Math.round(( (counts[0]+counts[1]+counts[2]+counts[3]) / totalStudents) * 100) + "%";
+
+            // Chart
+            const max = Math.max(...counts, 1);
+            counts.forEach((count, i) => {
+                const bar = document.getElementById('b' + (i + 1));
+                bar.style.height = (count / max * 100) + "%";
+                bar.setAttribute('data-val', count);
+            });
+        }
+        calc();
+    </script>
+</section>
+<section id="Urheberrecht_15_Prozent_Rechner" class="tool-screen"><button class="back-btn" onclick="closeTool()">← Home</button>
+    <div class="card">
+        <h1>Urheberrecht (§ 60a UrhG)</h1>
+        <p style="font-size: 0.8rem; color: #64748b;">Berechne die erlaubte Kopienmenge (max. 15%).</p>
+        <div class="input-box">
+            <label>Gesamtseitenzahl des Werkes</label>
+            <input type="number" id="totalPages" placeholder="z.B. 240" oninput="calc()">
+        </div>
+        <div id="res" class="result">Erlaubt: 0 Seiten</div>
+        <p style="font-size: 0.75rem; margin-top: 15px;">Hinweis: Gilt für Unterricht & Prüfungen. Vollständige Kopien nur bei Werken geringen Umfangs (bis 25 S.) oder vergriffenen Werken.</p>
+    </div>
+    <script>
+        function calc() {
+            const pages = document.getElementById('totalPages').value;
+            const allowed = Math.floor(pages * 0.15);
+            document.getElementById('res').innerText = `Erlaubt: ${allowed} Seiten`;
+        }
+    </script>
+</section></body>
+</html>

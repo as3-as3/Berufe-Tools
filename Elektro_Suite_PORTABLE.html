@@ -1,0 +1,396 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+    <meta charset="UTF-8">
+    <title>AS3 Elektro Suite</title>
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;600;700&display=swap" rel="stylesheet">
+    <style>
+        :root { --primary: #1e293b; --accent: #2563eb; --bg: #f8fafc; }
+        body { font-family: 'Outfit', sans-serif; background: var(--bg); color: var(--primary); margin: 0; }
+        header { background: #1e293b; color: white; padding: 60px 20px; text-align: center; border-bottom: 4px solid var(--accent); }
+        .grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 25px; padding: 40px; max-width: 1200px; margin: auto; }
+        .card { background: white; padding: 30px; border-radius: 20px; box-shadow: 0 10px 15px -3px rgba(0,0,0,0.1); text-decoration: none; color: inherit; transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1); border: 1px solid #e2e8f0; display: flex; flex-direction: column; justify-content: space-between; }
+        .card:hover { transform: translateY(-8px); border-color: var(--accent); box-shadow: 0 20px 25px -5px rgba(0,0,0,0.1); }
+        .card h3 { margin: 0 0 10px 0; font-size: 1.25rem; color: #1e293b; }
+        .card p { margin: 0; font-size: 0.875rem; color: #64748b; flex-grow: 1; }
+        .badge { margin-top: 15px; display: inline-block; padding: 4px 12px; background: #dbeafe; color: #1e40af; border-radius: 9999px; font-size: 0.75rem; font-weight: 600; align-self: flex-start; }
+        footer { text-align: center; padding: 40px; font-size: 0.875rem; color: #64748b; border-top: 1px solid #e2e8f0; margin-top: 40px; }
+    </style>
+
+    <style>
+        .tool-screen { display: none; padding: 20px; background: #f8fafc; min-height: 100vh; }
+        .back-btn { position: sticky; top: 10px; left: 10px; background: #0f172a; color: white; border: none; padding: 8px 15px; border-radius: 6px; cursor: pointer; z-index: 1000; }
+        body.tool-active .container, body.tool-active header { display: none; }
+        body.tool-active .tool-screen.active { display: block; }
+    </style></head>
+<body>
+    <header>
+        <h1 style="margin: 0; font-size: 2.5rem; letter-spacing: -0.025em;">Elektro Suite</h1>
+        <p style="opacity: 0.8; font-weight: 300; margin-top: 10px;">Professionelle Werkzeuge & Hochpräzise Kalkulatoren</p>
+    </header>
+    <div class="grid">
+
+        <a href="#" onclick="showTool('Leitungsrechner_VDE'); return false;" class="card">
+            <div>
+                <h3>Leitungsrechner VDE</h3>
+                <p>Fachspezifisches Tool zur präzisen Berechnung und Dokumentation im Arbeitsalltag.</p>
+            </div>
+            <span class="badge">Aktiv</span>
+        </a>
+        <a href="#" onclick="showTool('PV_String_Spannung'); return false;" class="card">
+            <div>
+                <h3>PV String Spannung</h3>
+                <p>Fachspezifisches Tool zur präzisen Berechnung und Dokumentation im Arbeitsalltag.</p>
+            </div>
+            <span class="badge">Aktiv</span>
+        </a>
+        <a href="#" onclick="showTool('RCD_Auslösezeit_Monitor'); return false;" class="card">
+            <div>
+                <h3>RCD Auslösezeit Monitor</h3>
+                <p>Fachspezifisches Tool zur präzisen Berechnung und Dokumentation im Arbeitsalltag.</p>
+            </div>
+            <span class="badge">Aktiv</span>
+        </a>
+        <a href="#" onclick="showTool('Schleifenimpedanz_Zs'); return false;" class="card">
+            <div>
+                <h3>Schleifenimpedanz Zs</h3>
+                <p>Fachspezifisches Tool zur präzisen Berechnung und Dokumentation im Arbeitsalltag.</p>
+            </div>
+            <span class="badge">Aktiv</span>
+        </a>
+        <a href="#" onclick="showTool('Spannungsfall_Master'); return false;" class="card">
+            <div>
+                <h3>Spannungsfall Master</h3>
+                <p>Fachspezifisches Tool zur präzisen Berechnung und Dokumentation im Arbeitsalltag.</p>
+            </div>
+            <span class="badge">Aktiv</span>
+        </a>
+    </div>
+    <footer>
+        &copy; 2026 AS3 Professional Suites | CCBY As3-As3<br>
+        <span style="font-size: 0.75rem; opacity: 0.7;">Haftungsausschluss: Die Nutzung erfolgt auf eigene Gefahr. Alle Berechnungen sind vor Ort zu prüfen.</span>
+    </footer>
+
+    <script>
+        function showTool(id) {
+            document.body.classList.add('tool-active');
+            document.querySelectorAll('.tool-screen').forEach(s => s.classList.remove('active'));
+            document.getElementById(id).classList.add('active');
+            window.scrollTo(0,0);
+        }
+        function closeTool() {
+            document.body.classList.remove('tool-active');
+            window.scrollTo(0,0);
+        }
+    </script><section id="Leitungsrechner_VDE" class="tool-screen"><button class="back-btn" onclick="closeTool()">← Home</button>
+    <div class="card">
+        <h1>Leitungsrechner (VDE 0100-520)</h1>
+        <p style="font-size: 0.85rem; color: #64748b; margin-top: 10px;">Berechnung des Spannungsfalls gemäß DIN VDE Normen.</p>
+
+        <div class="grid">
+            <div class="input-group">
+                <label>Systemart</label>
+                <select id="system" onchange="calc()">
+                    <option value="230">Wechselstrom (230V)</option>
+                    <option value="400">Drehstrom (400V)</option>
+                </select>
+            </div>
+            <div class="input-group">
+                <label>Stromstärke (A)</label>
+                <input type="number" id="ampere" value="16" oninput="calc()">
+            </div>
+            <div class="input-group">
+                <label>Leitungslänge (m)</label>
+                <input type="number" id="length" value="25" oninput="calc()">
+            </div>
+            <div class="input-group">
+                <label>Querschnitt (mm²)</label>
+                <input type="number" id="area" value="1.5" step="0.5" oninput="calc()">
+            </div>
+        </div>
+
+        <div class="result-panel">
+            <div style="font-size: 0.85rem; color: #854d0e;">Spannungsfall (ΔU):</div>
+            <div class="val" id="deltaU">0.00 V</div>
+            <div class="val" id="percentU" style="font-size: 1.2rem;">0.00 %</div>
+            <div id="status" class="status">Prüfung...</div>
+        </div>
+
+        <p style="font-size: 0.7rem; color: #94a3b8; margin-top: 20px;">Berechnungsgrundlage: Kupfer ($\gamma=56$). Limit nach VDE: 3% (Licht) / 5% (Sonstiges).</p>
+    </div>
+
+    <script>
+        function calc() {
+            const U = parseFloat(document.getElementById('system').value);
+            const I = parseFloat(document.getElementById('ampere').value) || 0;
+            const L = parseFloat(document.getElementById('length').value) || 0;
+            const A = parseFloat(document.getElementById('area').value) || 1.5;
+            const gamma = 56;
+            
+            let dU;
+            if (U == 230) {
+                // Einphasig: (2 * L * I) / (gamma * A)
+                dU = (2 * L * I) / (gamma * A);
+            } else {
+                // Dreiphasig: (sqrt(3) * L * I * cosPhi) / (gamma * A) -> cosPhi ~ 1.0
+                dU = (Math.sqrt(3) * L * I) / (gamma * A);
+            }
+            
+            const perc = (dU / U) * 100;
+            
+            document.getElementById('deltaU').innerText = dU.toFixed(2) + " V";
+            document.getElementById('percentU').innerText = perc.toFixed(2) + " %";
+            
+            const status = document.getElementById('status');
+            if (perc > 3) {
+                status.innerText = "Kritisch: Überschreitet 3% (Licht)!";
+                status.className = "status warn";
+            } else {
+                status.innerText = "VDE Konform (unter 3%)";
+                status.className = "status ok";
+            }
+        }
+        calc();
+    </script>
+</section>
+<section id="PV_String_Spannung" class="tool-screen"><button class="back-btn" onclick="closeTool()">← Home</button>
+    <div class="card">
+        <h2 style="color: #c2410c;">PV-Leerlaufspannung (Uoc max)</h2>
+        <p style="font-size: 0.85rem; color: #64748b; margin-bottom: 20px;">Berechnung der maximalen Stringspannung bei Mindesttemperatur (-10°C).</p>
+
+        <div class="input-group"><label>Uoc Modul (STC) [V]</label><input type="number" id="uoc" value="41.5" oninput="calc()"></div>
+        <div class="input-group"><label>Temperaturkoeffizient [%/K]</label><input type="number" id="coeff" value="-0.26" step="0.01" oninput="calc()"></div>
+        <div class="input-group"><label>Anzahl Module im String</label><input type="number" id="count" value="12" oninput="calc()"></div>
+        
+        <div class="res-box">
+            <div style="font-size: 0.85rem; color: #9a3412;">Max. Stringspannung (-10°C):</div>
+            <div id="out" class="val">544 V</div>
+            <p style="font-size: 0.75rem; margin-top: 10px; color: #9a3412;">Prüfung: Darf die max. Eingangsspannung des WR nicht überschreiten!</p>
+        </div>
+    </div>
+    <script>
+        function calc() {
+            const uoc = parseFloat(document.getElementById('uoc').value);
+            const coeff = parseFloat(document.getElementById('coeff').value) / 100;
+            const count = parseInt(document.getElementById('count').value);
+            const deltaT = -10 - 25; // -10 Grad Min vs 25 Grad STC
+            
+            const uocCorr = uoc * (1 + (coeff * deltaT));
+            const total = uocCorr * count;
+            
+            document.getElementById('out').innerText = Math.round(total) + " V";
+        }
+        calc();
+    </script>
+</section>
+<section id="RCD_Auslösezeit_Monitor" class="tool-screen"><button class="back-btn" onclick="closeTool()">← Home</button>
+    <div class="card">
+        <h1>RCD-Auslösezeit (VDE 0100-600)</h1>
+        <p style="color: #64748b; margin-bottom: 30px;">Validierung der Messwerte für Fehlerstrom-Schutzeinrichtungen.</p>
+        
+        <div class="input-group">
+            <label>Bemessungsfehlerstrom I<sub>Δn</sub></label>
+            <select id="idn" onchange="calc()">
+                <option value="30">30 mA (Personenschutz)</option>
+                <option value="100">100 mA</option>
+                <option value="300">300 mA (Brandschutz)</option>
+                <option value="500">500 mA</option>
+            </select>
+        </div>
+        
+        <div class="input-group">
+            <label>Prüfstromfaktor</label>
+            <select id="factor" onchange="calc()">
+                <option value="1">1x I<sub>Δn</sub> (Standard)</option>
+                <option value="5">5x I<sub>Δn</sub> (Schnellprüfung)</option>
+            </select>
+        </div>
+
+        <div class="input-group">
+            <label>Gemessene Auslösezeit (ms)</label>
+            <input type="number" id="mTime" placeholder="z.B. 25" oninput="calc()">
+        </div>
+
+        <div id="resBox" class="result-box">
+            <div id="status" class="status-txt">Messwert eingeben</div>
+            <div id="outTime" class="time-val">-- ms</div>
+            <div id="limit" class="limit-info">Grenzwert: -- ms</div>
+        </div>
+    </div>
+
+    <script>
+        function calc() {
+            const factor = parseInt(document.getElementById('factor').value);
+            const mTime = parseFloat(document.getElementById('mTime').value) || 0;
+            const resBox = document.getElementById('resBox');
+            const status = document.getElementById('status');
+            const outTime = document.getElementById('outTime');
+            const limitInfo = document.getElementById('limit');
+            
+            // Limits according to VDE 0100-600 / VDE 0664
+            // 1x Idn -> 300ms
+            // 5x Idn -> 40ms
+            const limit = (factor === 5) ? 40 : 300;
+            
+            outTime.innerText = mTime + " ms";
+            limitInfo.innerText = `Grenzwert nach Norm: ${limit} ms`;
+            
+            if (mTime === 0) {
+                status.innerText = "Messwert eingeben";
+                status.style.color = "var(--primary)";
+                resBox.style.borderColor = "#e2e8f0";
+                return;
+            }
+
+            if (mTime <= limit) {
+                status.innerText = "BESTANDEN ✅";
+                status.style.color = "var(--success)";
+                resBox.style.borderColor = "var(--success)";
+                resBox.style.background = "#f0fdf4";
+            } else {
+                status.innerText = "NICHT BESTANDEN ❌";
+                status.style.color = "var(--danger)";
+                resBox.style.borderColor = "var(--danger)";
+                resBox.style.background = "#fef2f2";
+            }
+        }
+    </script>
+</section>
+<section id="Schleifenimpedanz_Zs" class="tool-screen"><button class="back-btn" onclick="closeTool()">← Home</button>
+    <div class="card">
+        <h2>Schleifenimpedanz Zs (VDE 0100-410)</h2>
+        <div class="input-group">
+            <label>LS-Charakteristik</label>
+            <select id="char" onchange="calc()">
+                <option value="5">Typ B (5 x In)</option>
+                <option value="10">Typ C (10 x In)</option>
+                <option value="20">Typ D (20 x In)</option>
+            </select>
+        </div>
+        <div class="input-group">
+            <label>Nennstrom In (A)</label>
+            <input type="number" id="in" value="16" oninput="calc()">
+        </div>
+        <div class="input-group">
+            <label>Gemessener Wert Zs (Ω)</label>
+            <input type="number" id="zs" value="1.2" step="0.01" oninput="calc()">
+        </div>
+        <div id="out" class="res success">Wert OK</div>
+        <p id="limit" style="font-size: 0.75rem; color: #64748b; margin-top: 10px;"></p>
+    </div>
+    <script>
+        function calc() {
+            const factor = parseFloat(document.getElementById('char').value);
+            const In = parseFloat(document.getElementById('in').value);
+            const Zs = parseFloat(document.getElementById('zs').value);
+            const U0 = 230;
+            const Ia = In * factor;
+            const ZsLimit = (U0 * 0.95) / Ia; // Inkl. 5% Sicherheitsfaktor
+            
+            const out = document.getElementById('out');
+            document.getElementById('limit').innerText = `Maximal zulässiger Wert: ${ZsLimit.toFixed(2)} Ω`;
+            
+            if (Zs <= ZsLimit) {
+                out.innerText = "Messwert OK ✅";
+                out.className = "res success";
+            } else {
+                out.innerText = "Messwert ZU HOCH! ❌";
+                out.className = "res fail";
+            }
+        }
+        calc();
+    </script>
+</section>
+<section id="Spannungsfall_Master" class="tool-screen"><button class="back-btn" onclick="closeTool()">← Home</button>
+    <div class="card">
+        <h1>Spannungsfall (DIN VDE 0100-520)</h1>
+        <div class="grid">
+            <div class="col">
+                <div class="input-group">
+                    <label>System</label>
+                    <select id="system" onchange="calc()">
+                        <option value="2">Wechselstrom (230V)</option>
+                        <option value="1.732">Drehstrom (400V)</option>
+                    </select>
+                </div>
+                <div class="input-group">
+                    <label>Leistung [W] oder Strom [A]</label>
+                    <input type="number" id="load" value="3680" oninput="calc()">
+                    <select id="loadType" onchange="calc()" style="margin-top:5px; font-size:0.8rem;">
+                        <option value="W">Watt (P)</option>
+                        <option value="A">Ampere (I)</option>
+                    </select>
+                </div>
+            </div>
+            <div class="col">
+                <div class="input-group">
+                    <label>Leitungslänge [m]</label>
+                    <input type="number" id="len" value="25" oninput="calc()">
+                </div>
+                <div class="input-group">
+                    <label>Querschnitt [mm²]</label>
+                    <select id="cross" onchange="calc()">
+                        <option value="1.5" selected>1,5</option>
+                        <option value="2.5">2,5</option>
+                        <option value="4">4,0</option>
+                        <option value="6">6,0</option>
+                        <option value="10">10,0</option>
+                    </select>
+                </div>
+            </div>
+        </div>
+
+        <div id="resPanel" class="result-panel">
+            <div style="font-size: 0.85rem; color: #64748b;">Berechneter Spannungsfall:</div>
+            <div id="vDrop" class="val">-- V</div>
+            <div id="vPerc" style="font-weight: 700;">-- %</div>
+            <div id="status" class="status-badge">PRÜFUNG...</div>
+        </div>
+        
+        <p style="font-size: 0.7rem; color: #94a3b8; margin-top: 20px; text-align: center;">
+            Berechnung mit rho = 0,0178 (Kupfer). Grenzempfehlung nach VDE: 3% (Verbraucherstromkreise).
+        </p>
+    </div>
+
+    <script>
+        function calc() {
+            const factor = parseFloat(document.getElementById('system').value);
+            const load = parseFloat(document.getElementById('load').value) || 0;
+            const loadType = document.getElementById('loadType').value;
+            const len = parseFloat(document.getElementById('len').value) || 0;
+            const cross = parseFloat(document.getElementById('cross').value);
+            const rho = 0.0178; // Kupfer
+            
+            let current = load;
+            if (loadType === 'W') {
+                const voltage = (factor > 1.8) ? 400 : 230;
+                current = load / (voltage * (factor > 1.8 ? 1.732 : 1));
+            }
+            
+            // Formula: dU = (K * rho * L * I) / A  | K=2 for AC, K=sqrt(3) for Drehstrom
+            const dU = (factor * rho * len * current) / cross;
+            const nominalU = (factor > 1.8) ? 400 : 230;
+            const dUPerc = (dU / nominalU) * 100;
+            
+            document.getElementById('vDrop').innerText = dU.toFixed(2) + " V";
+            document.getElementById('vPerc').innerText = dUPerc.toFixed(2) + " %";
+            
+            const status = document.getElementById('status');
+            const panel = document.getElementById('resPanel');
+            
+            if (dUPerc > 3) {
+                status.innerText = "GRENZWERT ÜBERSCHRITTEN (>3%)";
+                status.style.background = "var(--danger)";
+                status.style.color = "white";
+                panel.style.borderColor = "var(--danger)";
+            } else {
+                status.innerText = "NORMKONFORM (<3%)";
+                status.style.background = "var(--success)";
+                status.style.color = "white";
+                panel.style.borderColor = "var(--success)";
+            }
+        }
+        calc();
+    </script>
+</section></body>
+</html>

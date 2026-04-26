@@ -1,0 +1,152 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+    <meta charset="UTF-8">
+    <title>AS3 Physiotherapeut Suite</title>
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;600;700&display=swap" rel="stylesheet">
+    <style>
+        :root { --primary: #1e293b; --accent: #2563eb; --bg: #f8fafc; }
+        body { font-family: 'Outfit', sans-serif; background: var(--bg); color: var(--primary); margin: 0; }
+        header { background: #1e293b; color: white; padding: 60px 20px; text-align: center; border-bottom: 4px solid var(--accent); }
+        .grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 25px; padding: 40px; max-width: 1200px; margin: auto; }
+        .card { background: white; padding: 30px; border-radius: 20px; box-shadow: 0 10px 15px -3px rgba(0,0,0,0.1); text-decoration: none; color: inherit; transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1); border: 1px solid #e2e8f0; display: flex; flex-direction: column; justify-content: space-between; }
+        .card:hover { transform: translateY(-8px); border-color: var(--accent); box-shadow: 0 20px 25px -5px rgba(0,0,0,0.1); }
+        .card h3 { margin: 0 0 10px 0; font-size: 1.25rem; color: #1e293b; }
+        .card p { margin: 0; font-size: 0.875rem; color: #64748b; flex-grow: 1; }
+        .badge { margin-top: 15px; display: inline-block; padding: 4px 12px; background: #dbeafe; color: #1e40af; border-radius: 9999px; font-size: 0.75rem; font-weight: 600; align-self: flex-start; }
+        footer { text-align: center; padding: 40px; font-size: 0.875rem; color: #64748b; border-top: 1px solid #e2e8f0; margin-top: 40px; }
+    </style>
+
+    <style>
+        .tool-screen { display: none; padding: 20px; background: #f8fafc; min-height: 100vh; }
+        .back-btn { position: sticky; top: 10px; left: 10px; background: #0f172a; color: white; border: none; padding: 8px 15px; border-radius: 6px; cursor: pointer; z-index: 1000; }
+        body.tool-active .container, body.tool-active header { display: none; }
+        body.tool-active .tool-screen.active { display: block; }
+    </style></head>
+<body>
+    <header>
+        <h1 style="margin: 0; font-size: 2.5rem; letter-spacing: -0.025em;">Physiotherapeut Suite</h1>
+        <p style="opacity: 0.8; font-weight: 300; margin-top: 10px;">Professionelle Werkzeuge & Hochpräzise Kalkulatoren</p>
+    </header>
+    <div class="grid">
+
+        <a href="#" onclick="showTool('Belastungs_Matrix'); return false;" class="card">
+            <div>
+                <h3>Belastungs Matrix</h3>
+                <p>Fachspezifisches Tool zur präzisen Berechnung und Dokumentation im Arbeitsalltag.</p>
+            </div>
+            <span class="badge">Aktiv</span>
+        </a>
+        <a href="#" onclick="showTool('ROM_Monitor'); return false;" class="card">
+            <div>
+                <h3>ROM Monitor</h3>
+                <p>Fachspezifisches Tool zur präzisen Berechnung und Dokumentation im Arbeitsalltag.</p>
+            </div>
+            <span class="badge">Aktiv</span>
+        </a>
+    </div>
+    <footer>
+        &copy; 2026 AS3 Professional Suites | CCBY As3-As3<br>
+        <span style="font-size: 0.75rem; opacity: 0.7;">Haftungsausschluss: Die Nutzung erfolgt auf eigene Gefahr. Alle Berechnungen sind vor Ort zu prüfen.</span>
+    </footer>
+
+    <script>
+        function showTool(id) {
+            document.body.classList.add('tool-active');
+            document.querySelectorAll('.tool-screen').forEach(s => s.classList.remove('active'));
+            document.getElementById(id).classList.add('active');
+            window.scrollTo(0,0);
+        }
+        function closeTool() {
+            document.body.classList.remove('tool-active');
+            window.scrollTo(0,0);
+        }
+    </script><section id="Belastungs_Matrix" class="tool-screen"><button class="back-btn" onclick="closeTool()">← Home</button>
+    <div class="card">
+        <h1>Belastung-Steuerung (Borg-Skala)</h1>
+        <p style="color: #0f766e; margin-bottom: 20px;">Subjektives Belastungsempfinden (RPE) zur Trainingssteuerung.</p>
+        
+        <div class="borg-scale" id="scale">
+            <div class="borg-item" onclick="select(6, 'Keine Anstrengung')"><span>6</span><span>Überhaupt keine Anstrengung</span></div>
+            <div class="borg-item" onclick="select(9, 'Sehr leicht')"><span>9</span><span>Sehr leicht (lockeres Gehen)</span></div>
+            <div class="borg-item" onclick="select(13, 'Etwas anstrengend')"><span>13</span><span>Etwas anstrengend (Ausdauertraining)</span></div>
+            <div class="borg-item" onclick="select(15, 'Anstrengend')"><span>15</span><span>Anstrengend (Krafttraining)</span></div>
+            <div class="borg-item" onclick="select(17, 'Sehr anstrengend')"><span>17</span><span>Sehr anstrengend</span></div>
+            <div class="borg-item" onclick="select(20, 'Maximal')"><span>20</span><span>Maximale Erschöpfung</span></div>
+        </div>
+
+        <div id="resPanel" class="result-panel">
+            <div style="font-size: 0.9rem; font-weight: 600;">Herzfrequenz-Schätzung (HF):</div>
+            <div id="outHf" class="val">-- bpm</div>
+            <div id="status" class="badge">Bitte wählen</div>
+            <p style="font-size: 0.75rem; color: #0f766e; margin-top: 15px;">Formel: Borg-Wert x 10 ≈ Pulsfrequenz</p>
+        </div>
+    </div>
+
+    <script>
+        function select(val, label) {
+            // UI Toggle
+            const items = document.querySelectorAll('.borg-item');
+            items.forEach(i => i.classList.remove('selected'));
+            event.currentTarget.classList.add('selected');
+            
+            // Calc
+            const hf = val * 10;
+            document.getElementById('outHf').innerText = hf + " bpm";
+            document.getElementById('status').innerText = label;
+        }
+    </script>
+</section>
+<section id="ROM_Monitor" class="tool-screen"><button class="back-btn" onclick="closeTool()">← Home</button>
+    <div class="card">
+        <h1>Gelenkmobilität (Neutral-Null-Methode)</h1>
+        <div class="layout">
+            <div class="controls">
+                <div class="input-group">
+                    <label>Extension (Streckung)</label>
+                    <input type="range" id="ext" min="0" max="180" value="0" oninput="draw()">
+                    <span id="extVal">0°</span>
+                </div>
+                <div class="input-group">
+                    <label>Flexion (Beugung)</label>
+                    <input type="range" id="flex" min="0" max="180" value="90" oninput="draw()">
+                    <span id="flexVal">90°</span>
+                </div>
+            </div>
+
+            <div class="viz">
+                <svg viewBox="0 0 200 200" class="joint-svg">
+                    <!-- Stationary Part -->
+                    <line x1="100" y1="100" x2="100" y2="20" stroke="#94a3b8" stroke-width="8" stroke-linecap="round"/>
+                    <!-- Joint Axis -->
+                    <circle cx="100" cy="100" r="10" fill="#0d9488"/>
+                    <!-- Moving Part -->
+                    <line id="movingArm" x1="100" y1="100" x2="100" y2="180" stroke="#0d9488" stroke-width="8" stroke-linecap="round" transform="rotate(0 100 100)"/>
+                </svg>
+
+                <div class="result">
+                    <div style="font-size: 0.85rem; font-weight: 600;">NNM-Dokumentation:</div>
+                    <div id="nnmOut" class="nnm-val">0 - 0 - 90</div>
+                    <p style="font-size: 0.75rem; color: #0f766e; margin-top: 10px;">Format: Extension - 0 - Flexion</p>
+                </div>
+            </div>
+        </div>
+    </div>
+    <script>
+        function draw() {
+            const ext = document.getElementById('ext').value;
+            const flex = document.getElementById('flex').value;
+            
+            document.getElementById('extVal').innerText = ext + "°";
+            document.getElementById('flexVal').innerText = flex + "°";
+            
+            // Neutral point is 0. Moving arm shows Flexion (positive rotation)
+            // We rotate around 100,100
+            document.getElementById('movingArm').setAttribute('transform', `rotate(${flex} 100 100)`);
+            
+            document.getElementById('nnmOut').innerText = `${ext} - 0 - ${flex}`;
+        }
+        draw();
+    </script>
+</section></body>
+</html>

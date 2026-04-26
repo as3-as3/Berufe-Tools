@@ -1,0 +1,219 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+    <meta charset="UTF-8">
+    <title>AS3 Hebamme Suite</title>
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;600;700&display=swap" rel="stylesheet">
+    <style>
+        :root { --primary: #1e293b; --accent: #2563eb; --bg: #f8fafc; }
+        body { font-family: 'Outfit', sans-serif; background: var(--bg); color: var(--primary); margin: 0; }
+        header { background: #1e293b; color: white; padding: 60px 20px; text-align: center; border-bottom: 4px solid var(--accent); }
+        .grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 25px; padding: 40px; max-width: 1200px; margin: auto; }
+        .card { background: white; padding: 30px; border-radius: 20px; box-shadow: 0 10px 15px -3px rgba(0,0,0,0.1); text-decoration: none; color: inherit; transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1); border: 1px solid #e2e8f0; display: flex; flex-direction: column; justify-content: space-between; }
+        .card:hover { transform: translateY(-8px); border-color: var(--accent); box-shadow: 0 20px 25px -5px rgba(0,0,0,0.1); }
+        .card h3 { margin: 0 0 10px 0; font-size: 1.25rem; color: #1e293b; }
+        .card p { margin: 0; font-size: 0.875rem; color: #64748b; flex-grow: 1; }
+        .badge { margin-top: 15px; display: inline-block; padding: 4px 12px; background: #dbeafe; color: #1e40af; border-radius: 9999px; font-size: 0.75rem; font-weight: 600; align-self: flex-start; }
+        footer { text-align: center; padding: 40px; font-size: 0.875rem; color: #64748b; border-top: 1px solid #e2e8f0; margin-top: 40px; }
+    </style>
+
+    <style>
+        .tool-screen { display: none; padding: 20px; background: #f8fafc; min-height: 100vh; }
+        .back-btn { position: sticky; top: 10px; left: 10px; background: #0f172a; color: white; border: none; padding: 8px 15px; border-radius: 6px; cursor: pointer; z-index: 1000; }
+        body.tool-active .container, body.tool-active header { display: none; }
+        body.tool-active .tool-screen.active { display: block; }
+    </style></head>
+<body>
+    <header>
+        <h1 style="margin: 0; font-size: 2.5rem; letter-spacing: -0.025em;">Hebamme Suite</h1>
+        <p style="opacity: 0.8; font-weight: 300; margin-top: 10px;">Professionelle Werkzeuge & Hochpräzise Kalkulatoren</p>
+    </header>
+    <div class="grid">
+
+        <a href="#" onclick="showTool('Apgar_Score_Check'); return false;" class="card">
+            <div>
+                <h3>Apgar Score Check</h3>
+                <p>Fachspezifisches Tool zur präzisen Berechnung und Dokumentation im Arbeitsalltag.</p>
+            </div>
+            <span class="badge">Aktiv</span>
+        </a>
+        <a href="#" onclick="showTool('ET_Rechner'); return false;" class="card">
+            <div>
+                <h3>ET Rechner</h3>
+                <p>Fachspezifisches Tool zur präzisen Berechnung und Dokumentation im Arbeitsalltag.</p>
+            </div>
+            <span class="badge">Aktiv</span>
+        </a>
+    </div>
+    <footer>
+        &copy; 2026 AS3 Professional Suites | CCBY As3-As3<br>
+        <span style="font-size: 0.75rem; opacity: 0.7;">Haftungsausschluss: Die Nutzung erfolgt auf eigene Gefahr. Alle Berechnungen sind vor Ort zu prüfen.</span>
+    </footer>
+
+    <script>
+        function showTool(id) {
+            document.body.classList.add('tool-active');
+            document.querySelectorAll('.tool-screen').forEach(s => s.classList.remove('active'));
+            document.getElementById(id).classList.add('active');
+            window.scrollTo(0,0);
+        }
+        function closeTool() {
+            document.body.classList.remove('tool-active');
+            window.scrollTo(0,0);
+        }
+    </script><section id="Apgar_Score_Check" class="tool-screen"><button class="back-btn" onclick="closeTool()">← Home</button>
+    <div class="card">
+        <h1>Apgar-Score (Postnataler Check)</h1>
+        <p style="color: #9d174d; margin-bottom: 30px;">Beurteilung des Zustands 1, 5 und 10 Min. nach der Geburt.</p>
+        
+        <div id="apgarGrid">
+            <!-- Rows will be injected or hardcoded for speed -->
+            <div class="apgar-row" data-cat="A">
+                <h3>A - Atmung</h3>
+                <div class="btn-group">
+                    <div class="btn" onclick="sel(this, 0)">Keine</div>
+                    <div class="btn" onclick="sel(this, 1)">Unregelmäßig</div>
+                    <div class="btn" onclick="sel(this, 2)">Kräftiges Schreien</div>
+                </div>
+            </div>
+            <div class="apgar-row" data-cat="P">
+                <h3>P - Puls (Herzfrequenz)</h3>
+                <div class="btn-group">
+                    <div class="btn" onclick="sel(this, 0)">Keiner</div>
+                    <div class="btn" onclick="sel(this, 1)">&lt; 100/Min</div>
+                    <div class="btn" onclick="sel(this, 2)">&gt; 100/Min</div>
+                </div>
+            </div>
+            <div class="apgar-row" data-cat="G">
+                <h3>G - Grundtonus (Muskeltonus)</h3>
+                <div class="btn-group">
+                    <div class="btn" onclick="sel(this, 0)">Schlaff</div>
+                    <div class="btn" onclick="sel(this, 1)">Leichte Beugung</div>
+                    <div class="btn" onclick="sel(this, 2)">Aktive Bewegung</div>
+                </div>
+            </div>
+            <div class="apgar-row" data-cat="A2">
+                <h3>A - Aussehen (Hautfarbe)</h3>
+                <div class="btn-group">
+                    <div class="btn" onclick="sel(this, 0)">Blau/Blass</div>
+                    <div class="btn" onclick="sel(this, 1)">Stamm rosig</div>
+                    <div class="btn" onclick="sel(this, 2)">Überall rosig</div>
+                </div>
+            </div>
+            <div class="apgar-row" data-cat="R">
+                <h3>R - Reflexe</h3>
+                <div class="btn-group">
+                    <div class="btn" onclick="sel(this, 0)">Keine</div>
+                    <div class="btn" onclick="sel(this, 1)">Grimassieren</div>
+                    <div class="btn" onclick="sel(this, 2)">Schreien/Husten</div>
+                </div>
+            </div>
+        </div>
+
+        <div id="resPanel" class="result-panel" style="background: #fce7f3;">
+            <div style="font-size: 1rem; font-weight: 700;">Gesamt-Score:</div>
+            <div id="score" class="score-val">0</div>
+            <div id="status" class="status">Kritisch</div>
+        </div>
+    </div>
+
+    <script>
+        let scores = {A:0, P:0, G:0, A2:0, R:0};
+
+        function sel(btn, val) {
+            const row = btn.parentElement;
+            const cat = row.parentElement.getAttribute('data-cat');
+            
+            // UI Toggle
+            row.querySelectorAll('.btn').forEach(b => b.classList.remove('selected'));
+            btn.classList.add('selected');
+            
+            scores[cat] = val;
+            calc();
+        }
+
+        function calc() {
+            const total = Object.values(scores).reduce((a, b) => a + b, 0);
+            document.getElementById('score').innerText = total;
+            
+            const status = document.getElementById('status');
+            const panel = document.getElementById('resPanel');
+            
+            if (total >= 9) {
+                status.innerText = "Lebensfrisch ✅";
+                panel.style.background = "#f0fdf4";
+                panel.style.borderColor = "#22c55e";
+                status.style.color = "#166534";
+            } else if (total >= 5) {
+                status.innerText = "Anpassungsgestört (Gefährdet) ⚠️";
+                panel.style.background = "#fffbeb";
+                panel.style.borderColor = "#f59e0b";
+                status.style.color = "#92400e";
+            } else {
+                status.innerText = "Kritisch (Akute Lebensgefahr) 🛑";
+                panel.style.background = "#fef2f2";
+                panel.style.borderColor = "#ef4444";
+                status.style.color = "#b91c1c";
+            }
+        }
+    </script>
+</section>
+<section id="ET_Rechner" class="tool-screen"><button class="back-btn" onclick="closeTool()">← Home</button>
+    <div class="card">
+        <h1>Schwangerschafts-Rechner (Naegele)</h1>
+        <div class="grid">
+            <div class="controls">
+                <div class="input-group">
+                    <label>Erster Tag der letzten Periode (LMP)</label>
+                    <input type="date" id="lmp" onchange="calc()">
+                </div>
+                <div class="input-group">
+                    <label>Zykluslänge (Tage)</label>
+                    <input type="number" id="cycle" value="28" oninput="calc()">
+                </div>
+            </div>
+
+            <div class="wheel-container">
+                <div class="pointer"></div>
+                <div id="wheel" class="wheel">SSW 0</div>
+            </div>
+        </div>
+
+        <div class="result">
+            <div style="font-size: 0.9rem;">Errechneter Entbindungstermin (ET):</div>
+            <div id="etOut" class="et-date">--.--.----</div>
+            <div id="sswOut" class="ssw">Schwangerschaftswoche: --</div>
+        </div>
+    </div>
+    <script>
+        function calc() {
+            const lmpInput = document.getElementById('lmp').value;
+            if (!lmpInput) return;
+            
+            const lmp = new Date(lmpInput);
+            const cycle = parseInt(document.getElementById('cycle').value);
+            
+            // Naegele Rule: LMP + 7 days - 3 months + 1 year + (Cycle - 28)
+            const et = new Date(lmp);
+            et.setDate(et.getDate() + 7 + (cycle - 28));
+            et.setMonth(et.getMonth() + 9); // Same as -3 months + 1 year
+            
+            document.getElementById('etOut').innerText = et.toLocaleDateString('de-DE');
+            
+            // Current SSW
+            const now = new Date();
+            const diffTime = Math.abs(now - lmp);
+            const diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24));
+            const weeks = Math.floor(diffDays / 7);
+            const days = diffDays % 7;
+            
+            document.getElementById('sswOut').innerText = `SSW ${weeks}+${days}`;
+            document.getElementById('wheel').innerText = `SSW ${weeks}`;
+            
+            // Rotate wheel (40 weeks = 360deg)
+            const deg = (weeks / 40) * 360;
+            document.getElementById('wheel').style.transform = `rotate(-${deg}deg)`;
+        }
+    </script>
+</section></body>
+</html>

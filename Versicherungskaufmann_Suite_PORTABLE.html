@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+    <meta charset="UTF-8">
+    <title>AS3 Versicherungskaufmann Suite</title>
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;600;700&display=swap" rel="stylesheet">
+    <style>
+        :root { --primary: #1e293b; --accent: #2563eb; --bg: #f8fafc; }
+        body { font-family: 'Outfit', sans-serif; background: var(--bg); color: var(--primary); margin: 0; }
+        header { background: #1e293b; color: white; padding: 60px 20px; text-align: center; border-bottom: 4px solid var(--accent); }
+        .grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 25px; padding: 40px; max-width: 1200px; margin: auto; }
+        .card { background: white; padding: 30px; border-radius: 20px; box-shadow: 0 10px 15px -3px rgba(0,0,0,0.1); text-decoration: none; color: inherit; transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1); border: 1px solid #e2e8f0; display: flex; flex-direction: column; justify-content: space-between; }
+        .card:hover { transform: translateY(-8px); border-color: var(--accent); box-shadow: 0 20px 25px -5px rgba(0,0,0,0.1); }
+        .card h3 { margin: 0 0 10px 0; font-size: 1.25rem; color: #1e293b; }
+        .card p { margin: 0; font-size: 0.875rem; color: #64748b; flex-grow: 1; }
+        .badge { margin-top: 15px; display: inline-block; padding: 4px 12px; background: #dbeafe; color: #1e40af; border-radius: 9999px; font-size: 0.75rem; font-weight: 600; align-self: flex-start; }
+        footer { text-align: center; padding: 40px; font-size: 0.875rem; color: #64748b; border-top: 1px solid #e2e8f0; margin-top: 40px; }
+    </style>
+
+    <style>
+        .tool-screen { display: none; padding: 20px; background: #f8fafc; min-height: 100vh; }
+        .back-btn { position: sticky; top: 10px; left: 10px; background: #0f172a; color: white; border: none; padding: 8px 15px; border-radius: 6px; cursor: pointer; z-index: 1000; }
+        body.tool-active .container, body.tool-active header { display: none; }
+        body.tool-active .tool-screen.active { display: block; }
+    </style></head>
+<body>
+    <header>
+        <h1 style="margin: 0; font-size: 2.5rem; letter-spacing: -0.025em;">Versicherungskaufmann Suite</h1>
+        <p style="opacity: 0.8; font-weight: 300; margin-top: 10px;">Professionelle Werkzeuge & Hochpräzise Kalkulatoren</p>
+    </header>
+    <div class="grid">
+
+        <a href="#" onclick="showTool('Rentenlücke_Rechner'); return false;" class="card">
+            <div>
+                <h3>Rentenlücke Rechner</h3>
+                <p>Fachspezifisches Tool zur präzisen Berechnung und Dokumentation im Arbeitsalltag.</p>
+            </div>
+            <span class="badge">Aktiv</span>
+        </a>
+    </div>
+    <footer>
+        &copy; 2026 AS3 Professional Suites | CCBY As3-As3<br>
+        <span style="font-size: 0.75rem; opacity: 0.7;">Haftungsausschluss: Die Nutzung erfolgt auf eigene Gefahr. Alle Berechnungen sind vor Ort zu prüfen.</span>
+    </footer>
+
+    <script>
+        function showTool(id) {
+            document.body.classList.add('tool-active');
+            document.querySelectorAll('.tool-screen').forEach(s => s.classList.remove('active'));
+            document.getElementById(id).classList.add('active');
+            window.scrollTo(0,0);
+        }
+        function closeTool() {
+            document.body.classList.remove('tool-active');
+            window.scrollTo(0,0);
+        }
+    </script><section id="Rentenlücke_Rechner" class="tool-screen"><button class="back-btn" onclick="closeTool()">← Home</button>
+    <div class="card">
+        <h1>Rentenlücke- & Inflations-Simulator</h1>
+        <div class="grid">
+            <div class="controls">
+                <div class="input-group">
+                    <label>Gewünschtes Netto-Einkommen heute (€)</label>
+                    <input type="number" id="target" value="2500" oninput="calc()">
+                </div>
+                <div class="input-group">
+                    <label>Erwartete staatl. Rente (€)</label>
+                    <input type="number" id="state" value="1200" oninput="calc()">
+                </div>
+                <div class="input-group">
+                    <label>Jahre bis zur Rente</label>
+                    <input type="number" id="years" value="25" oninput="calc()">
+                </div>
+                <div class="input-group">
+                    <label>Angenommene Inflation (%)</label>
+                    <input type="number" id="infl" value="2.0" step="0.1" oninput="calc()">
+                </div>
+            </div>
+
+            <div class="viz-box">
+                <div style="font-weight: 700; margin-bottom: 20px;">Kaufkraftentwicklung</div>
+                <div class="chart-area">
+                    <div id="barToday" class="bar" style="height: 100%; background: #2563eb;"><div class="bar-label">Heute</div></div>
+                    <div id="barFuture" class="bar" style="height: 60%; background: #94a3b8;"><div class="bar-label" id="futureLabel">In 25J.</div></div>
+                </div>
+                <div class="res-summary">
+                    <div style="font-size: 0.9rem; font-weight: 600;">Echte Rentenlücke (inflationsbereinigt):</div>
+                    <div id="gapOut" class="gap-val">2.890 €</div>
+                    <p style="font-size: 0.75rem; color: #be185d; margin-top: 10px;">Um den heutigen Lebensstandard von 2.500 € zu halten, benötigen Sie im Alter ca. <span id="reqOut">4.100</span> €.</p>
+                </div>
+            </div>
+        </div>
+    </div>
+    <script>
+        function calc() {
+            const target = parseFloat(document.getElementById('target').value) || 0;
+            const state = parseFloat(document.getElementById('state').value) || 0;
+            const years = parseFloat(document.getElementById('years').value) || 0;
+            const infl = parseFloat(document.getElementById('infl').value) / 100;
+            
+            // Future cost of today's lifestyle: Target * (1 + infl)^years
+            const futureReq = target * Math.pow(1 + infl, years);
+            const gap = futureReq - state;
+            
+            document.getElementById('futureLabel').innerText = `In ${Math.round(years)} J.`;
+            document.getElementById('gapOut').innerText = Math.round(gap).toLocaleString('de-DE') + " €";
+            document.getElementById('reqOut').innerText = Math.round(futureReq).toLocaleString('de-DE');
+            
+            // Visuals: If futureReq is 100%, today is relative
+            const ratio = target / futureReq;
+            document.getElementById('barFuture').style.height = "100%";
+            document.getElementById('barToday').style.height = (ratio * 100) + "%";
+        }
+        calc();
+    </script>
+</section></body>
+</html>

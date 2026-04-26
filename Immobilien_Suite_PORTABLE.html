@@ -1,0 +1,196 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+    <meta charset="UTF-8">
+    <title>AS3 Immobilien Suite</title>
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;600;700&display=swap" rel="stylesheet">
+    <style>
+        :root { --primary: #1e293b; --accent: #2563eb; --bg: #f8fafc; }
+        body { font-family: 'Outfit', sans-serif; background: var(--bg); color: var(--primary); margin: 0; }
+        header { background: #1e293b; color: white; padding: 60px 20px; text-align: center; border-bottom: 4px solid var(--accent); }
+        .grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 25px; padding: 40px; max-width: 1200px; margin: auto; }
+        .card { background: white; padding: 30px; border-radius: 20px; box-shadow: 0 10px 15px -3px rgba(0,0,0,0.1); text-decoration: none; color: inherit; transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1); border: 1px solid #e2e8f0; display: flex; flex-direction: column; justify-content: space-between; }
+        .card:hover { transform: translateY(-8px); border-color: var(--accent); box-shadow: 0 20px 25px -5px rgba(0,0,0,0.1); }
+        .card h3 { margin: 0 0 10px 0; font-size: 1.25rem; color: #1e293b; }
+        .card p { margin: 0; font-size: 0.875rem; color: #64748b; flex-grow: 1; }
+        .badge { margin-top: 15px; display: inline-block; padding: 4px 12px; background: #dbeafe; color: #1e40af; border-radius: 9999px; font-size: 0.75rem; font-weight: 600; align-self: flex-start; }
+        footer { text-align: center; padding: 40px; font-size: 0.875rem; color: #64748b; border-top: 1px solid #e2e8f0; margin-top: 40px; }
+    </style>
+
+    <style>
+        .tool-screen { display: none; padding: 20px; background: #f8fafc; min-height: 100vh; }
+        .back-btn { position: sticky; top: 10px; left: 10px; background: #0f172a; color: white; border: none; padding: 8px 15px; border-radius: 6px; cursor: pointer; z-index: 1000; }
+        body.tool-active .container, body.tool-active header { display: none; }
+        body.tool-active .tool-screen.active { display: block; }
+    </style></head>
+<body>
+    <header>
+        <h1 style="margin: 0; font-size: 2.5rem; letter-spacing: -0.025em;">Immobilien Suite</h1>
+        <p style="opacity: 0.8; font-weight: 300; margin-top: 10px;">Professionelle Werkzeuge & Hochpräzise Kalkulatoren</p>
+    </header>
+    <div class="grid">
+
+        <a href="#" onclick="showTool('Kaufnebenkosten_Rechner'); return false;" class="card">
+            <div>
+                <h3>Kaufnebenkosten Rechner</h3>
+                <p>Fachspezifisches Tool zur präzisen Berechnung und Dokumentation im Arbeitsalltag.</p>
+            </div>
+            <span class="badge">Aktiv</span>
+        </a>
+        <a href="#" onclick="showTool('Mietrendite_Rechner'); return false;" class="card">
+            <div>
+                <h3>Mietrendite Rechner</h3>
+                <p>Fachspezifisches Tool zur präzisen Berechnung und Dokumentation im Arbeitsalltag.</p>
+            </div>
+            <span class="badge">Aktiv</span>
+        </a>
+        <a href="#" onclick="showTool('Wohnflächen_Rechner'); return false;" class="card">
+            <div>
+                <h3>Wohnflächen Rechner</h3>
+                <p>Fachspezifisches Tool zur präzisen Berechnung und Dokumentation im Arbeitsalltag.</p>
+            </div>
+            <span class="badge">Aktiv</span>
+        </a>
+    </div>
+    <footer>
+        &copy; 2026 AS3 Professional Suites | CCBY As3-As3<br>
+        <span style="font-size: 0.75rem; opacity: 0.7;">Haftungsausschluss: Die Nutzung erfolgt auf eigene Gefahr. Alle Berechnungen sind vor Ort zu prüfen.</span>
+    </footer>
+
+    <script>
+        function showTool(id) {
+            document.body.classList.add('tool-active');
+            document.querySelectorAll('.tool-screen').forEach(s => s.classList.remove('active'));
+            document.getElementById(id).classList.add('active');
+            window.scrollTo(0,0);
+        }
+        function closeTool() {
+            document.body.classList.remove('tool-active');
+            window.scrollTo(0,0);
+        }
+    </script><section id="Kaufnebenkosten_Rechner" class="tool-screen"><button class="back-btn" onclick="closeTool()">← Home</button>
+    <div class="card">
+        <h1>Kaufnebenkosten-Master</h1>
+        <p style="color: #64748b; margin-bottom: 30px;">Detaillierte Ermittlung der Erwerbskosten nach Bundesland.</p>
+        
+        <div class="grid">
+            <div class="col">
+                <div class="input-group">
+                    <label>Kaufpreis [€]</label>
+                    <input type="number" id="price" value="400000" oninput="calc()">
+                </div>
+                <div class="input-group">
+                    <label>Bundesland (Grunderwerbsteuer)</label>
+                    <select id="state" onchange="calc()">
+                        <option value="3.5">Bayern / Sachsen (3.5%)</option>
+                        <option value="5.0">Baden-Württ. / Bremen / NS (5.0%)</option>
+                        <option value="6.0">Berlin / Hessen / Meck-Pomm (6.0%)</option>
+                        <option value="6.5" selected>NRW / Saarland / SH / Brdbg (6.5%)</option>
+                    </select>
+                </div>
+                <div class="input-group">
+                    <label>Maklerprovision (%)</label>
+                    <input type="number" id="broker" value="3.57" step="0.01" oninput="calc()">
+                </div>
+            </div>
+
+            <div class="invoice">
+                <div style="font-weight: 700; margin-bottom: 20px;">Kostenaufstellung:</div>
+                <div class="inv-row"><span>Grunderwerbsteuer:</span><span id="taxOut">--</span></div>
+                <div class="inv-row"><span>Notar & Grundbuch (ca. 2%):</span><span id="notaryOut">--</span></div>
+                <div class="inv-row"><span>Maklercourtage:</span><span id="brokerOut">--</span></div>
+                <div class="inv-row" style="border-bottom:none; margin-top:15px; color:#64748b;"><span>Summe Nebenkosten:</span><span id="sumExtra">--</span></div>
+                <div class="total-row"><span>Gesamtpreis:</span><span id="totalOut">--</span></div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        function calc() {
+            const price = parseFloat(document.getElementById('price').value) || 0;
+            const taxPerc = parseFloat(document.getElementById('state').value) / 100;
+            const brokerPerc = parseFloat(document.getElementById('broker').value) / 100;
+            
+            const tax = price * taxPerc;
+            const notary = price * 0.02; // Standard estimation
+            const broker = price * brokerPerc;
+            
+            const sumExtra = tax + notary + broker;
+            const total = price + sumExtra;
+            
+            const fmt = (val) => val.toLocaleString('de-DE', {style: 'currency', currency: 'EUR'});
+            
+            document.getElementById('taxOut').innerText = fmt(tax);
+            document.getElementById('notaryOut').innerText = fmt(notary);
+            document.getElementById('brokerOut').innerText = fmt(broker);
+            document.getElementById('sumExtra').innerText = fmt(sumExtra);
+            document.getElementById('totalOut').innerText = fmt(total);
+        }
+        calc();
+    </script>
+</section>
+<section id="Mietrendite_Rechner" class="tool-screen"><button class="back-btn" onclick="closeTool()">← Home</button>
+    <div class="card">
+        <h1>Mietrendite-Rechner</h1>
+        <p style="font-size: 0.85rem; color: #64748b; margin-top: 10px;">Berechnung der Brutto- und Nettorendite für Investitionsobjekte.</p>
+        
+        <div class="input-group"><label>Kaufpreis [€]</label><input type="number" id="price" value="300000" oninput="calc()"></div>
+        <div class="input-group"><label>Kaufnebenkosten [%]</label><input type="number" id="fees" value="10" oninput="calc()"></div>
+        <div class="input-group"><label>Jahreskaltmiete [€]</label><input type="number" id="rent" value="12000" oninput="calc()"></div>
+        <div class="input-group"><label>Nicht umlagefähige Kosten [€/Jahr]</label><input type="number" id="admin" value="1200" oninput="calc()"></div>
+
+        <div class="res-box">
+            <div style="font-size: 0.85rem; color: #4338ca;">Netto-Mietrendite:</div>
+            <div id="out" class="val">3.27 %</div>
+            <p style="font-size: 0.75rem; color: #4338ca; margin-top: 10px;" id="brutto">Bruttorendite: 4.00 %</p>
+        </div>
+    </div>
+    <script>
+        function calc() {
+            const P = parseFloat(document.getElementById('price').value) || 1;
+            const F = parseFloat(document.getElementById('fees').value) / 100;
+            const R = parseFloat(document.getElementById('rent').value) || 0;
+            const A = parseFloat(document.getElementById('admin').value) || 0;
+            
+            const totalInvestment = P * (1 + F);
+            const netRent = R - A;
+            
+            const brutto = (R / P) * 100;
+            const netto = (netRent / totalInvestment) * 100;
+            
+            document.getElementById('out').innerText = netto.toFixed(2) + " %";
+            document.getElementById('brutto').innerText = `Bruttorendite: ${brutto.toFixed(2)} %`;
+        }
+        calc();
+    </script>
+</section>
+<section id="Wohnflächen_Rechner" class="tool-screen"><button class="back-btn" onclick="closeTool()">← Home</button>
+    <div class="card">
+        <h2>Wohnflächen-Rechner (WoFlV)</h2>
+        <p style="font-size: 0.8rem; color: #64748b; margin-bottom: 20px;">Berechnung nach der Wohnflächenverordnung.</p>
+        
+        <div class="row"><label>Bereich</label><label>Grundfläche [m²]</label><label>Anrechnung</label></div>
+        
+        <div class="row"><div>Volle Höhe (>2m)</div><input type="number" id="h2" value="60" oninput="calc()"><div style="font-size:0.8rem">100%</div></div>
+        <div class="row"><div>Schräge (1m - 2m)</div><input type="number" id="h1" value="10" oninput="calc()"><div style="font-size:0.8rem">50%</div></div>
+        <div class="row"><div>Schräge (<1m)</div><input type="number" id="h0" value="5" oninput="calc()"><div style="font-size:0.8rem">0%</div></div>
+        <div class="row"><div>Balkon / Terrasse</div><input type="number" id="balc" value="8" oninput="calc()"><div style="font-size:0.8rem">25%</div></div>
+
+        <div class="res-panel">
+            <div style="font-size: 0.85rem;">Gesamt-Wohnfläche:</div>
+            <div id="out" class="total">67.00 m²</div>
+        </div>
+    </div>
+    <script>
+        function calc() {
+            const h2 = parseFloat(document.getElementById('h2').value) || 0;
+            const h1 = parseFloat(document.getElementById('h1').value) || 0;
+            const h0 = parseFloat(document.getElementById('h0').value) || 0;
+            const balc = parseFloat(document.getElementById('balc').value) || 0;
+            
+            const total = h2 + (h1 * 0.5) + (h0 * 0) + (balc * 0.25);
+            document.getElementById('out').innerText = total.toFixed(2) + " m²";
+        }
+    </script>
+</section></body>
+</html>

@@ -1,0 +1,312 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+    <meta charset="UTF-8">
+    <title>AS3 Dachdecker Suite</title>
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;600;700&display=swap" rel="stylesheet">
+    <style>
+        :root { --primary: #1e293b; --accent: #2563eb; --bg: #f8fafc; }
+        body { font-family: 'Outfit', sans-serif; background: var(--bg); color: var(--primary); margin: 0; }
+        header { background: #1e293b; color: white; padding: 60px 20px; text-align: center; border-bottom: 4px solid var(--accent); }
+        .grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 25px; padding: 40px; max-width: 1200px; margin: auto; }
+        .card { background: white; padding: 30px; border-radius: 20px; box-shadow: 0 10px 15px -3px rgba(0,0,0,0.1); text-decoration: none; color: inherit; transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1); border: 1px solid #e2e8f0; display: flex; flex-direction: column; justify-content: space-between; }
+        .card:hover { transform: translateY(-8px); border-color: var(--accent); box-shadow: 0 20px 25px -5px rgba(0,0,0,0.1); }
+        .card h3 { margin: 0 0 10px 0; font-size: 1.25rem; color: #1e293b; }
+        .card p { margin: 0; font-size: 0.875rem; color: #64748b; flex-grow: 1; }
+        .badge { margin-top: 15px; display: inline-block; padding: 4px 12px; background: #dbeafe; color: #1e40af; border-radius: 9999px; font-size: 0.75rem; font-weight: 600; align-self: flex-start; }
+        footer { text-align: center; padding: 40px; font-size: 0.875rem; color: #64748b; border-top: 1px solid #e2e8f0; margin-top: 40px; }
+    </style>
+
+    <style>
+        .tool-screen { display: none; padding: 20px; background: #f8fafc; min-height: 100vh; }
+        .back-btn { position: sticky; top: 10px; left: 10px; background: #0f172a; color: white; border: none; padding: 8px 15px; border-radius: 6px; cursor: pointer; z-index: 1000; }
+        body.tool-active .container, body.tool-active header { display: none; }
+        body.tool-active .tool-screen.active { display: block; }
+    </style></head>
+<body>
+    <header>
+        <h1 style="margin: 0; font-size: 2.5rem; letter-spacing: -0.025em;">Dachdecker Suite</h1>
+        <p style="opacity: 0.8; font-weight: 300; margin-top: 10px;">Professionelle Werkzeuge & Hochpräzise Kalkulatoren</p>
+    </header>
+    <div class="grid">
+
+        <a href="#" onclick="showTool('Dachneigung_Konverter'); return false;" class="card">
+            <div>
+                <h3>Dachneigung Konverter</h3>
+                <p>Fachspezifisches Tool zur präzisen Berechnung und Dokumentation im Arbeitsalltag.</p>
+            </div>
+            <span class="badge">Aktiv</span>
+        </a>
+        <a href="#" onclick="showTool('Regenspende_Rechner'); return false;" class="card">
+            <div>
+                <h3>Regenspende Rechner</h3>
+                <p>Fachspezifisches Tool zur präzisen Berechnung und Dokumentation im Arbeitsalltag.</p>
+            </div>
+            <span class="badge">Aktiv</span>
+        </a>
+        <a href="#" onclick="showTool('Windlast_Sicherung_VDE'); return false;" class="card">
+            <div>
+                <h3>Windlast Sicherung VDE</h3>
+                <p>Fachspezifisches Tool zur präzisen Berechnung und Dokumentation im Arbeitsalltag.</p>
+            </div>
+            <span class="badge">Aktiv</span>
+        </a>
+    </div>
+    <footer>
+        &copy; 2026 AS3 Professional Suites | CCBY As3-As3<br>
+        <span style="font-size: 0.75rem; opacity: 0.7;">Haftungsausschluss: Die Nutzung erfolgt auf eigene Gefahr. Alle Berechnungen sind vor Ort zu prüfen.</span>
+    </footer>
+
+    <script>
+        function showTool(id) {
+            document.body.classList.add('tool-active');
+            document.querySelectorAll('.tool-screen').forEach(s => s.classList.remove('active'));
+            document.getElementById(id).classList.add('active');
+            window.scrollTo(0,0);
+        }
+        function closeTool() {
+            document.body.classList.remove('tool-active');
+            window.scrollTo(0,0);
+        }
+    </script><section id="Dachneigung_Konverter" class="tool-screen"><button class="back-btn" onclick="closeTool()">← Home</button>
+    <div class="card">
+        <h1>Dachneigungs-Konverter</h1>
+        <div class="grid">
+            <div class="col">
+                <div class="input-group">
+                    <label>Neigung in Grad (°)</label>
+                    <input type="number" id="deg" value="45" step="1" oninput="conv('deg')">
+                </div>
+                <div class="input-group">
+                    <label>Neigung in Prozent (%)</label>
+                    <input type="number" id="perc" value="100" step="1" oninput="conv('perc')">
+                </div>
+                <div class="info-panel">
+                    <div class="info-title">Regeldachneigung (RDN)</div>
+                    <div class="rule-list">
+                        • Falzziegel: 22°<br>
+                        • Biberschwanz: 30°<br>
+                        • Bitumenschindeln: 15°<br>
+                        • Trapezblech: 7°
+                    </div>
+                </div>
+            </div>
+
+            <div class="viz-box">
+                <svg id="roofSvg" viewBox="0 0 200 120" class="roof-svg">
+                    <!-- Ground -->
+                    <line x1="20" y1="100" x2="180" y2="100" stroke="#94a3b8" stroke-width="4" stroke-linecap="round"/>
+                    <!-- Rafter (Sparren) -->
+                    <line id="rafter" x1="20" y1="100" x2="180" y2="100" stroke="#ef4444" stroke-width="8" stroke-linecap="round" transform-origin="20 100"/>
+                    <text x="100" y="20" text-anchor="middle" font-weight="700" id="degText">45°</text>
+                </svg>
+                <p style="font-size: 0.8rem; color: #64748b; margin-top: 20px;">Visuelle Kontrolle der Sparrenneigung</p>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        function conv(source) {
+            const degInput = document.getElementById('deg');
+            const percInput = document.getElementById('perc');
+            const rafter = document.getElementById('rafter');
+            const degText = document.getElementById('degText');
+            
+            if (source === 'deg') {
+                const deg = parseFloat(degInput.value) || 0;
+                const perc = Math.tan(deg * (Math.PI / 180)) * 100;
+                percInput.value = Math.round(perc);
+            } else {
+                const perc = parseFloat(percInput.value) || 0;
+                const deg = Math.atan(perc / 100) * (180 / Math.PI);
+                degInput.value = Math.round(deg);
+            }
+            
+            const currentDeg = parseFloat(degInput.value);
+            rafter.style.transform = `rotate(-${currentDeg}deg)`;
+            degText.innerText = currentDeg + "°";
+        }
+        conv('deg');
+    </script>
+</section>
+<section id="Regenspende_Rechner" class="tool-screen"><button class="back-btn" onclick="closeTool()">← Home</button>
+    <div class="card">
+        <h1 style="margin-bottom: 10px;">Entwässerungs-Planer (DIN 1986-100)</h1>
+        <div class="layout">
+            <div class="controls">
+                <div class="input-group">
+                    <label>Grundrissfläche (m²)</label>
+                    <input type="number" id="area" value="100" oninput="calc()">
+                </div>
+                <div class="input-group">
+                    <label>Abflussbeiwert (C)</label>
+                    <select id="coeff" onchange="calc()">
+                        <option value="1.0">Harter Belag / Ziegel (1.0)</option>
+                        <option value="0.8">Kiesdach (0.8)</option>
+                        <option value="0.5">Gründach extensiv (0.5)</option>
+                        <option value="0.3">Gründach intensiv (0.3)</option>
+                    </select>
+                </div>
+                <div class="input-group">
+                    <label>Regenspende r(5,5) [l/s*ha]</label>
+                    <input type="number" id="rain" value="300" oninput="calc()">
+                </div>
+            </div>
+            
+            <div class="viz-box">
+                <div style="font-weight: 600; font-size: 0.9rem;">Auslastung der Dachrinne</div>
+                <svg viewBox="0 0 200 100" class="gutter-svg">
+                    <!-- Gutter Shape -->
+                    <path d="M20,20 Q20,80 100,80 Q180,80 180,20" fill="none" stroke="#94a3b8" stroke-width="4"/>
+                    <!-- Water Level -->
+                    <path id="waterLevel" d="M20,80 Q20,80 100,80 Q180,80 180,80" fill="#3b82f6" opacity="0.6"/>
+                    <text x="100" y="95" text-anchor="middle" font-size="10" fill="#64748b">Rinne (Schnitt)</text>
+                </svg>
+
+                <div class="result">
+                    <div style="font-size: 0.8rem; color: #1e40af;">Regenabfluss (Q):</div>
+                    <div class="val" id="outQ">3.00 l/s</div>
+                    <p style="font-size: 0.75rem; margin-top: 5px;">Empfohlene Fallrohr-Nennweite: <span id="dn" style="font-weight:bold">DN 100</span></p>
+                </div>
+            </div>
+        </div>
+    </div>
+    <script>
+        function calc() {
+            const A = parseFloat(document.getElementById('area').value);
+            const C = parseFloat(document.getElementById('coeff').value);
+            const r = parseFloat(document.getElementById('rain').value);
+            
+            // Q = (r * C * A) / 10000
+            const Q = (r * C * A) / 10000;
+            document.getElementById('outQ').innerText = Q.toFixed(2) + " l/s";
+            
+            // Visual Update
+            const load = Math.min(Q / 5, 1); // Max capacity 5 l/s for DN100 simplified
+            const waterY = 80 - (load * 60);
+            document.getElementById('waterLevel').setAttribute('d', `M20,${waterY} Q20,80 100,80 Q180,80 180,${waterY} L180,80 L20,80 Z`);
+            
+            const dn = document.getElementById('dn');
+            if (Q > 4.5) dn.innerText = "DN 125";
+            else if (Q > 2.5) dn.innerText = "DN 100";
+            else dn.innerText = "DN 70";
+        }
+        calc();
+    </script>
+</section>
+<section id="Windlast_Sicherung_VDE" class="tool-screen"><button class="back-btn" onclick="closeTool()">← Home</button>
+    <div class="card">
+        <div class="header">
+            <h1>Windlast-Kalkulator (DIN EN 1991-1-4)</h1>
+            <p style="font-size: 0.9rem; color: #64748b;">Berechnung der Windsogsicherung für Steildächer.</p>
+        </div>
+
+        <div class="layout">
+            <div class="controls">
+                <div class="input-group">
+                    <label>Windzone (Deutschland)</label>
+                    <select id="zone" onchange="update()">
+                        <option value="22.5">Zone 1 (Binnenland Süd)</option>
+                        <option value="25.0" selected>Zone 2 (Binnenland Mitte)</option>
+                        <option value="27.5">Zone 3 (Norddeutschland)</option>
+                        <option value="30.0">Zone 4 (Küste/Inseln)</option>
+                    </select>
+                </div>
+                <div class="input-group">
+                    <label>Gebäudehöhe (m)</label>
+                    <input type="number" id="height" value="8" oninput="update()">
+                </div>
+                <div class="input-group">
+                    <label>Geländekategorie</label>
+                    <select id="terrain" onchange="update()">
+                        <option value="1.0">Offene See / Küste</option>
+                        <option value="1.5">Offenes Land</option>
+                        <option value="2.1" selected>Vorstadt / Gewerbe</option>
+                        <option value="2.5">Stadtgebiet (dicht)</option>
+                    </select>
+                </div>
+                <div class="input-group">
+                    <label>Dachneigung (°)</label>
+                    <input type="number" id="pitch" value="35" oninput="update()">
+                </div>
+            </div>
+
+            <div class="visualization">
+                <label>Dach-Draufsicht & Belastungszonen</label>
+                <svg viewBox="0 0 400 300" class="roof-svg">
+                    <!-- Roof Base -->
+                    <rect x="50" y="50" width="300" height="200" fill="#e2e8f0" stroke="#94a3b8" stroke-width="2"/>
+                    <!-- Ridge Line -->
+                    <line x1="200" y1="50" x2="200" y2="250" stroke="#64748b" stroke-width="3" stroke-dasharray="5,5"/>
+                    
+                    <!-- Zone G (Corner) -->
+                    <rect x="50" y="50" width="40" height="40" id="zoneG1" fill="#ef4444" opacity="0.8"/>
+                    <rect x="310" y="50" width="40" height="40" id="zoneG2" fill="#ef4444" opacity="0.8"/>
+                    <rect x="50" y="210" width="40" height="40" id="zoneG3" fill="#ef4444" opacity="0.8"/>
+                    <rect x="310" y="210" width="40" height="40" id="zoneG4" fill="#ef4444" opacity="0.8"/>
+                    
+                    <!-- Zone F (Edge) -->
+                    <rect x="90" y="50" width="110" height="40" fill="#f59e0b" opacity="0.8"/>
+                    <rect x="200" y="50" width="110" height="40" fill="#f59e0b" opacity="0.8"/>
+                    <rect x="90" y="210" width="110" height="40" fill="#f59e0b" opacity="0.8"/>
+                    <rect x="200" y="210" width="110" height="40" fill="#f59e0b" opacity="0.8"/>
+
+                    <!-- Text -->
+                    <text x="60" y="75" class="zone-label">G</text>
+                    <text x="140" y="75" class="zone-label">F</text>
+                    <text x="140" y="150" fill="#94a3b8" font-size="14" font-weight="bold">Zone H (Innen)</text>
+                </svg>
+
+                <div class="result-panel">
+                    <div style="font-size: 0.8rem; color: #92400e; font-weight: bold;">Basis-Geschwindigkeitsdruck (q_p):</div>
+                    <div class="res-value" id="qp">0.65 kN/m²</div>
+                    <p style="font-size: 0.75rem; margin-top: 5px;">Erforderliche Klammerung: <span id="klammer" style="font-weight:bold">1:2 (Jeder zweite Ziegel)</span></p>
+                </div>
+
+                <div class="legend">
+                    <div class="legend-item"><div class="box" style="background:#ef4444"></div> Zone G (Eck)</div>
+                    <div class="legend-item"><div class="box" style="background:#f59e0b"></div> Zone F (Rand)</div>
+                    <div class="legend-item"><div class="box" style="background:#e2e8f0; border:1px solid #94a3b8"></div> Zone H (Fläche)</div>
+                </div>
+            </div>
+        </div>
+
+        <div style="margin-top: 30px; font-size: 0.7rem; color: #94a3b8; border-top: 1px solid #eee; padding-top: 15px;">
+            Haftungsausschluss: Diese Berechnung dient der überschlägigen Ermittlung nach Eurocode 1. Für die Ausführung ist die Statik des Herstellers und die Fachregel des ZVDH maßgeblich. CCBY As3-As3.
+        </div>
+    </div>
+
+    <script>
+        function update() {
+            const vb0 = parseFloat(document.getElementById('zone').value);
+            const h = parseFloat(document.getElementById('height').value);
+            const terrain = parseFloat(document.getElementById('terrain').value);
+            
+            // Simplified qp calculation: 0.5 * rho * vb^2 * ce(z)
+            // vb = vb0 * c_dir * c_season ...
+            // Simplified ce(z) for standard German heights
+            let ce = 1.0;
+            if (h <= 7) ce = 1.5 * terrain;
+            else if (h <= 10) ce = 1.8 * terrain;
+            else ce = 2.1 * terrain;
+
+            const qp = 0.5 * 1.25 * Math.pow(vb0, 2) * ce / 1000; // in kN/m2
+            
+            document.getElementById('qp').innerText = qp.toFixed(2) + " kN/m²";
+            
+            const klammer = document.getElementById('klammer');
+            if (qp > 0.8) {
+                klammer.innerText = "1:1 (Jeder Ziegel)";
+                klammer.style.color = "var(--danger)";
+            } else if (qp > 0.4) {
+                klammer.innerText = "1:2 (Jeder zweite Ziegel)";
+                klammer.style.color = "var(--accent)";
+            } else {
+                klammer.innerText = "Nur Randbereiche";
+                klammer.style.color = "var(--primary)";
+            }
+        }
+        update();
+    </script>
+</section></body>
+</html>

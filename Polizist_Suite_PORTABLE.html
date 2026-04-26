@@ -1,0 +1,226 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+    <meta charset="UTF-8">
+    <title>AS3 Polizist Suite</title>
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;600;700&display=swap" rel="stylesheet">
+    <style>
+        :root { --primary: #1e293b; --accent: #2563eb; --bg: #f8fafc; }
+        body { font-family: 'Outfit', sans-serif; background: var(--bg); color: var(--primary); margin: 0; }
+        header { background: #1e293b; color: white; padding: 60px 20px; text-align: center; border-bottom: 4px solid var(--accent); }
+        .grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 25px; padding: 40px; max-width: 1200px; margin: auto; }
+        .card { background: white; padding: 30px; border-radius: 20px; box-shadow: 0 10px 15px -3px rgba(0,0,0,0.1); text-decoration: none; color: inherit; transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1); border: 1px solid #e2e8f0; display: flex; flex-direction: column; justify-content: space-between; }
+        .card:hover { transform: translateY(-8px); border-color: var(--accent); box-shadow: 0 20px 25px -5px rgba(0,0,0,0.1); }
+        .card h3 { margin: 0 0 10px 0; font-size: 1.25rem; color: #1e293b; }
+        .card p { margin: 0; font-size: 0.875rem; color: #64748b; flex-grow: 1; }
+        .badge { margin-top: 15px; display: inline-block; padding: 4px 12px; background: #dbeafe; color: #1e40af; border-radius: 9999px; font-size: 0.75rem; font-weight: 600; align-self: flex-start; }
+        footer { text-align: center; padding: 40px; font-size: 0.875rem; color: #64748b; border-top: 1px solid #e2e8f0; margin-top: 40px; }
+    </style>
+
+    <style>
+        .tool-screen { display: none; padding: 20px; background: #f8fafc; min-height: 100vh; }
+        .back-btn { position: sticky; top: 10px; left: 10px; background: #0f172a; color: white; border: none; padding: 8px 15px; border-radius: 6px; cursor: pointer; z-index: 1000; }
+        body.tool-active .container, body.tool-active header { display: none; }
+        body.tool-active .tool-screen.active { display: block; }
+    </style></head>
+<body>
+    <header>
+        <h1 style="margin: 0; font-size: 2.5rem; letter-spacing: -0.025em;">Polizist Suite</h1>
+        <p style="opacity: 0.8; font-weight: 300; margin-top: 10px;">Professionelle Werkzeuge & Hochpräzise Kalkulatoren</p>
+    </header>
+    <div class="grid">
+
+        <a href="#" onclick="showTool('Bußgeld_Rechner'); return false;" class="card">
+            <div>
+                <h3>Bußgeld Rechner</h3>
+                <p>Fachspezifisches Tool zur präzisen Berechnung und Dokumentation im Arbeitsalltag.</p>
+            </div>
+            <span class="badge">Aktiv</span>
+        </a>
+        <a href="#" onclick="showTool('Promille_Rechner'); return false;" class="card">
+            <div>
+                <h3>Promille Rechner</h3>
+                <p>Fachspezifisches Tool zur präzisen Berechnung und Dokumentation im Arbeitsalltag.</p>
+            </div>
+            <span class="badge">Aktiv</span>
+        </a>
+    </div>
+    <footer>
+        &copy; 2026 AS3 Professional Suites | CCBY As3-As3<br>
+        <span style="font-size: 0.75rem; opacity: 0.7;">Haftungsausschluss: Die Nutzung erfolgt auf eigene Gefahr. Alle Berechnungen sind vor Ort zu prüfen.</span>
+    </footer>
+
+    <script>
+        function showTool(id) {
+            document.body.classList.add('tool-active');
+            document.querySelectorAll('.tool-screen').forEach(s => s.classList.remove('active'));
+            document.getElementById(id).classList.add('active');
+            window.scrollTo(0,0);
+        }
+        function closeTool() {
+            document.body.classList.remove('tool-active');
+            window.scrollTo(0,0);
+        }
+    </script><section id="Bußgeld_Rechner" class="tool-screen"><button class="back-btn" onclick="closeTool()">← Home</button>
+    <div class="card">
+        <h1>Geschwindigkeits-Verstoß (BKatV)</h1>
+        <p style="color: #1e40af; margin-bottom: 30px;">Berechnung von Bußgeld, Punkten und Fahrverbot (Stand 2024).</p>
+        
+        <div class="grid">
+            <div class="input-group">
+                <label>Bereich</label>
+                <select id="zone" onchange="calc()">
+                    <option value="inner">Innerorts</option>
+                    <option value="outer">Außerorts</option>
+                </select>
+            </div>
+            <div class="input-group">
+                <label>Überschreitung (km/h)</label>
+                <input type="number" id="speed" value="21" oninput="calc()">
+                <p style="font-size:0.7rem; color:#64748b; margin-top:4px;">(Nach Toleranzabzug)</p>
+            </div>
+        </div>
+
+        <div class="result-panel">
+            <div style="font-size: 0.85rem; font-weight: 700; color: #64748b;">Voraussichtliches Bußgeld:</div>
+            <div id="outFine" class="fine-val">-- €</div>
+            
+            <div class="punishment">
+                <div class="p-item">
+                    <span class="p-label">Punkte</span>
+                    <span id="outPoints" class="p-val">0</span>
+                </div>
+                <div class="p-item" id="fvBox">
+                    <span class="p-label">Fahrverbot</span>
+                    <span id="outFv" class="p-val">Keines</span>
+                </div>
+            </div>
+        </div>
+        
+        <p style="font-size: 0.7rem; color: #64748b; margin-top: 25px; text-align: center;">
+            Hinweis: Zzgl. Bearbeitungsgebühr (meist 28,50 €). Wiederholungstäter-Regelung (2x >25 km/h) nicht berücksichtigt. Nur zur Orientierung.
+        </p>
+    </div>
+
+    <script>
+        function calc() {
+            const zone = document.getElementById('zone').value;
+            const s = parseFloat(document.getElementById('speed').value) || 0;
+            
+            let fine = 0;
+            let points = 0;
+            let fv = "Keines";
+            
+            if (zone === 'inner') {
+                if (s <= 10) fine = 30;
+                else if (s <= 15) fine = 50;
+                else if (s <= 20) fine = 70;
+                else if (s <= 25) { fine = 115; points = 1; }
+                else if (s <= 30) { fine = 180; points = 1; fv = "1 Mon.*"; }
+                else if (s <= 40) { fine = 260; points = 2; fv = "1 Monat"; }
+                else if (s <= 50) { fine = 400; points = 2; fv = "1 Monat"; }
+                else if (s <= 60) { fine = 560; points = 2; fv = "2 Monate"; }
+                else fine = 800; // Simplified for max
+            } else {
+                if (s <= 10) fine = 20;
+                else if (s <= 15) fine = 40;
+                else if (s <= 20) fine = 60;
+                else if (s <= 25) { fine = 100; points = 1; }
+                else if (s <= 30) { fine = 150; points = 1; fv = "1 Mon.*"; }
+                else if (s <= 40) { fine = 200; points = 1; fv = "1 Monat"; }
+                else if (s <= 50) { fine = 320; points = 2; fv = "1 Monat"; }
+                else fine = 480; 
+            }
+            
+            document.getElementById('outFine').innerText = fine + " €";
+            document.getElementById('outPoints').innerText = points;
+            document.getElementById('outFv').innerText = fv;
+            
+            const fvBox = document.getElementById('fvBox');
+            fvBox.style.background = (fv !== "Keines") ? "#fee2e2" : "#f1f5f9";
+            fvBox.style.color = (fv !== "Keines") ? "var(--danger)" : "inherit";
+        }
+        calc();
+    </script>
+</section>
+<section id="Promille_Rechner" class="tool-screen"><button class="back-btn" onclick="closeTool()">← Home</button>
+    <div class="card">
+        <h1>Promille-Rechner (Widmark-Formel)</h1>
+        <div class="grid">
+            <div class="controls">
+                <div class="input-group">
+                    <label>Geschlecht</label>
+                    <select id="gender" onchange="calc()">
+                        <option value="0.7">Männlich (r=0.7)</option>
+                        <option value="0.6">Weiblich (r=0.6)</option>
+                    </select>
+                </div>
+                <div class="input-group">
+                    <label>Körpergewicht (kg)</label>
+                    <input type="number" id="weight" value="80" oninput="calc()">
+                </div>
+                <div class="input-group">
+                    <label>Alkoholmenge (Gramm)</label>
+                    <input type="number" id="alcohol" value="40" oninput="calc()">
+                    <p style="font-size:0.6rem; color:#64748b; margin-top:4px;">Bsp: 0,5l Bier ≈ 20g | 0,2l Wein ≈ 16g</p>
+                </div>
+                <div class="input-group">
+                    <label>Zeit seit Trinkbeginn (h)</label>
+                    <input type="number" id="time" value="2" oninput="calc()">
+                </div>
+            </div>
+
+            <div style="text-align:center;">
+                <div class="glass-viz">
+                    <div id="liquidLevel" class="liquid" style="height: 40%;"></div>
+                </div>
+                <div class="result-panel">
+                    <div style="font-size:0.85rem; font-weight: 600;">Blutalkoholkonzentration (BAK):</div>
+                    <div id="bakOut" class="prom-val">0.58 ‰</div>
+                    <div id="legalStatus" class="legal-info">OWi nach § 24a StVG! (0.5 Promille-Grenze)</div>
+                </div>
+            </div>
+        </div>
+        <p style="font-size: 0.7rem; color: #64748b; margin-top: 30px; border-top: 1px solid #e2e8f0; padding-top: 15px;">
+            Haftungsausschluss: Dies ist eine theoretische Berechnung. Tatsächliche Werte hängen von individuellen Faktoren (Mageninhalt, Stoffwechsel) ab. Nur der geeichte Atemalkoholtest oder eine Blutprobe sind rechtssicher. CCBY As3-As3.
+        </p>
+    </div>
+    <script>
+        function calc() {
+            const a = parseFloat(document.getElementById('alcohol').value) || 0;
+            const w = parseFloat(document.getElementById('weight').value) || 1;
+            const r = parseFloat(document.getElementById('gender').value);
+            const t = parseFloat(document.getElementById('time').value) || 0;
+            
+            // Widmark: c = (A * 0.8) / (w * r) -> assuming A is pure alcohol in grams
+            // Including 15% resorption loss
+            let bak = (a * 0.85) / (w * r);
+            
+            // Elimination: 0.15 per hour
+            bak = Math.max(0, bak - (t * 0.15));
+            
+            document.getElementById('bakOut').innerText = bak.toFixed(2) + " ‰";
+            
+            // Visual
+            const height = Math.min((bak / 1.5) * 100, 100);
+            document.getElementById('liquidLevel').style.height = height + "%";
+            
+            const status = document.getElementById('legalStatus');
+            if (bak >= 1.1) {
+                status.innerText = "Absolute Fahruntüchtigkeit! Straftat (§ 316 StGB)";
+                status.style.color = "#b91c1c";
+            } else if (bak >= 0.5) {
+                status.innerText = "Ordnungswidrigkeit (§ 24a StVG)!";
+                status.style.color = "#92400e";
+            } else if (bak >= 0.3) {
+                status.innerText = "Relative Fahruntüchtigkeit bei Ausfallerscheinungen!";
+                status.style.color = "#1e3a8a";
+            } else {
+                status.innerText = "Unterhalb der Regelfall-Grenzwerte.";
+                status.style.color = "#166534";
+            }
+        }
+        calc();
+    </script>
+</section></body>
+</html>

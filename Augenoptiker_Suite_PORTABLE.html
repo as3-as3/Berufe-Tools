@@ -1,0 +1,178 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+    <meta charset="UTF-8">
+    <title>AS3 Augenoptiker Suite</title>
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;600;700&display=swap" rel="stylesheet">
+    <style>
+        :root { --primary: #1e293b; --accent: #2563eb; --bg: #f8fafc; }
+        body { font-family: 'Outfit', sans-serif; background: var(--bg); color: var(--primary); margin: 0; }
+        header { background: #1e293b; color: white; padding: 60px 20px; text-align: center; border-bottom: 4px solid var(--accent); }
+        .grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 25px; padding: 40px; max-width: 1200px; margin: auto; }
+        .card { background: white; padding: 30px; border-radius: 20px; box-shadow: 0 10px 15px -3px rgba(0,0,0,0.1); text-decoration: none; color: inherit; transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1); border: 1px solid #e2e8f0; display: flex; flex-direction: column; justify-content: space-between; }
+        .card:hover { transform: translateY(-8px); border-color: var(--accent); box-shadow: 0 20px 25px -5px rgba(0,0,0,0.1); }
+        .card h3 { margin: 0 0 10px 0; font-size: 1.25rem; color: #1e293b; }
+        .card p { margin: 0; font-size: 0.875rem; color: #64748b; flex-grow: 1; }
+        .badge { margin-top: 15px; display: inline-block; padding: 4px 12px; background: #dbeafe; color: #1e40af; border-radius: 9999px; font-size: 0.75rem; font-weight: 600; align-self: flex-start; }
+        footer { text-align: center; padding: 40px; font-size: 0.875rem; color: #64748b; border-top: 1px solid #e2e8f0; margin-top: 40px; }
+    </style>
+
+    <style>
+        .tool-screen { display: none; padding: 20px; background: #f8fafc; min-height: 100vh; }
+        .back-btn { position: sticky; top: 10px; left: 10px; background: #0f172a; color: white; border: none; padding: 8px 15px; border-radius: 6px; cursor: pointer; z-index: 1000; }
+        body.tool-active .container, body.tool-active header { display: none; }
+        body.tool-active .tool-screen.active { display: block; }
+    </style></head>
+<body>
+    <header>
+        <h1 style="margin: 0; font-size: 2.5rem; letter-spacing: -0.025em;">Augenoptiker Suite</h1>
+        <p style="opacity: 0.8; font-weight: 300; margin-top: 10px;">Professionelle Werkzeuge & Hochpräzise Kalkulatoren</p>
+    </header>
+    <div class="grid">
+
+        <a href="#" onclick="showTool('Vertex_Korrektur'); return false;" class="card">
+            <div>
+                <h3>Vertex Korrektur</h3>
+                <p>Fachspezifisches Tool zur präzisen Berechnung und Dokumentation im Arbeitsalltag.</p>
+            </div>
+            <span class="badge">Aktiv</span>
+        </a>
+        <a href="#" onclick="showTool('Zylinder_Transposition'); return false;" class="card">
+            <div>
+                <h3>Zylinder Transposition</h3>
+                <p>Fachspezifisches Tool zur präzisen Berechnung und Dokumentation im Arbeitsalltag.</p>
+            </div>
+            <span class="badge">Aktiv</span>
+        </a>
+    </div>
+    <footer>
+        &copy; 2026 AS3 Professional Suites | CCBY As3-As3<br>
+        <span style="font-size: 0.75rem; opacity: 0.7;">Haftungsausschluss: Die Nutzung erfolgt auf eigene Gefahr. Alle Berechnungen sind vor Ort zu prüfen.</span>
+    </footer>
+
+    <script>
+        function showTool(id) {
+            document.body.classList.add('tool-active');
+            document.querySelectorAll('.tool-screen').forEach(s => s.classList.remove('active'));
+            document.getElementById(id).classList.add('active');
+            window.scrollTo(0,0);
+        }
+        function closeTool() {
+            document.body.classList.remove('tool-active');
+            window.scrollTo(0,0);
+        }
+    </script><section id="Vertex_Korrektur" class="tool-screen"><button class="back-btn" onclick="closeTool()">← Home</button>
+    <div class="card">
+        <h1>Vertex-Korrektur (Scheitelbrechwert)</h1>
+        <div class="grid">
+            <div class="controls">
+                <div class="input-group">
+                    <label>Brillen-Stärke (dpt)</label>
+                    <input type="number" id="dpt" value="-5.00" step="0.25" oninput="calc()">
+                </div>
+                <div class="input-group">
+                    <label>Alter HSA (mm) [Brille]</label>
+                    <input type="number" id="hsa_old" value="12" oninput="calc()">
+                </div>
+                <div class="input-group">
+                    <label>Neuer HSA (mm) [z.B. Kontaktlinse = 0]</label>
+                    <input type="number" id="hsa_new" value="0" oninput="calc()">
+                </div>
+            </div>
+
+            <div class="viz">
+                <svg viewBox="0 0 200 150" class="eye-svg">
+                    <!-- Eye Profile -->
+                    <path d="M140,75 Q140,40 100,40 Q60,40 60,75 Q60,110 100,110 Q140,110 140,75" fill="none" stroke="#64748b" stroke-width="2"/>
+                    <path d="M140,75 Q150,75 150,75" fill="none" stroke="#64748b" stroke-width="2"/>
+                    <!-- Lens -->
+                    <rect id="lens" x="170" y="50" width="5" height="50" fill="#0ea5e9" opacity="0.6"/>
+                    <line x1="140" y1="75" x2="170" y2="75" stroke="#0ea5e9" stroke-dasharray="4,2"/>
+                </svg>
+
+                <div class="result-panel">
+                    <div style="font-size: 0.9rem; font-weight: 600;">Korrigierte Stärke (dpt):</div>
+                    <div id="dptOut" class="dpt-val">-4.71</div>
+                    <p style="font-size: 0.75rem; color: #0369a1; margin-top: 10px;">Formel: F' = F / (1 - d * F)</p>
+                </div>
+            </div>
+        </div>
+    </div>
+    <script>
+        function calc() {
+            const f = parseFloat(document.getElementById('dpt').value);
+            const hsaOld = parseFloat(document.getElementById('hsa_old').value) / 1000;
+            const hsaNew = parseFloat(document.getElementById('hsa_new').value) / 1000;
+            const d = hsaOld - hsaNew;
+            
+            // F_new = F / (1 - d * F)
+            const fNew = f / (1 - (d * f));
+            
+            document.getElementById('dptOut').innerText = fNew.toFixed(2);
+            
+            // Move visual lens
+            const lensX = 140 + (hsaOld * 2500); // Scale factor
+            document.getElementById('lens').setAttribute('x', lensX);
+        }
+        calc();
+    </script>
+</section>
+<section id="Zylinder_Transposition" class="tool-screen"><button class="back-btn" onclick="closeTool()">← Home</button>
+    <div class="card">
+        <h1>Zylinder-Transposition</h1>
+        <p style="color: #0369a1; margin-bottom: 30px;">Umrechnung von Plus- auf Minus-Zylinder (und umgekehrt).</p>
+        
+        <div class="grid">
+            <div class="input-area">
+                <div class="input-group">
+                    <label>Sphäre (Sph)</label>
+                    <input type="number" id="sph" value="-2.00" step="0.25" oninput="calc()">
+                </div>
+                <div class="input-group">
+                    <label>Zylinder (Cyl)</label>
+                    <input type="number" id="cyl" value="+0.50" step="0.25" oninput="calc()">
+                </div>
+                <div class="input-group">
+                    <label>Achse (A)</label>
+                    <input type="number" id="axis" value="90" step="1" oninput="calc()">
+                </div>
+            </div>
+
+            <div class="result-area">
+                <div style="font-size: 0.85rem; font-weight: 700; color: #64748b;">Transponierte Werte:</div>
+                <div class="formula" id="outFormula">Sph -1.50 / Cyl -0.50 / A 180°</div>
+                <div id="outSph" style="font-size: 1.2rem; font-weight: 700;">Sph: -1.50</div>
+                <div id="outCyl" style="font-size: 1.2rem; font-weight: 700;">Cyl: -0.50</div>
+                <div id="outAxis" style="font-size: 1.2rem; font-weight: 700;">Achse: 180°</div>
+                <p class="hint">Regel: Neue Sph = Sph + Cyl | Neuer Cyl = Vorzeichenwechsel | Neue Achse = Achse +/- 90°</p>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        function calc() {
+            const sph = parseFloat(document.getElementById('sph').value) || 0;
+            const cyl = parseFloat(document.getElementById('cyl').value) || 0;
+            const axis = parseInt(document.getElementById('axis').value) || 0;
+            
+            // 1. New Sph = old Sph + old Cyl
+            const nSph = sph + cyl;
+            
+            // 2. New Cyl = -old Cyl
+            const nCyl = -cyl;
+            
+            // 3. New Axis = axis +/- 90 (0-180 range)
+            let nAxis = axis + 90;
+            if (nAxis > 180) nAxis -= 180;
+            
+            const fmt = (v) => (v >= 0 ? "+" : "") + v.toFixed(2);
+            
+            document.getElementById('outSph').innerText = "Sph: " + fmt(nSph);
+            document.getElementById('outCyl').innerText = "Cyl: " + fmt(nCyl);
+            document.getElementById('outAxis').innerText = "Achse: " + nAxis + "°";
+            document.getElementById('outFormula').innerText = `Sph ${fmt(nSph)} / Cyl ${fmt(nCyl)} / A ${nAxis}°`;
+        }
+        calc();
+    </script>
+</section></body>
+</html>

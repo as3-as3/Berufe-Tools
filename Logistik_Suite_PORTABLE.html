@@ -1,0 +1,233 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+    <meta charset="UTF-8">
+    <title>AS3 Logistik Suite</title>
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;600;700&display=swap" rel="stylesheet">
+    <style>
+        :root { --primary: #1e293b; --accent: #2563eb; --bg: #f8fafc; }
+        body { font-family: 'Outfit', sans-serif; background: var(--bg); color: var(--primary); margin: 0; }
+        header { background: #1e293b; color: white; padding: 60px 20px; text-align: center; border-bottom: 4px solid var(--accent); }
+        .grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 25px; padding: 40px; max-width: 1200px; margin: auto; }
+        .card { background: white; padding: 30px; border-radius: 20px; box-shadow: 0 10px 15px -3px rgba(0,0,0,0.1); text-decoration: none; color: inherit; transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1); border: 1px solid #e2e8f0; display: flex; flex-direction: column; justify-content: space-between; }
+        .card:hover { transform: translateY(-8px); border-color: var(--accent); box-shadow: 0 20px 25px -5px rgba(0,0,0,0.1); }
+        .card h3 { margin: 0 0 10px 0; font-size: 1.25rem; color: #1e293b; }
+        .card p { margin: 0; font-size: 0.875rem; color: #64748b; flex-grow: 1; }
+        .badge { margin-top: 15px; display: inline-block; padding: 4px 12px; background: #dbeafe; color: #1e40af; border-radius: 9999px; font-size: 0.75rem; font-weight: 600; align-self: flex-start; }
+        footer { text-align: center; padding: 40px; font-size: 0.875rem; color: #64748b; border-top: 1px solid #e2e8f0; margin-top: 40px; }
+    </style>
+
+    <style>
+        .tool-screen { display: none; padding: 20px; background: #f8fafc; min-height: 100vh; }
+        .back-btn { position: sticky; top: 10px; left: 10px; background: #0f172a; color: white; border: none; padding: 8px 15px; border-radius: 6px; cursor: pointer; z-index: 1000; }
+        body.tool-active .container, body.tool-active header { display: none; }
+        body.tool-active .tool-screen.active { display: block; }
+    </style></head>
+<body>
+    <header>
+        <h1 style="margin: 0; font-size: 2.5rem; letter-spacing: -0.025em;">Logistik Suite</h1>
+        <p style="opacity: 0.8; font-weight: 300; margin-top: 10px;">Professionelle Werkzeuge & Hochpräzise Kalkulatoren</p>
+    </header>
+    <div class="grid">
+
+        <a href="#" onclick="showTool('Ladungssicherung_Check'); return false;" class="card">
+            <div>
+                <h3>Ladungssicherung Check</h3>
+                <p>Fachspezifisches Tool zur präzisen Berechnung und Dokumentation im Arbeitsalltag.</p>
+            </div>
+            <span class="badge">Aktiv</span>
+        </a>
+        <a href="#" onclick="showTool('Lagerumschlag_Rechner'); return false;" class="card">
+            <div>
+                <h3>Lagerumschlag Rechner</h3>
+                <p>Fachspezifisches Tool zur präzisen Berechnung und Dokumentation im Arbeitsalltag.</p>
+            </div>
+            <span class="badge">Aktiv</span>
+        </a>
+        <a href="#" onclick="showTool('Optimale_Bestellmenge'); return false;" class="card">
+            <div>
+                <h3>Optimale Bestellmenge</h3>
+                <p>Fachspezifisches Tool zur präzisen Berechnung und Dokumentation im Arbeitsalltag.</p>
+            </div>
+            <span class="badge">Aktiv</span>
+        </a>
+        <a href="#" onclick="showTool('Stapler_Resttragfähigkeit'); return false;" class="card">
+            <div>
+                <h3>Stapler Resttragfähigkeit</h3>
+                <p>Fachspezifisches Tool zur präzisen Berechnung und Dokumentation im Arbeitsalltag.</p>
+            </div>
+            <span class="badge">Aktiv</span>
+        </a>
+    </div>
+    <footer>
+        &copy; 2026 AS3 Professional Suites | CCBY As3-As3<br>
+        <span style="font-size: 0.75rem; opacity: 0.7;">Haftungsausschluss: Die Nutzung erfolgt auf eigene Gefahr. Alle Berechnungen sind vor Ort zu prüfen.</span>
+    </footer>
+
+    <script>
+        function showTool(id) {
+            document.body.classList.add('tool-active');
+            document.querySelectorAll('.tool-screen').forEach(s => s.classList.remove('active'));
+            document.getElementById(id).classList.add('active');
+            window.scrollTo(0,0);
+        }
+        function closeTool() {
+            document.body.classList.remove('tool-active');
+            window.scrollTo(0,0);
+        }
+    </script><section id="Ladungssicherung_Check" class="tool-screen"><button class="back-btn" onclick="closeTool()">← Home</button>
+    <div class="card">
+        <h1>Ladungssicherung (Niederzurrung)</h1>
+        <p style="color: #64748b; margin-bottom: 30px;">Berechnung der Gurtanzahl nach VDI 2700 / DIN EN 12195-1.</p>
+        
+        <div class="grid">
+            <div class="col">
+                <div class="input-group">
+                    <label>Ladungsgewicht (kg)</label>
+                    <input type="number" id="weight" value="5000" oninput="calc()">
+                </div>
+                <div class="input-group">
+                    <label>Reibbeiwert (μ)</label>
+                    <select id="friction" onchange="calc()">
+                        <option value="0.2">Holz auf Holz (0.2)</option>
+                        <option value="0.3" selected>Holz auf Metall (0.3)</option>
+                        <option value="0.6">Antirutschmatte (0.6)</option>
+                    </select>
+                </div>
+            </div>
+            <div class="col">
+                <div class="input-group">
+                    <label>Vorspannkraft STF (daN)</label>
+                    <input type="number" id="stf" value="500" oninput="calc()">
+                </div>
+                <div class="input-group">
+                    <label>Vertikalwinkel α (°)</label>
+                    <input type="number" id="angle" value="45" oninput="calc()">
+                </div>
+            </div>
+        </div>
+
+        <div class="result-panel">
+            <div style="font-size: 0.85rem; color: #92400e; font-weight: 700;">Erforderliche Gurtanzahl:</div>
+            <div id="outGurte" class="val">--</div>
+            <div class="info">Sicherung gegen Verrutschen in Fahrtrichtung (0.8g)</div>
+        </div>
+        
+        <p style="font-size: 0.7rem; color: #94a3b8; margin-top: 25px; text-align: center;">
+            Haftungsausschluss: Vereinfachte Berechnung zur Niederzurrung. Formschlüssige Sicherung und Lastverteilungsplan sind bauseits zu prüfen.
+        </p>
+    </div>
+
+    <script>
+        function calc() {
+            const m = parseFloat(document.getElementById('weight').value) || 0;
+            const mu = parseFloat(document.getElementById('friction').value);
+            const stf = parseFloat(document.getElementById('stf').value) || 1;
+            const alpha = parseFloat(document.getElementById('angle').value) || 1;
+            
+            // Formula: n = (m * g * (cx - mu)) / (2 * mu * sin(alpha) * STF)
+            // cx = 0.8 (Fahrtrichtung)
+            const g = 9.81;
+            const cx = 0.8;
+            const alphaRad = alpha * (Math.PI / 180);
+            
+            let n = (m * g * (cx - mu)) / (2 * mu * Math.sin(alphaRad) * stf);
+            
+            // At least 2 straps always for stability
+            if (n < 2) n = 2;
+            
+            document.getElementById('outGurte').innerText = Math.ceil(n);
+        }
+        calc();
+    </script>
+</section>
+<section id="Lagerumschlag_Rechner" class="tool-screen"><button class="back-btn" onclick="closeTool()">← Home</button>
+    <div class="card">
+        <h2>Lager-Effizienz (Umschlag)</h2>
+        <div class="input-group"><label>Wareneinsatz (Jahr) [€]</label><input type="number" id="umsatz" value="500000" oninput="calc()"></div>
+        <div class="input-group"><label>Ø Lagerbestand [€]</label><input type="number" id="bestand" value="50000" oninput="calc()"></div>
+        
+        <div class="res-box">
+            <div class="res-item">
+                <div style="font-size: 0.75rem; color: #64748b;">Umschlagshäufigkeit:</div>
+                <div id="freq" class="val">10.0</div>
+                <div style="font-size: 0.7rem;">p.a.</div>
+            </div>
+            <div class="res-item">
+                <div style="font-size: 0.75rem; color: #64748b;">Ø Lagerdauer:</div>
+                <div id="dur" class="val">36</div>
+                <div style="font-size: 0.7rem;">Tage</div>
+            </div>
+        </div>
+    </div>
+    <script>
+        function calc() {
+            const U = parseFloat(document.getElementById('umsatz').value) || 1;
+            const B = parseFloat(document.getElementById('bestand').value) || 1;
+            const freq = U / B;
+            const dur = 360 / freq;
+            
+            document.getElementById('freq').innerText = freq.toFixed(1);
+            document.getElementById('dur').innerText = Math.round(dur);
+        }
+        calc();
+    </script>
+</section>
+<section id="Optimale_Bestellmenge" class="tool-screen"><button class="back-btn" onclick="closeTool()">← Home</button>
+    <div class="card">
+        <h1>Optimale Bestellmenge</h1>
+        <p style="font-size: 0.85rem; color: #64748b; margin-top: 10px;">Andler-Formel zur Minimierung von Bestell- und Lagerkosten.</p>
+        
+        <div class="input-group"><label>Jahresbedarf [Stück]</label><input type="number" id="bedarf" value="10000" oninput="calc()"></div>
+        <div class="input-group"><label>Bestellfixe Kosten [€]</label><input type="number" id="fix" value="50" oninput="calc()"></div>
+        <div class="input-group"><label>Einstandspreis [€/Stk]</label><input type="number" id="preis" value="20" oninput="calc()"></div>
+        <div class="input-group"><label>Lagerkostensatz [%]</label><input type="number" id="zins" value="10" oninput="calc()"></div>
+
+        <div class="res-box">
+            <div style="font-size: 0.85rem; color: #065f46;">Empfohlene Bestellmenge:</div>
+            <div id="out" class="val">707 Stk.</div>
+            <p style="font-size: 0.7rem; color: #065f46; margin-top: 10px;">Formel: sqrt((200 * Bedarf * Fixkosten) / (Preis * Zins))</p>
+        </div>
+    </div>
+    <script>
+        function calc() {
+            const B = parseFloat(document.getElementById('bedarf').value) || 0;
+            const K = parseFloat(document.getElementById('fix').value) || 0;
+            const P = parseFloat(document.getElementById('preis').value) || 1;
+            const i = parseFloat(document.getElementById('zins').value) || 1;
+            
+            // q = sqrt((2 * B * K) / (P * (i/100))) -> sqrt((200 * B * K) / (P * i))
+            const q = Math.sqrt((200 * B * K) / (P * i));
+            document.getElementById('out').innerText = Math.round(q) + " Stk.";
+        }
+        calc();
+    </script>
+</section>
+<section id="Stapler_Resttragfähigkeit" class="tool-screen"><button class="back-btn" onclick="closeTool()">← Home</button>
+    <div class="card">
+        <h1>Resttragfähigkeits-Rechner</h1>
+        <p style="font-size: 0.85rem; color: #64748b; margin-bottom: 25px;">Berechnung der Tragkraftreduktion bei Lastschwerpunkt-Verschiebung.</p>
+
+        <div class="input-group"><label>Nenntragfähigkeit [kg]</label><input type="number" id="nomCap" value="2000" oninput="calc()"></div>
+        <div class="input-group"><label>Standard-Schwerpunkt [mm]</label><input type="number" id="nomDist" value="500" oninput="calc()"></div>
+        <div class="input-group"><label>Ist-Lastschwerpunkt [mm]</label><input type="number" id="actDist" value="700" oninput="calc()"></div>
+        
+        <div id="res" class="alert">Resttragfähigkeit: 1429 kg</div>
+        
+        <div class="info">
+            <strong>Wichtig:</strong> Dies ist eine theoretische Berechnung nach dem Hebelgesetz. Maßgeblich ist immer das Lastdiagramm am Gerät! Die Reduktion durch Hubhöhe ist hierbei noch nicht berücksichtigt.
+        </div>
+    </div>
+    <script>
+        function calc() {
+            const Q = parseFloat(document.getElementById('nomCap').value);
+            const s = parseFloat(document.getElementById('nomDist').value);
+            const c = parseFloat(document.getElementById('actDist').value);
+            
+            // Formel: Q_ist = Q_nenn * (s / c)
+            const res = Q * (s / c);
+            document.getElementById('res').innerText = `Resttragfähigkeit: ${Math.round(res)} kg`;
+        }
+    </script>
+</section></body>
+</html>
