@@ -58,6 +58,13 @@
             </div>
             <span class="badge">Aktiv</span>
         </a>
+        <a href="#" onclick="showTool('tool_Spannungsfall_Drehstrom'); return false;" class="card">
+            <div>
+                <h3>Spannungsfall Drehstrom</h3>
+                <p>Fachspezifisches Tool zur präzisen Berechnung und Dokumentation im Arbeitsalltag.</p>
+            </div>
+            <span class="badge">Aktiv</span>
+        </a>
         <a href="#" onclick="showTool('tool_Spannungsfall_Master'); return false;" class="card">
             <div>
                 <h3>Spannungsfall Master</h3>
@@ -65,9 +72,23 @@
             </div>
             <span class="badge">Aktiv</span>
         </a>
+        <a href="#" onclick="showTool('tool_VDE_0298_4_Belastbarkeit'); return false;" class="card">
+            <div>
+                <h3>VDE 0298 4 Belastbarkeit</h3>
+                <p>Fachspezifisches Tool zur präzisen Berechnung und Dokumentation im Arbeitsalltag.</p>
+            </div>
+            <span class="badge">Aktiv</span>
+        </a>
         <a href="#" onclick="showTool('tool_VDE_0701_0702_Check'); return false;" class="card">
             <div>
                 <h3>VDE 0701 0702 Check</h3>
+                <p>Fachspezifisches Tool zur präzisen Berechnung und Dokumentation im Arbeitsalltag.</p>
+            </div>
+            <span class="badge">Aktiv</span>
+        </a>
+        <a href="#" onclick="showTool('tool_Zaehlerschrank_Check'); return false;" class="card">
+            <div>
+                <h3>Zaehlerschrank Check</h3>
                 <p>Fachspezifisches Tool zur präzisen Berechnung und Dokumentation im Arbeitsalltag.</p>
             </div>
             <span class="badge">Aktiv</span>
@@ -313,6 +334,19 @@
         calc();
     </script>
 </section>
+<section id="tool_Spannungsfall_Drehstrom" class="tool-screen"><button class="back-btn" onclick="closeTool()">← Zurück zur Übersicht</button>
+    <div class="card">
+        <h1>Spannungsfall (400V)</h1>
+        
+                <div class="input-group"><label>Leistung (W)</label><input type="number" id="p" value="11000" oninput="calc()"></div>
+                <div class="input-group"><label>Länge (m)</label><input type="number" id="l" value="25" oninput="calc()"></div>
+                <div class="input-group"><label>Querschnitt (mm²)</label><input type="number" id="q" value="2.5" oninput="calc()"></div>
+                <div class="result-panel"><div id="res" class="val">-- %</div></div>
+                <script>function calc(){ const p=parseFloat(document.getElementById('p').value); const l=parseFloat(document.getElementById('l').value); const q=parseFloat(document.getElementById('q').value); const du=(p*l)/(56*q*400); document.getElementById('res').innerText = (du/400*100).toFixed(2) + ' %'; } calc();</script>
+            
+        <footer>&copy; 2026 AS3 Professional Suites | CCBY As3-As3</footer>
+    </div>
+</section>
 <section id="tool_Spannungsfall_Master" class="tool-screen"><button class="back-btn" onclick="closeTool()">← Zurück zur Übersicht</button>
     <div class="card">
         <h1>Spannungsfall (DIN VDE 0100-520)</h1>
@@ -405,6 +439,18 @@
         calc();
     </script>
 </section>
+<section id="tool_VDE_0298_4_Belastbarkeit" class="tool-screen"><button class="back-btn" onclick="closeTool()">← Zurück zur Übersicht</button>
+    <div class="card">
+        <h1>Strombelastbarkeit (VDE 0298-4)</h1>
+        
+                <div class="input-group"><label>Querschnitt (mm²)</label><select id="q"><option value="15.5">1.5</option><option value="21">2.5</option><option value="28">4.0</option><option value="36">6.0</option></select></div>
+                <div class="input-group"><label>Verlegeart</label><select id="v"><option value="1">A1 (In Dämmung)</option><option value="0.8">B1 (In Rohr)</option><option value="1.2">C (Auf Wand)</option></select></div>
+                <div class="result-panel"><div id="res" class="val">-- A</div></div>
+                <script>function calc(){ let i = parseFloat(document.getElementById('q').value) * parseFloat(document.getElementById('v').value); document.getElementById('res').innerText = i.toFixed(1) + ' A'; } document.querySelectorAll('select').forEach(s => s.onchange = calc); calc();</script>
+            
+        <footer>&copy; 2026 AS3 Professional Suites | CCBY As3-As3</footer>
+    </div>
+</section>
 <section id="tool_VDE_0701_0702_Check" class="tool-screen"><button class="back-btn" onclick="closeTool()">← Zurück zur Übersicht</button>
     <div class="card">
         <h1>VDE 0701-0702 Schutzleiter-Check</h1>
@@ -464,5 +510,19 @@
             }
         }
     </script>
+</section>
+<section id="tool_Zaehlerschrank_Check" class="tool-screen"><button class="back-btn" onclick="closeTool()">← Zurück zur Übersicht</button>
+    <div class="card">
+        <h1>Zählerschrank-Planer</h1>
+        
+                <p>Prüfung der Basisanforderungen nach VDE-AR-N 4100.</p>
+                <div class="input-group"><label><input type="checkbox" onchange="calc()"> APZ-Feld vorhanden?</label></div>
+                <div class="input-group"><label><input type="checkbox" onchange="calc()"> ÜSS (Überspannungsschutz) Typ 1/2?</label></div>
+                <div class="input-group"><label><input type="checkbox" onchange="calc()"> SLS-Schalter vorhanden?</label></div>
+                <div class="result-panel"><div id="res" class="val">--</div></div>
+                <script>function calc(){ let count = document.querySelectorAll('input:checked').length; document.getElementById('res').innerText = count === 3 ? 'KONFORM' : 'NICHT KONFORM'; document.getElementById('res').style.color = count === 3 ? 'green' : 'red'; } calc();</script>
+            
+        <footer>&copy; 2026 AS3 Professional Suites | CCBY As3-As3</footer>
+    </div>
 </section></body>
 </html>
