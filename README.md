@@ -50,4 +50,4 @@ Dieses Projekt ist lizenziert unter **CC BY 4.0 (Creative Commons Attribution 4.
 Branding: **CCBY As3-As3**
 
 ---
-*Created by Antigravity AI for the Professional Community.*
+*AS3 Professional Community Edition*
