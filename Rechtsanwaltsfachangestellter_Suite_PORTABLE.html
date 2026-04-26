@@ -30,6 +30,13 @@
     </header>
     <div class="grid">
 
+        <a href="#" onclick="showTool('tool_Arbeitszeit_Monitor'); return false;" class="card">
+            <div>
+                <h3>Arbeitszeit Monitor</h3>
+                <p>Fachspezifisches Tool zur präzisen Berechnung und Dokumentation im Arbeitsalltag.</p>
+            </div>
+            <span class="badge">Aktiv</span>
+        </a>
         <a href="#" onclick="showTool('tool_Fristenrechner'); return false;" class="card">
             <div>
                 <h3>Fristenrechner</h3>
@@ -37,9 +44,58 @@
             </div>
             <span class="badge">Aktiv</span>
         </a>
+        <a href="#" onclick="showTool('tool_Kilometergeld_Rechner'); return false;" class="card">
+            <div>
+                <h3>Kilometergeld Rechner</h3>
+                <p>Fachspezifisches Tool zur präzisen Berechnung und Dokumentation im Arbeitsalltag.</p>
+            </div>
+            <span class="badge">Aktiv</span>
+        </a>
+        <a href="#" onclick="showTool('tool_Material_Kalkulator'); return false;" class="card">
+            <div>
+                <h3>Material Kalkulator</h3>
+                <p>Fachspezifisches Tool zur präzisen Berechnung und Dokumentation im Arbeitsalltag.</p>
+            </div>
+            <span class="badge">Aktiv</span>
+        </a>
+        <a href="#" onclick="showTool('tool_Notiz_Master'); return false;" class="card">
+            <div>
+                <h3>Notiz Master</h3>
+                <p>Fachspezifisches Tool zur präzisen Berechnung und Dokumentation im Arbeitsalltag.</p>
+            </div>
+            <span class="badge">Aktiv</span>
+        </a>
+        <a href="#" onclick="showTool('tool_Projekt_Deadline'); return false;" class="card">
+            <div>
+                <h3>Projekt Deadline</h3>
+                <p>Fachspezifisches Tool zur präzisen Berechnung und Dokumentation im Arbeitsalltag.</p>
+            </div>
+            <span class="badge">Aktiv</span>
+        </a>
+        <a href="#" onclick="showTool('tool_Rechnung_Checkliste'); return false;" class="card">
+            <div>
+                <h3>Rechnung Checkliste</h3>
+                <p>Fachspezifisches Tool zur präzisen Berechnung und Dokumentation im Arbeitsalltag.</p>
+            </div>
+            <span class="badge">Aktiv</span>
+        </a>
         <a href="#" onclick="showTool('tool_RVG_Rechner'); return false;" class="card">
             <div>
                 <h3>RVG Rechner</h3>
+                <p>Fachspezifisches Tool zur präzisen Berechnung und Dokumentation im Arbeitsalltag.</p>
+            </div>
+            <span class="badge">Aktiv</span>
+        </a>
+        <a href="#" onclick="showTool('tool_Spesen_Rechner'); return false;" class="card">
+            <div>
+                <h3>Spesen Rechner</h3>
+                <p>Fachspezifisches Tool zur präzisen Berechnung und Dokumentation im Arbeitsalltag.</p>
+            </div>
+            <span class="badge">Aktiv</span>
+        </a>
+        <a href="#" onclick="showTool('tool_Ueberstunden_Check'); return false;" class="card">
+            <div>
+                <h3>Ueberstunden Check</h3>
                 <p>Fachspezifisches Tool zur präzisen Berechnung und Dokumentation im Arbeitsalltag.</p>
             </div>
             <span class="badge">Aktiv</span>
@@ -66,7 +122,21 @@
             document.body.classList.remove('tool-active');
             window.scrollTo(0,0);
         }
-    </script><section id="tool_Fristenrechner" class="tool-screen"><button class="back-btn" onclick="closeTool()">← Zurück zur Übersicht</button>
+    </script><section id="tool_Arbeitszeit_Monitor" class="tool-screen"><button class="back-btn" onclick="closeTool()">← Zurück zur Übersicht</button>
+    <div class="card">
+        <h1>Arbeitszeit-Monitor</h1>
+        
+        <p>Erfassung der täglichen Arbeitszeit (Lokal gespeichert).</p>
+        <div class="input-group"><label>Startzeit</label><input type="time" id="start" value="08:00"></div>
+        <div class="input-group"><label>Endzeit</label><input type="time" id="end" value="16:30"></div>
+        <div class="input-group"><label>Pause (Minuten)</label><input type="number" id="pause" value="30"></div>
+        <div class="result-panel"><div id="res" class="val">-- Std.</div></div>
+        <script>function calc(){ const s = document.getElementById('start').value.split(':'); const e = document.getElementById('end').value.split(':'); const p = parseInt(document.getElementById('pause').value); const diff = (parseInt(e[0])*60 + parseInt(e[1])) - (parseInt(s[0])*60 + parseInt(s[1])) - p; document.getElementById('res').innerText = (diff/60).toFixed(2) + ' Std.'; } document.querySelectorAll('input').forEach(i => i.onchange = calc); calc();</script>
+    
+        <footer>&copy; 2026 AS3 Professional Suites | CCBY As3-As3</footer>
+    </div>
+</section>
+<section id="tool_Fristenrechner" class="tool-screen"><button class="back-btn" onclick="closeTool()">← Zurück zur Übersicht</button>
     <div class="card">
         <h1>Fristenrechner (BGB/ZPO)</h1>
         <p style="color: #64748b; margin-bottom: 30px;">Berechnung von Ereignis- und Wochen/Monatsfristen nach §§ 186 ff. BGB.</p>
@@ -125,6 +195,68 @@
             document.getElementById('weekday').innerText = date.toLocaleDateString('de-DE', {weekday: 'long'});
         }
     </script>
+</section>
+<section id="tool_Kilometergeld_Rechner" class="tool-screen"><button class="back-btn" onclick="closeTool()">← Zurück zur Übersicht</button>
+    <div class="card">
+        <h1>Fahrtkosten-Rechner</h1>
+        
+        <div class="input-group"><label>Gefahrene Kilometer</label><input type="number" id="km" value="10" oninput="calc()"></div>
+        <div class="input-group"><label>Pauschale (€/km)</label><input type="number" id="p" value="0.30" step="0.05" oninput="calc()"></div>
+        <div class="result-panel"><div id="res" class="val">-- €</div><p>Erstattungsbetrag (Verschleiß/Kraftstoff).</p></div>
+        <script>function calc(){ let v = parseFloat(document.getElementById('km').value) * parseFloat(document.getElementById('p').value); document.getElementById('res').innerText = v.toFixed(2) + ' €'; } calc();</script>
+    
+        <footer>&copy; 2026 AS3 Professional Suites | CCBY As3-As3</footer>
+    </div>
+</section>
+<section id="tool_Material_Kalkulator" class="tool-screen"><button class="back-btn" onclick="closeTool()">← Zurück zur Übersicht</button>
+    <div class="card">
+        <h1>Material-Kosten-Kalkulator</h1>
+        
+        <textarea id="list" placeholder="Element: Preis" rows="5" oninput="calc()">Ziegel: 1200\nHolz: 450\nSchrauben: 45</textarea>
+        <div class="result-panel"><div id="res" class="val">-- €</div><p>Summe aller Positionen.</p></div>
+        <script>function calc(){ let lines = document.getElementById('list').value.split('\n'); let sum = 0; lines.forEach(l => { let parts = l.split(':'); if(parts[1]) sum += parseFloat(parts[1].trim()); }); document.getElementById('res').innerText = sum.toFixed(2) + ' €'; } calc();</script>
+    
+        <footer>&copy; 2026 AS3 Professional Suites | CCBY As3-As3</footer>
+    </div>
+</section>
+<section id="tool_Notiz_Master" class="tool-screen"><button class="back-btn" onclick="closeTool()">← Zurück zur Übersicht</button>
+    <div class="card">
+        <h1>Profi-Notizblock</h1>
+        
+        <textarea id="note" placeholder="Wichtige Infos vom Kunden..." rows="10" style="font-family: monospace;"></textarea>
+        <button onclick="localStorage.setItem('as3_note', document.getElementById('note').value); alert('Gespeichert!')" style="margin-top:10px;">Lokal Speichern</button>
+        <script>document.getElementById('note').value = localStorage.getItem('as3_note') || '';</script>
+    
+        <footer>&copy; 2026 AS3 Professional Suites | CCBY As3-As3</footer>
+    </div>
+</section>
+<section id="tool_Projekt_Deadline" class="tool-screen"><button class="back-btn" onclick="closeTool()">← Zurück zur Übersicht</button>
+    <div class="card">
+        <h1>Deadline-Timer</h1>
+        
+        <div class="input-group"><label>Abgabedatum</label><input type="date" id="date" onchange="calc()"></div>
+        <div class="result-panel"><div id="res" class="val">-- Tage</div><p>Restzeit bis zum Termin.</p></div>
+        <script>function calc(){ let d = new Date(document.getElementById('date').value); let diff = Math.ceil((d - new Date()) / (1000*60*60*24)); document.getElementById('res').innerText = diff + ' Tage'; } </script>
+    
+        <footer>&copy; 2026 AS3 Professional Suites | CCBY As3-As3</footer>
+    </div>
+</section>
+<section id="tool_Rechnung_Checkliste" class="tool-screen"><button class="back-btn" onclick="closeTool()">← Zurück zur Übersicht</button>
+    <div class="card">
+        <h1>Rechnungs-Pflichtangaben</h1>
+        
+        <p>Pflichtangaben nach § 14 UStG.</p>
+        <div class="input-group"><label><input type="checkbox"> Vollständiger Name & Anschrift (Leistender)?</label></div>
+        <div class="input-group"><label><input type="checkbox"> Vollständiger Name & Anschrift (Empfänger)?</label></div>
+        <div class="input-group"><label><input type="checkbox"> Steuernummer oder USt-IdNr?</label></div>
+        <div class="input-group"><label><input type="checkbox"> Ausstellungsdatum?</label></div>
+        <div class="input-group"><label><input type="checkbox"> Rechnungsnummer?</label></div>
+        <div class="input-group"><label><input type="checkbox"> Menge & Handelsübliche Bezeichnung?</label></div>
+        <div class="input-group"><label><input type="checkbox"> Zeitpunkt der Lieferung?</label></div>
+        <div class="input-group"><label><input type="checkbox"> Netto-Entgelt & Steuersatz?</label></div>
+    
+        <footer>&copy; 2026 AS3 Professional Suites | CCBY As3-As3</footer>
+    </div>
 </section>
 <section id="tool_RVG_Rechner" class="tool-screen"><button class="back-btn" onclick="closeTool()">← Zurück zur Übersicht</button>
     <div class="card">
@@ -192,5 +324,28 @@
         }
         calc();
     </script>
+</section>
+<section id="tool_Spesen_Rechner" class="tool-screen"><button class="back-btn" onclick="closeTool()">← Zurück zur Übersicht</button>
+    <div class="card">
+        <h1>Verpflegungsmehraufwand</h1>
+        
+        <div class="input-group"><label>Dauer der Abwesenheit</label><select id="d" onchange="calc()"><option value="0">< 8 Std. (0 €)</option><option value="14">> 8 Std. (14 €)</option><option value="28">24 Std. (28 €)</option></select></div>
+        <div class="result-panel"><div id="res" class="val">-- €</div><p>Pauschbetrag 2024.</p></div>
+        <script>function calc(){ document.getElementById('res').innerText = document.getElementById('d').value + ' €'; } calc();</script>
+    
+        <footer>&copy; 2026 AS3 Professional Suites | CCBY As3-As3</footer>
+    </div>
+</section>
+<section id="tool_Ueberstunden_Check" class="tool-screen"><button class="back-btn" onclick="closeTool()">← Zurück zur Übersicht</button>
+    <div class="card">
+        <h1>Überstunden-Check</h1>
+        
+        <div class="input-group"><label>Soll-Stunden (Woche)</label><input type="number" id="soll" value="40" oninput="calc()"></div>
+        <div class="input-group"><label>Ist-Stunden (Woche)</label><input type="number" id="ist" value="45" oninput="calc()"></div>
+        <div class="result-panel"><div id="res" class="val">-- Std.</div><p id="label"></p></div>
+        <script>function calc(){ let d = parseFloat(document.getElementById('ist').value) - parseFloat(document.getElementById('soll').value); document.getElementById('res').innerText = (d >= 0 ? '+' : '') + d.toFixed(1) + ' Std.'; document.getElementById('label').innerText = d >= 0 ? 'Überstunden' : 'Minderstunden'; } calc();</script>
+    
+        <footer>&copy; 2026 AS3 Professional Suites | CCBY As3-As3</footer>
+    </div>
 </section></body>
 </html>

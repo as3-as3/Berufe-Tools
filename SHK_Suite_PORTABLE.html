@@ -37,9 +37,23 @@
             </div>
             <span class="badge">Aktiv</span>
         </a>
+        <a href="#" onclick="showTool('tool_Arbeitszeit_Monitor'); return false;" class="card">
+            <div>
+                <h3>Arbeitszeit Monitor</h3>
+                <p>Fachspezifisches Tool zur präzisen Berechnung und Dokumentation im Arbeitsalltag.</p>
+            </div>
+            <span class="badge">Aktiv</span>
+        </a>
         <a href="#" onclick="showTool('tool_Heizlast_Quick_Check'); return false;" class="card">
             <div>
                 <h3>Heizlast Quick Check</h3>
+                <p>Fachspezifisches Tool zur präzisen Berechnung und Dokumentation im Arbeitsalltag.</p>
+            </div>
+            <span class="badge">Aktiv</span>
+        </a>
+        <a href="#" onclick="showTool('tool_Kilometergeld_Rechner'); return false;" class="card">
+            <div>
+                <h3>Kilometergeld Rechner</h3>
                 <p>Fachspezifisches Tool zur präzisen Berechnung und Dokumentation im Arbeitsalltag.</p>
             </div>
             <span class="badge">Aktiv</span>
@@ -61,6 +75,13 @@
         <a href="#" onclick="showTool('tool_Massenstrom_Rechner'); return false;" class="card">
             <div>
                 <h3>Massenstrom Rechner</h3>
+                <p>Fachspezifisches Tool zur präzisen Berechnung und Dokumentation im Arbeitsalltag.</p>
+            </div>
+            <span class="badge">Aktiv</span>
+        </a>
+        <a href="#" onclick="showTool('tool_Material_Kalkulator'); return false;" class="card">
+            <div>
+                <h3>Material Kalkulator</h3>
                 <p>Fachspezifisches Tool zur präzisen Berechnung und Dokumentation im Arbeitsalltag.</p>
             </div>
             <span class="badge">Aktiv</span>
@@ -161,6 +182,20 @@
         calc();
     </script>
 </section>
+<section id="tool_Arbeitszeit_Monitor" class="tool-screen"><button class="back-btn" onclick="closeTool()">← Zurück zur Übersicht</button>
+    <div class="card">
+        <h1>Arbeitszeit-Monitor</h1>
+        
+        <p>Erfassung der täglichen Arbeitszeit (Lokal gespeichert).</p>
+        <div class="input-group"><label>Startzeit</label><input type="time" id="start" value="08:00"></div>
+        <div class="input-group"><label>Endzeit</label><input type="time" id="end" value="16:30"></div>
+        <div class="input-group"><label>Pause (Minuten)</label><input type="number" id="pause" value="30"></div>
+        <div class="result-panel"><div id="res" class="val">-- Std.</div></div>
+        <script>function calc(){ const s = document.getElementById('start').value.split(':'); const e = document.getElementById('end').value.split(':'); const p = parseInt(document.getElementById('pause').value); const diff = (parseInt(e[0])*60 + parseInt(e[1])) - (parseInt(s[0])*60 + parseInt(s[1])) - p; document.getElementById('res').innerText = (diff/60).toFixed(2) + ' Std.'; } document.querySelectorAll('input').forEach(i => i.onchange = calc); calc();</script>
+    
+        <footer>&copy; 2026 AS3 Professional Suites | CCBY As3-As3</footer>
+    </div>
+</section>
 <section id="tool_Heizlast_Quick_Check" class="tool-screen"><button class="back-btn" onclick="closeTool()">← Zurück zur Übersicht</button>
     <div class="card">
         <h1>Heizlast Quick-Check</h1>
@@ -211,6 +246,18 @@
         }
         calc();
     </script>
+</section>
+<section id="tool_Kilometergeld_Rechner" class="tool-screen"><button class="back-btn" onclick="closeTool()">← Zurück zur Übersicht</button>
+    <div class="card">
+        <h1>Fahrtkosten-Rechner</h1>
+        
+        <div class="input-group"><label>Gefahrene Kilometer</label><input type="number" id="km" value="10" oninput="calc()"></div>
+        <div class="input-group"><label>Pauschale (€/km)</label><input type="number" id="p" value="0.30" step="0.05" oninput="calc()"></div>
+        <div class="result-panel"><div id="res" class="val">-- €</div><p>Erstattungsbetrag (Verschleiß/Kraftstoff).</p></div>
+        <script>function calc(){ let v = parseFloat(document.getElementById('km').value) * parseFloat(document.getElementById('p').value); document.getElementById('res').innerText = v.toFixed(2) + ' €'; } calc();</script>
+    
+        <footer>&copy; 2026 AS3 Professional Suites | CCBY As3-As3</footer>
+    </div>
 </section>
 <section id="tool_Legionellen_Check" class="tool-screen"><button class="back-btn" onclick="closeTool()">← Zurück zur Übersicht</button>
     <div class="card">
@@ -286,6 +333,17 @@
         }
         calc();
     </script>
+</section>
+<section id="tool_Material_Kalkulator" class="tool-screen"><button class="back-btn" onclick="closeTool()">← Zurück zur Übersicht</button>
+    <div class="card">
+        <h1>Material-Kosten-Kalkulator</h1>
+        
+        <textarea id="list" placeholder="Element: Preis" rows="5" oninput="calc()">Ziegel: 1200\nHolz: 450\nSchrauben: 45</textarea>
+        <div class="result-panel"><div id="res" class="val">-- €</div><p>Summe aller Positionen.</p></div>
+        <script>function calc(){ let lines = document.getElementById('list').value.split('\n'); let sum = 0; lines.forEach(l => { let parts = l.split(':'); if(parts[1]) sum += parseFloat(parts[1].trim()); }); document.getElementById('res').innerText = sum.toFixed(2) + ' €'; } calc();</script>
+    
+        <footer>&copy; 2026 AS3 Professional Suites | CCBY As3-As3</footer>
+    </div>
 </section>
 <section id="tool_Trinkwasser_3_Liter_Check" class="tool-screen"><button class="back-btn" onclick="closeTool()">← Zurück zur Übersicht</button>
     <div class="card">

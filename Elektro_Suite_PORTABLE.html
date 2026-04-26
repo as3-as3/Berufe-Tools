@@ -30,6 +30,13 @@
     </header>
     <div class="grid">
 
+        <a href="#" onclick="showTool('tool_Arbeitszeit_Monitor'); return false;" class="card">
+            <div>
+                <h3>Arbeitszeit Monitor</h3>
+                <p>Fachspezifisches Tool zur präzisen Berechnung und Dokumentation im Arbeitsalltag.</p>
+            </div>
+            <span class="badge">Aktiv</span>
+        </a>
         <a href="#" onclick="showTool('tool_Leitungsrechner_VDE'); return false;" class="card">
             <div>
                 <h3>Leitungsrechner VDE</h3>
@@ -115,7 +122,21 @@
             document.body.classList.remove('tool-active');
             window.scrollTo(0,0);
         }
-    </script><section id="tool_Leitungsrechner_VDE" class="tool-screen"><button class="back-btn" onclick="closeTool()">← Zurück zur Übersicht</button>
+    </script><section id="tool_Arbeitszeit_Monitor" class="tool-screen"><button class="back-btn" onclick="closeTool()">← Zurück zur Übersicht</button>
+    <div class="card">
+        <h1>Arbeitszeit-Monitor</h1>
+        
+        <p>Erfassung der täglichen Arbeitszeit (Lokal gespeichert).</p>
+        <div class="input-group"><label>Startzeit</label><input type="time" id="start" value="08:00"></div>
+        <div class="input-group"><label>Endzeit</label><input type="time" id="end" value="16:30"></div>
+        <div class="input-group"><label>Pause (Minuten)</label><input type="number" id="pause" value="30"></div>
+        <div class="result-panel"><div id="res" class="val">-- Std.</div></div>
+        <script>function calc(){ const s = document.getElementById('start').value.split(':'); const e = document.getElementById('end').value.split(':'); const p = parseInt(document.getElementById('pause').value); const diff = (parseInt(e[0])*60 + parseInt(e[1])) - (parseInt(s[0])*60 + parseInt(s[1])) - p; document.getElementById('res').innerText = (diff/60).toFixed(2) + ' Std.'; } document.querySelectorAll('input').forEach(i => i.onchange = calc); calc();</script>
+    
+        <footer>&copy; 2026 AS3 Professional Suites | CCBY As3-As3</footer>
+    </div>
+</section>
+<section id="tool_Leitungsrechner_VDE" class="tool-screen"><button class="back-btn" onclick="closeTool()">← Zurück zur Übersicht</button>
     <div class="card">
         <h1>Leitungsrechner (VDE 0100-520)</h1>
         <p style="font-size: 0.85rem; color: #64748b; margin-top: 10px;">Berechnung des Spannungsfalls gemäß DIN VDE Normen.</p>
