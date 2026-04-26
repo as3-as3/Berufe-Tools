@@ -65,6 +65,13 @@
             </div>
             <span class="badge">Aktiv</span>
         </a>
+        <a href="#" onclick="showTool('Inklusions_Helfer'); return false;" class="card">
+            <div>
+                <h3>Inklusions Helfer</h3>
+                <p>Fachspezifisches Tool zur präzisen Berechnung und Dokumentation im Arbeitsalltag.</p>
+            </div>
+            <span class="badge">Aktiv</span>
+        </a>
         <a href="#" onclick="showTool('Korrekturzeit_Rechner'); return false;" class="card">
             <div>
                 <h3>Korrekturzeit Rechner</h3>
@@ -333,6 +340,91 @@
             document.getElementById('pointsInfo').innerText = `${p} Punkte`;
         }
         calc();
+    </script>
+</section>
+<section id="Inklusions_Helfer" class="tool-screen"><button class="back-btn" onclick="closeTool()">← Home</button>
+    <div class="card">
+        <h1>Inklusions-Helfer (Nachteilsausgleich)</h1>
+        <p style="color: #64748b; margin-bottom: 30px;">Unterstützung bei der Festlegung von Maßnahmen gemäß Schulrecht.</p>
+        
+        <div class="diag-grid">
+            <div class="diag-item" onclick="toggle(this, 'lrs')">LRS / Legasthenie</div>
+            <div class="diag-item" onclick="toggle(this, 'dysk')">Dyskalkulie</div>
+            <div class="diag-item" onclick="toggle(this, 'adhs')">ADHS / ADS</div>
+            <div class="diag-item" onclick="toggle(this, 'aut')">Autismus-Spektrum</div>
+        </div>
+
+        <div id="resPanel" class="measure-panel">
+            <h3>Empfohlene Maßnahmen:</h3>
+            <div id="measures"></div>
+            <p style="font-size: 0.75rem; color: #94a3b8; margin-top: 20px; border-top: 1px dashed #cbd5e1; pt-10;">
+                Hinweis: Die finale Entscheidung liegt bei der Klassenkonferenz / Schulleitung. Dokumentation in der Schülerakte erforderlich.
+            </p>
+        </div>
+    </div>
+
+    <script>
+        const data = {
+            lrs: [
+                "Zeitzugabe (bis zu 25%) bei schriftlichen Arbeiten",
+                "Verzicht auf Bewertung der Rechtschreibleistung (außer in Fach Deutsch)",
+                "Nutzung von technischen Hilfsmitteln (Diktiergerät, PC)",
+                "Vorlesen von Aufgabenstellungen durch die Lehrkraft"
+            ],
+            dysk: [
+                "Nutzung von Anschauungsmaterial (Hundertertafel, Rechenrahmen)",
+                "Zeitzugabe bei mathematischen Aufgaben",
+                "Verzicht auf Bewertung von Flüchtigkeitsfehlern beim Rechnen",
+                "Einsatz von Taschenrechnern bereits in früheren Jahrgangsstufen"
+            ],
+            adhs: [
+                "Reizärmere Arbeitsumgebung (Einzeltisch, Kopfhörer)",
+                "Strukturierung komplexer Aufgaben in Teilschritte",
+                "Gewährung von kurzen Bewegungspausen während der Arbeit",
+                "Zeitzugabe zum Ausgleich von Konzentrationslücken"
+            ],
+            aut: [
+                "Eindeutige, schriftliche Arbeitsanweisungen (keine Ironie/Metaphern)",
+                "Vorhersehbare Abläufe und Visualisierung des Zeitrahmens",
+                "Separater Arbeitsraum bei Klassenarbeiten",
+                "Vermeidung von direktem Blickkontakt-Zwang bei mündlichen Prüfungen"
+            ]
+        };
+
+        let selected = [];
+
+        function toggle(btn, key) {
+            if (btn.classList.contains('selected')) {
+                btn.classList.remove('selected');
+                selected = selected.filter(k => k !== key);
+            } else {
+                btn.classList.add('selected');
+                selected.push(key);
+            }
+            update();
+        }
+
+        function update() {
+            const panel = document.getElementById('resPanel');
+            const container = document.getElementById('measures');
+            container.innerHTML = "";
+            
+            if (selected.length === 0) {
+                panel.style.display = "none";
+                return;
+            }
+            
+            panel.style.display = "block";
+            let allMeasures = new Set();
+            selected.forEach(k => data[k].forEach(m => allMeasures.add(m)));
+            
+            allMeasures.forEach(m => {
+                const div = document.createElement('div');
+                div.className = "measure-item";
+                div.innerText = m;
+                container.appendChild(div);
+            });
+        }
     </script>
 </section>
 <section id="Korrekturzeit_Rechner" class="tool-screen"><button class="back-btn" onclick="closeTool()">← Home</button>

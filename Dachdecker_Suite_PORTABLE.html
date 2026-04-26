@@ -51,6 +51,13 @@
             </div>
             <span class="badge">Aktiv</span>
         </a>
+        <a href="#" onclick="showTool('Windsog_Rechner'); return false;" class="card">
+            <div>
+                <h3>Windsog Rechner</h3>
+                <p>Fachspezifisches Tool zur präzisen Berechnung und Dokumentation im Arbeitsalltag.</p>
+            </div>
+            <span class="badge">Aktiv</span>
+        </a>
     </div>
     <footer>
         &copy; 2026 AS3 Professional Suites | CCBY As3-As3<br>
@@ -307,6 +314,78 @@
             }
         }
         update();
+    </script>
+</section>
+<section id="Windsog_Rechner" class="tool-screen"><button class="back-btn" onclick="closeTool()">← Home</button>
+    <div class="card">
+        <h1>Windsog-Rechner (Ziegelbefestigung)</h1>
+        <p style="color: #64748b; margin-bottom: 30px;">Berechnung der Windsoglasten nach DIN EN 1991-1-4.</p>
+        
+        <div class="grid">
+            <div class="col">
+                <div class="input-group">
+                    <label>Windzone</label>
+                    <select id="windZone" onchange="calc()">
+                        <option value="0.32">Zone 1 (Binnenland Süd)</option>
+                        <option value="0.39">Zone 2 (Binnenland Nord)</option>
+                        <option value="0.47">Zone 3 (Küstennahe Gebiete)</option>
+                        <option value="0.56">Zone 4 (Küsten/Inseln)</option>
+                    </select>
+                </div>
+                <div class="input-group">
+                    <label>Gebäudehöhe (m)</label>
+                    <input type="number" id="height" value="8" oninput="calc()">
+                </div>
+            </div>
+            <div class="col">
+                <div class="input-group">
+                    <label>Geländekategorie</label>
+                    <select id="category" onchange="calc()">
+                        <option value="1.0">Offenes Gelände</option>
+                        <option value="0.8">Mischgebiet</option>
+                        <option value="0.6">Stadtgebiet</option>
+                    </select>
+                </div>
+                <div class="input-group">
+                    <label>Dachneigung (°)</label>
+                    <input type="number" id="slope" value="35" oninput="calc()">
+                </div>
+            </div>
+        </div>
+
+        <div class="result-panel">
+            <div style="font-size: 0.9rem; font-weight: 700;">Geschwindigkeitsdruck q<sub>p</sub> (kN/m²):</div>
+            <div id="outQp" class="val">--</div>
+            <p id="info" style="font-size: 0.8rem; color: #1e40af; font-weight: 600; margin-top: 10px;"></p>
+        </div>
+    </div>
+
+    <script>
+        function calc() {
+            const qb = parseFloat(document.getElementById('windZone').value);
+            const h = parseFloat(document.getElementById('height').value) || 0;
+            const cat = parseFloat(document.getElementById('category').value);
+            
+            // Simplified gust pressure calculation according to DIN EN 1991-1-4
+            // qp = qb * c_e(z)
+            let ce = 1.0;
+            if (h <= 10) ce = 1.5 * cat;
+            else if (h <= 18) ce = 1.9 * cat;
+            else ce = 2.3 * cat;
+            
+            const qp = qb * ce;
+            document.getElementById('outQp').innerText = qp.toFixed(2) + " kN/m²";
+            
+            const info = document.getElementById('info');
+            if (qp > 0.8) {
+                info.innerText = "ERHÖHTE LAST: Jede 2. Dachpfanne klammern empfohlen!";
+            } else if (qp > 0.5) {
+                info.innerText = "NORMALLAST: Randbereiche (Ecken/Ortgang) zwingend klammern.";
+            } else {
+                info.innerText = "GERINGE LAST: Standardbefestigung nach Fachregel.";
+            }
+        }
+        calc();
     </script>
 </section></body>
 </html>

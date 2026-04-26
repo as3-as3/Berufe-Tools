@@ -65,6 +65,13 @@
             </div>
             <span class="badge">Aktiv</span>
         </a>
+        <a href="#" onclick="showTool('VDE_0701_0702_Check'); return false;" class="card">
+            <div>
+                <h3>VDE 0701 0702 Check</h3>
+                <p>Fachspezifisches Tool zur präzisen Berechnung und Dokumentation im Arbeitsalltag.</p>
+            </div>
+            <span class="badge">Aktiv</span>
+        </a>
     </div>
     <footer>
         &copy; 2026 AS3 Professional Suites | CCBY As3-As3<br>
@@ -391,6 +398,66 @@
             }
         }
         calc();
+    </script>
+</section>
+<section id="VDE_0701_0702_Check" class="tool-screen"><button class="back-btn" onclick="closeTool()">← Home</button>
+    <div class="card">
+        <h1>VDE 0701-0702 Schutzleiter-Check</h1>
+        <p style="color: #64748b; margin-bottom: 30px;">Prüfung ortsveränderlicher Geräte nach DIN VDE 0701-0702.</p>
+        
+        <div class="input-group">
+            <label>Leitungslänge (m)</label>
+            <input type="number" id="len" value="2" oninput="calc()">
+            <p style="font-size:0.75rem; color:#94a3b8; margin-top:5px;">(Regel: 0,3 Ω bis 5m + 0,1 Ω je weitere 7,5m. Max. 1,0 Ω)</p>
+        </div>
+
+        <div class="input-group">
+            <label>Gemessener Widerstand R<sub>PE</sub> (Ω)</label>
+            <input type="number" id="mRes" placeholder="z.B. 0.15" step="0.01" oninput="calc()">
+        </div>
+
+        <div id="resPanel" class="result-panel">
+            <div id="status" class="status">Messwert eingeben</div>
+            <div id="outRes" class="val">-- Ω</div>
+            <div id="limit" class="limit-info">Erlaubter Grenzwert: -- Ω</div>
+        </div>
+    </div>
+
+    <script>
+        function calc() {
+            const len = parseFloat(document.getElementById('len').value) || 0;
+            const mRes = parseFloat(document.getElementById('mRes').value);
+            
+            // Limit calculation: 0.3 Ohm for first 5m, then 0.1 Ohm per 7.5m
+            let limit = 0.3;
+            if (len > 5) {
+                const extraLen = len - 5;
+                limit += Math.ceil(extraLen / 7.5) * 0.1;
+            }
+            if (limit > 1.0) limit = 1.0; // Hard max
+            
+            document.getElementById('limit').innerText = `Erlaubter Grenzwert: ${limit.toFixed(2)} Ω`;
+            
+            const panel = document.getElementById('resPanel');
+            const status = document.getElementById('status');
+            const outRes = document.getElementById('outRes');
+            
+            if (isNaN(mRes)) return;
+            
+            outRes.innerText = mRes.toFixed(2) + " Ω";
+            
+            if (mRes <= limit) {
+                status.innerText = "BESTANDEN ✅";
+                status.style.color = "var(--success)";
+                panel.style.borderColor = "var(--success)";
+                panel.style.background = "#f0fdf4";
+            } else {
+                status.innerText = "DURCHGEFALLEN ❌";
+                status.style.color = "var(--danger)";
+                panel.style.borderColor = "var(--danger)";
+                panel.style.background = "#fef2f2";
+            }
+        }
     </script>
 </section></body>
 </html>

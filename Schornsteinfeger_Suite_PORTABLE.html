@@ -37,6 +37,13 @@
             </div>
             <span class="badge">Aktiv</span>
         </a>
+        <a href="#" onclick="showTool('Versottungs_Risiko_Check'); return false;" class="card">
+            <div>
+                <h3>Versottungs Risiko Check</h3>
+                <p>Fachspezifisches Tool zur präzisen Berechnung und Dokumentation im Arbeitsalltag.</p>
+            </div>
+            <span class="badge">Aktiv</span>
+        </a>
     </div>
     <footer>
         &copy; 2026 AS3 Professional Suites | CCBY As3-As3<br>
@@ -103,6 +110,83 @@
                 status.innerText = "AUSREICHEND ✅";
                 status.style.color = "var(--success)";
                 info.innerText = "Das Raumvolumen ist für die Verbrennungsluftversorgung ausreichend.";
+            }
+        }
+        calc();
+    </script>
+</section>
+<section id="Versottungs_Risiko_Check" class="tool-screen"><button class="back-btn" onclick="closeTool()">← Home</button>
+    <div class="card">
+        <h1>Schornstein-Versottungs-Check</h1>
+        <p style="color: #64748b; margin-bottom: 30px;">Berechnung des Taupunktrisikos zur Vermeidung von Feuchteschäden.</p>
+        
+        <div class="grid">
+            <div class="col">
+                <div class="input-group">
+                    <label>Brennstoff</label>
+                    <select id="fuel" onchange="calc()">
+                        <option value="45">Erdgas (Taupunkt ca. 45-50°C)</option>
+                        <option value="40">Heizöl EL (Taupunkt ca. 40°C)</option>
+                        <option value="35">Holz (Taupunkt variabel ca. 35-40°C)</option>
+                    </select>
+                </div>
+                <div class="input-group">
+                    <label>Abgastemp. am Kessel (°C)</label>
+                    <input type="number" id="tKessel" value="160" oninput="calc()">
+                </div>
+            </div>
+            <div class="col">
+                <div class="input-group">
+                    <label>Schornsteinlänge (m)</label>
+                    <input type="number" id="len" value="10" oninput="calc()">
+                </div>
+                <div class="input-group">
+                    <label>Bauweise / Dämmung</label>
+                    <select id="type" onchange="calc()">
+                        <option value="4">Ziegel ungedämmt (Verlust 4K/m)</option>
+                        <option value="2">Mehrschalig gedämmt (Verlust 2K/m)</option>
+                        <option value="1">Edelstahl doppelwandig (Verlust 1K/m)</option>
+                    </select>
+                </div>
+            </div>
+        </div>
+
+        <div id="resPanel" class="result-panel">
+            <div style="font-size: 0.85rem; font-weight: 600;">Abgastemp. an der Mündung (geschätzt):</div>
+            <div id="outTM" class="val">-- °C</div>
+            <div id="status" class="status">Unkritisch</div>
+            <p id="info" class="info"></p>
+        </div>
+    </div>
+
+    <script>
+        function calc() {
+            const taupunkt = parseFloat(document.getElementById('fuel').value);
+            const tKessel = parseFloat(document.getElementById('tKessel').value) || 0;
+            const len = parseFloat(document.getElementById('len').value) || 0;
+            const lossPerM = parseFloat(document.getElementById('type').value);
+            
+            // Estimated temperature at the top (Mündung)
+            const tMuendung = tKessel - (len * lossPerM);
+            
+            document.getElementById('outTM').innerText = tMuendung.toFixed(1) + " °C";
+            
+            const panel = document.getElementById('resPanel');
+            const status = document.getElementById('status');
+            const info = document.getElementById('info');
+            
+            if (tMuendung <= taupunkt + 5) {
+                panel.style.borderColor = "var(--danger)";
+                panel.style.background = "#fef2f2";
+                status.innerText = "VERSOTTUNGSGEFAHR ⚠️";
+                status.style.color = "var(--danger)";
+                info.innerText = "Die Abgastemperatur liegt zu nah am Taupunkt. Kondensatbildung im Schornstein wahrscheinlich.";
+            } else {
+                panel.style.borderColor = "var(--success)";
+                panel.style.background = "#f0fdf4";
+                status.innerText = "UNKRITISCH ✅";
+                status.style.color = "var(--success)";
+                info.innerText = "Ausreichender Sicherheitsabstand zum Taupunkt vorhanden.";
             }
         }
         calc();

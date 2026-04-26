@@ -30,6 +30,13 @@
     </header>
     <div class="grid">
 
+        <a href="#" onclick="showTool('Pflegegrad_Schätzer'); return false;" class="card">
+            <div>
+                <h3>Pflegegrad Schätzer</h3>
+                <p>Fachspezifisches Tool zur präzisen Berechnung und Dokumentation im Arbeitsalltag.</p>
+            </div>
+            <span class="badge">Aktiv</span>
+        </a>
         <a href="#" onclick="showTool('Rentenlücke_Rechner'); return false;" class="card">
             <div>
                 <h3>Rentenlücke Rechner</h3>
@@ -54,7 +61,77 @@
             document.body.classList.remove('tool-active');
             window.scrollTo(0,0);
         }
-    </script><section id="Rentenlücke_Rechner" class="tool-screen"><button class="back-btn" onclick="closeTool()">← Home</button>
+    </script><section id="Pflegegrad_Schätzer" class="tool-screen"><button class="back-btn" onclick="closeTool()">← Home</button>
+    <div class="card">
+        <h1>Pflegegrad-Schätzer (NBA-Check)</h1>
+        <p style="color: #64748b; margin-bottom: 30px;">Einschätzung der Pflegebedürftigkeit nach den 6 Modulen des NBA.</p>
+        
+        <div class="module">
+            <h3>Modul 1: Mobilität (10%)</h3>
+            <div class="slider-box">
+                <input type="range" id="m1" min="0" max="100" value="0" oninput="calc()">
+                <span class="val-badge" id="v1">0</span>
+            </div>
+        </div>
+        <div class="module">
+            <h3>Modul 2+3: Kognition & Verhalten (15%)</h3>
+            <div class="slider-box">
+                <input type="range" id="m2" min="0" max="100" value="0" oninput="calc()">
+                <span class="val-badge" id="v2">0</span>
+            </div>
+        </div>
+        <div class="module">
+            <h3>Modul 4: Selbstversorgung (40%)</h3>
+            <div class="slider-box">
+                <input type="range" id="m4" min="0" max="100" value="0" oninput="calc()">
+                <span class="val-badge" id="v4">0</span>
+            </div>
+        </div>
+        <div class="module">
+            <h3>Modul 5+6: Therapien & Alltag (35%)</h3>
+            <div class="slider-box">
+                <input type="range" id="m5" min="0" max="100" value="0" oninput="calc()">
+                <span class="val-badge" id="v5">0</span>
+            </div>
+        </div>
+
+        <div class="result-panel">
+            <div style="font-size: 0.9rem; font-weight: 700;">Voraussichtlicher Pflegegrad:</div>
+            <div id="pgOut" class="pg-val">Keiner</div>
+            <div id="points" style="font-weight: 700;">0 Punkte</div>
+            <p class="info">Punktwert-Schätzung basierend auf gewichteten NBA-Kriterien.</p>
+        </div>
+    </div>
+
+    <script>
+        function calc() {
+            const m1 = parseInt(document.getElementById('m1').value);
+            const m2 = parseInt(document.getElementById('m2').value);
+            const m4 = parseInt(document.getElementById('m4').value);
+            const m5 = parseInt(document.getElementById('m5').value);
+            
+            document.getElementById('v1').innerText = m1;
+            document.getElementById('v2').innerText = m2;
+            document.getElementById('v4').innerText = m4;
+            document.getElementById('v5').innerText = m5;
+            
+            // Weighted points (simplified logic)
+            const total = (m1 * 0.1) + (m2 * 0.15) + (m4 * 0.4) + (m5 * 0.35);
+            document.getElementById('points').innerText = Math.round(total) + " Punkte";
+            
+            let pg = "Keiner";
+            if (total >= 90) pg = "Pflegegrad 5";
+            else if (total >= 70) pg = "Pflegegrad 4";
+            else if (total >= 47.5) pg = "Pflegegrad 3";
+            else if (total >= 27) pg = "Pflegegrad 2";
+            else if (total >= 12.5) pg = "Pflegegrad 1";
+            
+            document.getElementById('pgOut').innerText = pg;
+        }
+        calc();
+    </script>
+</section>
+<section id="Rentenlücke_Rechner" class="tool-screen"><button class="back-btn" onclick="closeTool()">← Home</button>
     <div class="card">
         <h1>Rentenlücke- & Inflations-Simulator</h1>
         <div class="grid">

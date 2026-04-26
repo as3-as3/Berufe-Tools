@@ -44,6 +44,13 @@
             </div>
             <span class="badge">Aktiv</span>
         </a>
+        <a href="#" onclick="showTool('Waffenrecht_Check'); return false;" class="card">
+            <div>
+                <h3>Waffenrecht Check</h3>
+                <p>Fachspezifisches Tool zur präzisen Berechnung und Dokumentation im Arbeitsalltag.</p>
+            </div>
+            <span class="badge">Aktiv</span>
+        </a>
     </div>
     <footer>
         &copy; 2026 AS3 Professional Suites | CCBY As3-As3<br>
@@ -221,6 +228,84 @@
             }
         }
         calc();
+    </script>
+</section>
+<section id="Waffenrecht_Check" class="tool-screen"><button class="back-btn" onclick="closeTool()">← Home</button>
+    <div class="card">
+        <h1>Waffenrecht-Quick-Check (WaffG)</h1>
+        <p style="color: #64748b; margin-bottom: 30px;">Schnelleinstufung von Gegenständen zur rechtssicheren Maßnahme.</p>
+        
+        <div class="selector">
+            <div class="item" onclick="check('butterfly')">Butterflymesser</div>
+            <div class="item" onclick="check('einhand')">Einhandmesser</div>
+            <div class="item" onclick="check('anschein')">Anscheinswaffe</div>
+            <div class="item" onclick="check('elektro')">Elektroshocker (ohne Prüfzeichen)</div>
+            <div class="item" onclick="check('reizgas')">Reizstoffspray (Tierabwehr)</div>
+        </div>
+
+        <div id="resPanel" class="result-panel">
+            <div id="status" class="status-header">Einstufung</div>
+            <div id="desc" style="font-weight: 600;"></div>
+            <div id="law" class="law-box"></div>
+            <div style="margin-top: 20px; font-weight: 800; color: var(--danger);" id="action">MAẞNAHME:</div>
+        </div>
+    </div>
+
+    <script>
+        const db = {
+            butterfly: {
+                status: "Verbotener Gegenstand 🛑",
+                color: "#ef4444",
+                desc: "Besitz und Führen absolut verboten.",
+                law: "Anlage 2 Abschnitt 1 Nr. 1.4.1 WaffG.",
+                action: "Sicherstellung / Beschlagnahme + Strafanzeige (§ 52 WaffG)."
+            },
+            einhand: {
+                status: "Führungsverbot (§ 42a) ⚠️",
+                color: "#f59e0b",
+                desc: "Besitz erlaubt (ab 18), Führen in der Öffentlichkeit verboten (außer berechtigtes Interesse).",
+                law: "§ 42a Abs. 1 Nr. 3 WaffG.",
+                action: "Sicherstellung + Ordnungswidrigkeitenanzeige (§ 53 WaffG)."
+            },
+            anschein: {
+                status: "Führungsverbot (§ 42a) ⚠️",
+                color: "#f59e0b",
+                desc: "Gegenstände, die wie echte Schusswaffen aussehen.",
+                law: "§ 42a Abs. 1 Nr. 1 WaffG.",
+                action: "Sicherstellung + Ordnungswidrigkeitenanzeige. Vorsicht: Eigensicherung!"
+            },
+            elektro: {
+                status: "Verbotener Gegenstand 🛑",
+                color: "#ef4444",
+                desc: "Elektroimpulsgeräte ohne PTB-Prüfzeichen.",
+                law: "Anlage 2 Abschnitt 1 Nr. 1.3.6 WaffG.",
+                action: "Sicherstellung + Strafanzeige (§ 52 WaffG)."
+            },
+            reizgas: {
+                status: "Erlaubnisfrei ✅",
+                color: "#22c55e",
+                desc: "Gekennzeichnet als Tierabwehrspray.",
+                law: "Unterliegt nicht dem WaffG (sofern Kennzeichnung vorhanden).",
+                action: "Keine waffenrechtlichen Maßnahmen erforderlich."
+            }
+        };
+
+        function check(key) {
+            const items = document.querySelectorAll('.item');
+            items.forEach(i => i.classList.remove('selected'));
+            event.currentTarget.classList.add('selected');
+            
+            const panel = document.getElementById('resPanel');
+            const data = db[key];
+            
+            panel.style.display = "block";
+            panel.style.borderColor = data.color;
+            document.getElementById('status').innerText = data.status;
+            document.getElementById('status').style.color = data.color;
+            document.getElementById('desc').innerText = data.desc;
+            document.getElementById('law').innerText = "Rechtsgrundlage: " + data.law;
+            document.getElementById('action').innerText = "MAẞNAHME: " + data.action;
+        }
     </script>
 </section></body>
 </html>
